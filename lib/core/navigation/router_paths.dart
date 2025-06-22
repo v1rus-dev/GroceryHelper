@@ -4,4 +4,6 @@ class RouterPaths {
   static const String shoppingList = '/shoppingList';
   static const String user = '/user';
   static const String login = '/login';
+
+  static const String talker = '/talker';
 }

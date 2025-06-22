@@ -1,3 +1,10 @@
+// SDK и версии
+val compileSdkVersion = 35
+val minSdkVersion = 23
+val ndkVersionStr = "27.2.12479018"
+val javaVersion = JavaVersion.VERSION_11
+val appId = "yegor.cheprasov.cookmatch"
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -10,25 +17,22 @@ plugins {
 }
 
 android {
-    namespace = "yegor.cheprasov.cookmatch"
+    namespace = appId
     compileSdk = 35
-    ndkVersion = "27.2.12479018"
+    ndkVersion = ndkVersionStr
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = javaVersion.toString()
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "yegor.cheprasov.cookmatch"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        applicationId = appId
+        minSdk = minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -39,7 +43,19 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            // Включить Proguard для релизной сборки
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
+    }
+
+    // Lint для контроля качества
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 }
 

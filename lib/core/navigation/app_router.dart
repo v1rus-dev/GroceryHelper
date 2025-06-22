@@ -1,10 +1,12 @@
 import 'package:cookmatch/core/navigation/router_paths.dart';
+import 'package:cookmatch/core/services/talker_service.dart';
 import 'package:cookmatch/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:cookmatch/features/auth/user/presentation/screens/user_screen.dart';
 import 'package:cookmatch/features/home/home_screen.dart';
 import 'package:cookmatch/features/recipes/presentation/screens/recipes_screen.dart';
 import 'package:cookmatch/features/shopping_list/presentation/screens/shopping_list.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: RouterPaths.recipes,
@@ -31,6 +33,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RouterPaths.login,
       builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      path: RouterPaths.talker,
+      builder: (context, state) => TalkerScreen(talker: TalkerService.instance),
     ),
   ],
 );

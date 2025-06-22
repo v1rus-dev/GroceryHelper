@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cookmatch/core/services/talker_service.dart';
 import 'package:cookmatch/features/auth/user/domain/usecase/auth_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({required this.authUsecase}) : super(UserInitial()) {
     on<UserInitEvent>(_onInit);
     on<AuthByGoogle>(_onAuthByGoogle);
+    on<Unauthorize>(_onUnauthorize);
   }
 
   _onInit(UserInitEvent event, Emitter<UserState> emit) async {
@@ -34,6 +36,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   _onAuthByGoogle(AuthByGoogle event, Emitter<UserState> emit) async {
     final credentials = await authUsecase.signInWithGoogle();
+    credentials.fold(
+      (left) {
+        TalkerService.error(left.toString());
+      },
+      (creds) {
+        TalkerService.log('User authenticated: ${creds.user?.email}');
+      },
+    );
+  }
+
+  _onUnauthorize(Unauthorize event, Emitter<UserState> emit) async {
+    await authUsecase.signOut();
   }
 
   @override

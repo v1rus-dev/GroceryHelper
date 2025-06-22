@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:dartz/dartz.dart';
+import 'package:cookmatch/core/services/talker_service.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -21,14 +23,18 @@ class AuthRepository {
 
   User? get currentUser => _firebaseAuth.currentUser;
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<Either<Exception, UserCredential>> signInWithGoogle() async {
     try {
+      TalkerService.log('Starting Google sign in process');
+
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        // Пользователь отменил вход
-        throw Exception('Sign in aborted by user');
+        TalkerService.warning('Google sign in was cancelled by user');
+        return left(Exception('Sign in aborted by user'));
       }
+
+      TalkerService.log('Google user selected: ${googleUser.email}');
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -38,24 +44,35 @@ class AuthRepository {
         idToken: googleAuth.idToken,
       );
 
-      return await _firebaseAuth.signInWithCredential(credential);
+      final result = await _firebaseAuth.signInWithCredential(credential);
+      TalkerService.log(
+        'Successfully signed in with Google: ${result.user?.email}',
+      );
+      return right(result);
     } on FirebaseAuthException catch (e) {
-      // Ошибки Firebase Auth
-      print('FirebaseAuthException: ${e.code} — ${e.message}');
-      rethrow;
+      TalkerService.error('Firebase Auth Exception during Google sign in', e);
+      return left(e);
     } on FirebaseException catch (e) {
-      // Общие Firebase ошибки
-      print('FirebaseException: ${e.code} — ${e.message}');
-      rethrow;
-    } catch (e, st) {
-      // Все остальные ошибки (в том числе platform/web)
-      print('Unknown error: $e\n$st');
-      rethrow;
+      TalkerService.error('Firebase Exception during Google sign in', e);
+      return left(e);
+    } catch (e) {
+      TalkerService.error('Unexpected error during Google sign in', e);
+      return left(Exception(e.toString()));
     }
   }
 
-  Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _firebaseAuth.signOut();
+  Future<Either<Exception, void>> signOut() async {
+    try {
+      TalkerService.log('Starting sign out process');
+
+      await _googleSignIn.signOut();
+      await _firebaseAuth.signOut();
+
+      TalkerService.log('Successfully signed out');
+      return right(null);
+    } catch (e) {
+      TalkerService.error('Error during sign out', e);
+      return left(Exception(e.toString()));
+    }
   }
 }
