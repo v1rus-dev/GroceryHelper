@@ -2,23 +2,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dartz/dartz.dart';
-import 'package:talker/talker.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  AuthRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignIn})
-    : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-      _googleSignIn =
-          googleSignIn ??
-          (kIsWeb
-              ? GoogleSignIn(
-                  clientId:
-                      "806843890541-pir2l3fnq81rhop1pvfivac1n4m8t1m7.apps.googleusercontent.com",
-                )
-              : GoogleSignIn());
+  AuthRepository({
+    FirebaseAuth? firebaseAuth,
+    GoogleSignIn? googleSignIn,
+    String? googleClientId,
+  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+       _googleSignIn =
+           googleSignIn ??
+           (kIsWeb && googleClientId != null
+               ? GoogleSignIn(clientId: googleClientId)
+               : GoogleSignIn());
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 

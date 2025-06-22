@@ -5,7 +5,6 @@ import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
 import 'package:groceryhelper/core/utils/platform_type.dart';
 import 'package:groceryhelper/core/widgets/debug_drawer.dart';
-import 'package:groceryhelper/core/widgets/debug_wrapper.dart';
 import 'package:groceryhelper/features/auth/user/presentation/bloc/user_bloc.dart';
 import 'package:groceryhelper/features/recipes/presentation/bloc/recipes_bloc.dart';
 import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
