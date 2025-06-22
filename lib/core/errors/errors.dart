@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cookmatch/core/services/talker_service.dart';
+import 'package:groceryhelper/core/services/talker_service.dart';
 
 part 'app_error.dart';
 part 'app_error_type.dart';

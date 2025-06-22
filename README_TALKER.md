@@ -7,7 +7,7 @@ Talker - это мощная библиотека для логирования 
 
 ### Базовое логирование
 ```dart
-import 'package:cookmatch/core/services/talker_service.dart';
+import 'package:groceryhelper/core/services/talker_service.dart';
 
 // Информационные сообщения
 TalkerService.log('Пользователь вошел в систему');

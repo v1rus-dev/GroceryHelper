@@ -1,9 +1,9 @@
-import 'package:cookmatch/core/repositories/auth_repository.dart';
-import 'package:cookmatch/features/auth/user/domain/usecase/auth_usecase.dart';
-import 'package:cookmatch/features/auth/login/presentation/bloc/login_bloc.dart';
-import 'package:cookmatch/features/auth/user/presentation/bloc/user_bloc.dart';
-import 'package:cookmatch/features/recipes/presentation/bloc/recipes_bloc.dart';
-import 'package:cookmatch/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
+import 'package:groceryhelper/core/repositories/auth_repository.dart';
+import 'package:groceryhelper/features/auth/user/domain/usecase/auth_usecase.dart';
+import 'package:groceryhelper/features/auth/login/presentation/bloc/login_bloc.dart';
+import 'package:groceryhelper/features/auth/user/presentation/bloc/user_bloc.dart';
+import 'package:groceryhelper/features/recipes/presentation/bloc/recipes_bloc.dart';
+import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.instance;

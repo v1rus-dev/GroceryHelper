@@ -1,4 +1,4 @@
-import 'package:cookmatch/features/recipes/presentation/bloc/recipes_bloc.dart';
+import 'package:groceryhelper/features/recipes/presentation/bloc/recipes_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

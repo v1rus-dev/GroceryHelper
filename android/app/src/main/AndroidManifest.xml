@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="yegor.cheprasov.cookmatch">
+    package="yegor.cheprasov.groceryhelper">
     
     <application
-        android:label="cookmatch"
+        android:label="groceryhelper"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

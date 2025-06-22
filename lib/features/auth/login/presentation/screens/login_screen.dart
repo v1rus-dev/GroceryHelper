@@ -1,5 +1,5 @@
-import 'package:cookmatch/core/services/locator.dart';
-import 'package:cookmatch/features/auth/login/presentation/bloc/login_bloc.dart';
+import 'package:groceryhelper/core/services/locator.dart';
+import 'package:groceryhelper/features/auth/login/presentation/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cookmatch/core/widgets/debug_drawer.dart';
+import 'package:groceryhelper/core/widgets/debug_drawer.dart';
 
 class DebugWrapper extends StatelessWidget {
   final Widget child;

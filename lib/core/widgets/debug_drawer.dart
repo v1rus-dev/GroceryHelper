@@ -1,9 +1,9 @@
-import 'package:cookmatch/core/navigation/app_router.dart';
-import 'package:cookmatch/core/navigation/router_paths.dart';
+import 'package:groceryhelper/core/navigation/app_router.dart';
+import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:cookmatch/core/services/talker_service.dart';
+import 'package:groceryhelper/core/services/talker_service.dart';
 
 class DebugDrawer extends StatefulWidget {
   const DebugDrawer({super.key});

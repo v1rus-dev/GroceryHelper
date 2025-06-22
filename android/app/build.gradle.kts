@@ -3,7 +3,7 @@ val compileSdkVersion = 35
 val minSdkVersion = 23
 val ndkVersionStr = "27.2.12479018"
 val javaVersion = JavaVersion.VERSION_11
-val appId = "yegor.cheprasov.cookmatch"
+val appId = "yegor.cheprasov.groceryhelper"
 
 plugins {
     id("com.android.application")

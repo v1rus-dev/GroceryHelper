@@ -1,6 +1,6 @@
 {
-  "name": "CookMatch",
-  "short_name": "CookMatch",
+  "name": "GroceryHelper",
+  "short_name": "GroceryHelper",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

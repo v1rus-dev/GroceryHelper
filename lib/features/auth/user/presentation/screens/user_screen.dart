@@ -1,6 +1,6 @@
-import 'package:cookmatch/features/auth/user/presentation/bloc/user_bloc.dart';
-import 'package:cookmatch/features/auth/user/presentation/screens/user_authenticated_screen.dart';
-import 'package:cookmatch/features/auth/user/presentation/screens/user_unauthenticated_screen.dart';
+import 'package:groceryhelper/features/auth/user/presentation/bloc/user_bloc.dart';
+import 'package:groceryhelper/features/auth/user/presentation/screens/user_authenticated_screen.dart';
+import 'package:groceryhelper/features/auth/user/presentation/screens/user_unauthenticated_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

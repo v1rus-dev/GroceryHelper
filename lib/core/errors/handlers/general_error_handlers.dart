@@ -1,4 +1,4 @@
-part of 'package:cookmatch/core/errors/errors.dart';
+part of 'package:groceryhelper/core/errors/errors.dart';
 
 class GeneralErrorHandlers {
   static final Map<Type, AppErrorHandler> handlers = {
