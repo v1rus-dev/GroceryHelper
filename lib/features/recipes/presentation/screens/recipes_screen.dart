@@ -7,12 +7,12 @@ class RecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecipesBloc, RecipesState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(body: Column(children: [Text('RecipesScreen')])),
-        );
-      },
+    return SafeArea(
+      child: BlocBuilder<RecipesBloc, RecipesState>(
+        builder: (context, state) {
+          return Scaffold(body: Column(children: [Text('RecipesScreen')]));
+        },
+      ),
     );
   }
 }

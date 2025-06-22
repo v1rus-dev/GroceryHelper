@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
     final path = GoRouter.of(context).state.path;
     if (path?.startsWith(RouterPaths.recipes) == true) return 0;
     if (path?.startsWith(RouterPaths.shoppingList) == true) return 1;
+    if (path?.startsWith(RouterPaths.user) == true) return 2;
     return 0;
   }
 
@@ -20,6 +21,8 @@ class HomeScreen extends StatelessWidget {
         break;
       case 1:
         context.go(RouterPaths.shoppingList);
+      case 2:
+        context.go(RouterPaths.user);
     }
   }
 
@@ -39,6 +42,10 @@ class HomeScreen extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
             label: 'Покупки',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Пользователь',
           ),
         ],
       ),

@@ -7,12 +7,12 @@ class ShoppingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShoppingListBloc, ShoppingListState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(body: Column(children: [Text('ShoppingList')])),
-        );
-      },
+    return SafeArea(
+      child: BlocBuilder<ShoppingListBloc, ShoppingListState>(
+        builder: (context, state) {
+          return Scaffold(body: Column(children: [Text('ShoppingList')]));
+        },
+      ),
     );
   }
 }

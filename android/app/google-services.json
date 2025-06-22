@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "806843890541",
+    "firebase_url": "https://cookmatch-858ae-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "cookmatch-858ae",
     "storage_bucket": "cookmatch-858ae.firebasestorage.app"
   },
@@ -12,7 +13,12 @@
           "package_name": "yegor.cheprasov.cookmatch"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "806843890541-pir2l3fnq81rhop1pvfivac1n4m8t1m7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDK-a9V_ZiHz-eYgl9Hnkr_UjFWlbmkYJM"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806843890541-pir2l3fnq81rhop1pvfivac1n4m8t1m7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
