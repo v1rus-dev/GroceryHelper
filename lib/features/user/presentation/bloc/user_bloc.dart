@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
-import 'package:groceryhelper/features/auth/user/domain/usecase/auth_usecase.dart';
+import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
