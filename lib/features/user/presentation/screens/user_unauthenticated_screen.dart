@@ -1,8 +1,7 @@
+import 'package:groceryhelper/core/widgets/google_sign_in_button.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:gap/gap.dart';
 
 class UserUnauthenticatedScreen extends StatelessWidget {
@@ -13,8 +12,7 @@ class UserUnauthenticatedScreen extends StatelessWidget {
     return Column(
       children: [
         const Gap(20),
-        SignInButton(
-          Buttons.Google,
+        GoogleSignInButton(
           onPressed: () {
             context.read<UserBloc>().add(AuthByGoogle());
           },
