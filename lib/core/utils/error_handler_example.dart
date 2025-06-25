@@ -5,7 +5,6 @@ import 'package:groceryhelper/core/utils/error_handler.dart';
 
 /// Примеры использования интегрированной системы обработки ошибок
 class ErrorHandlerExample {
-  
   /// Пример обработки сетевой ошибки
   static Future<void> networkRequestExample() async {
     try {
@@ -13,8 +12,8 @@ class ErrorHandlerExample {
       throw SocketException('No internet connection');
     } catch (error, stackTrace) {
       // Система автоматически определит тип ошибки и покажет соответствующий UI
-      await ErrorHandler.handleNetworkError(
-        error, 
+      ErrorHandler.handleNetworkError(
+        error,
         stackTrace,
         onRetry: () => networkRequestExample(), // Retry callback
       );
@@ -39,24 +38,18 @@ class ErrorHandlerExample {
       throw Exception('firebase-auth-error: invalid-credential');
     } catch (error, stackTrace) {
       // Система определит Firebase ошибку и покажет соответствующий заголовок
-      await ErrorHandler.handleCriticalError(error, stackTrace);
+      ErrorHandler.handleCriticalError(error, stackTrace);
     }
   }
 
   /// Пример показа кастомной ошибки
   static Future<void> customErrorExample() async {
-    await ErrorHandler.showError(
-      message: 'Это кастомная ошибка',
-      type: AppErrorType.snackbar,
-    );
+    await ErrorHandler.showError(message: 'Это кастомная ошибка', type: AppErrorType.snackbar);
   }
 
   /// Пример показа успешного сообщения
   static Future<void> successExample() async {
-    await ErrorHandler.showSuccess(
-      title: 'Готово!',
-      message: 'Операция выполнена успешно',
-    );
+    await ErrorHandler.showSuccess(title: 'Готово!', message: 'Операция выполнена успешно');
   }
 
   /// Пример silent ошибки (только логирование)

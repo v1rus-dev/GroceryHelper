@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = PlatformType.isIOS ? AppThemeIOS.light : AppTheme.light;
     return MaterialApp.router(
-      navigatorKey: locator<DialogService>().navigatorKey,
       routerConfig: appRouter,
       theme: theme,
       builder: (context, child) {
