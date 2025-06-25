@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/core/utils/error_handler.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
 
 part 'user_event.dart';
@@ -38,11 +39,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   _onAuthByGoogle(AuthByGoogle event, Emitter<UserState> emit) async {
     final credentials = await authUsecase.signInWithGoogle();
     credentials.fold(
-      (left) {
-        TalkerService.error(left.toString());
+      (failure) {
+        TalkerService.error('Authentication failed: $failure');
+        ErrorHandler.showError(
+          message: 'Не удалось войти через Google. Попробуйте еще раз.',
+          onRetry: () => add(AuthByGoogle()),
+        );
       },
       (creds) {
         TalkerService.log('User authenticated: ${creds.user?.email}');
+        ErrorHandler.showSuccess(
+          message: 'Добро пожаловать, ${creds.user?.displayName ?? creds.user?.email}!',
+        );
       },
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:groceryhelper/core/repositories/auth_repository.dart';
+import 'package:groceryhelper/core/services/dialog_service.dart';
+import 'package:groceryhelper/core/services/error_display_service.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
 import 'package:groceryhelper/features/recipes/presentation/bloc/recipes_bloc.dart';
@@ -10,6 +12,7 @@ import 'google_client_id_io.dart' if (dart.library.html) 'google_client_id_web.d
 final locator = GetIt.instance;
 
 Future<void> initServiceLocator() async {
+  await initServices();
   await initRepositories();
   await initUsecases();
   await initBlocs();
@@ -24,6 +27,11 @@ Future<void> initBlocs() async {
 
 Future<void> initRepositories() async {
   locator.registerSingleton(AuthRepository(googleClientId: getGoogleClientId()));
+}
+
+Future<void> initServices() async {
+  locator.registerSingleton(DialogService.instance);
+  locator.registerSingleton(ErrorDisplayService.instance);
 }
 
 Future<void> initUsecases() async {

@@ -1,5 +1,6 @@
 import 'package:groceryhelper/core/navigation/app_router.dart';
 import 'package:groceryhelper/core/services/locator.dart';
+import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
 import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = PlatformType.isIOS ? AppThemeIOS.light : AppTheme.light;
     return MaterialApp.router(
+      navigatorKey: locator<DialogService>().navigatorKey,
       routerConfig: appRouter,
       theme: theme,
       builder: (context, child) {
