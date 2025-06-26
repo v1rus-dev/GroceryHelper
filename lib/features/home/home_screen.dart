@@ -1,6 +1,9 @@
+import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation.dart';
+import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation_item.dart';
 
 class HomeScreen extends StatelessWidget {
   final Widget child;
@@ -31,23 +34,17 @@ class HomeScreen extends StatelessWidget {
     final selectedIndex = _calculateSelectedIndex(context);
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) => _onItemTapped(context, index),
+      bottomNavigationBar: AppBottomNavigation(
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu),
-            label: 'Рецепты',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Покупки',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Пользователь',
-          ),
+          AppBottomNavigationItemModel(icon: AppAssets.navHome),
+          AppBottomNavigationItemModel(icon: AppAssets.navBusket),
+          AppBottomNavigationItemModel(icon: AppAssets.navProducts),
+          AppBottomNavigationItemModel(icon: AppAssets.navProfile),
         ],
+        onTap: (index) {
+          _onItemTapped(context, index);
+        },
+        currentIndex: selectedIndex,
       ),
     );
   }
