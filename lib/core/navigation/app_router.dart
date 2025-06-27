@@ -5,7 +5,7 @@ import 'package:groceryhelper/features/shopping_list/presentation/screens/shoppi
 import 'package:groceryhelper/features/buskets/presentation/view/buskets_screen.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_screen.dart';
 import 'package:groceryhelper/features/root/root_screen.dart';
-import 'package:groceryhelper/features/debug/presentation/screens/debug_screen.dart';
+import 'package:groceryhelper/core/utils/debug/presentation/screens/debug_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter/widgets.dart';
