@@ -8,5 +8,7 @@ class AppAssets {
 
   static const String icThemeLight = 'assets/icons/ic_sun.svg';
   static const String icThemeDark = 'assets/icons/ic_moon.svg';
-  static const String icThemeSystem = 'assets/icons/ic_sun.svg'; // временно используем солнце
+  static const String icThemeSystem = 'assets/icons/ic_sun.svg';
+
+  static const String icAdd = 'assets/icons/ic_add.svg';
 }

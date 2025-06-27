@@ -72,6 +72,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     required this.secondaryText,
     required this.divider,
     required this.navigation,
+    required this.busket,
+    required this.primary,
   });
 
   final Color background;
@@ -80,6 +82,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   final Color secondaryText;
   final Color divider;
   final Color navigation;
+  final Color busket;
+  final Color primary;
   // Светлая тема
   static final light = AppThemeColors(
     background: AppColors.background,
@@ -88,6 +92,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     secondaryText: AppColors.secondaryText,
     divider: AppColors.secondaryText,
     navigation: AppColors.navigation,
+    busket: AppColors.primaryBusketLight,
+    primary: AppColors.primaryLight,
   );
 
   // Темная тема
@@ -98,6 +104,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     secondaryText: AppColors.darkSecondaryText,
     divider: AppColors.darkDivider,
     navigation: AppColors.navigationDark,
+    busket: AppColors.primaryBusketDark,
+    primary: AppColors.primaryDark,
   );
 
   @override
@@ -108,6 +116,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     Color? secondaryText,
     Color? divider,
     Color? navigation,
+    Color? busket,
+    Color? primary,
   }) {
     return AppThemeColors(
       background: background ?? this.background,
@@ -116,6 +126,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       secondaryText: secondaryText ?? this.secondaryText,
       divider: divider ?? this.divider,
       navigation: navigation ?? this.navigation,
+      busket: busket ?? this.busket,
+      primary: primary ?? this.primary,
     );
   }
 
@@ -131,6 +143,8 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       secondaryText: Color.lerp(secondaryText, other.secondaryText, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
       navigation: Color.lerp(navigation, other.navigation, t)!,
+      busket: Color.lerp(busket, other.busket, t)!,
+      primary: Color.lerp(primary, other.primary, t)!,
     );
   }
 }

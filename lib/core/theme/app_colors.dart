@@ -13,6 +13,13 @@ class AppColors {
   static final Color navigation = primary; // только для навигации
   static final Color navigationDark = primaryDark;
 
+  // Корзины
+  static final Color primaryBusket = Color(0xFF1E5FEA);
+
+  // Оттенки Busket primary
+  static final Color primaryBusketLight = primaryBusket.withValues(alpha: 0.8);
+  static final Color primaryBusketDark = primaryBusket.withValues(alpha: 0.6);
+
   // Системные цвета
   static const Color background = Colors.white; // глобальный фон
   static const Color white = Colors.white; // белый цвет
