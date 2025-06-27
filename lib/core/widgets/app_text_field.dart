@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:groceryhelper/core/constants/app_assets.dart';
+import 'package:groceryhelper/core/theme/app_theme_extension.dart';
+
+class AppTextField extends StatefulWidget {
+  const AppTextField({
+    super.key,
+    this.controller,
+    this.hintText,
+    this.labelText,
+    this.obscureText = false,
+    this.keyboardType,
+    this.textInputAction,
+    this.onChanged,
+    this.onSubmitted,
+    this.validator,
+    this.leadingIcon,
+    this.isPassword = false,
+  });
+
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? labelText;
+  final bool obscureText;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final String? Function(String?)? validator;
+  final String? leadingIcon;
+  final bool isPassword;
+
+  @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  bool _obscureText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText || widget.isPassword;
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFBDBDBD).withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextFormField(
+        controller: widget.controller,
+        obscureText: _obscureText,
+        keyboardType: widget.isPassword ? TextInputType.visiblePassword : widget.keyboardType,
+        textInputAction: widget.textInputAction,
+        onChanged: widget.onChanged,
+        onFieldSubmitted: widget.onSubmitted,
+        validator: widget.validator,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          labelText: widget.labelText,
+          prefixIcon: widget.leadingIcon != null
+              ? Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: SvgPicture.asset(
+                    widget.leadingIcon!,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(context.secondaryTextColor, BlendMode.srcIn),
+                  ),
+                )
+              : null,
+          suffixIcon: widget.isPassword
+              ? IconButton(
+                  onPressed: _togglePasswordVisibility,
+                  icon: SvgPicture.asset(
+                    _obscureText ? AppAssets.icPasswordShow : AppAssets.icPasswordHide,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(context.secondaryTextColor, BlendMode.srcIn),
+                  ),
+                )
+              : null,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: context.primaryColor, width: 1),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          hintStyle: TextStyle(color: context.secondaryTextColor, fontSize: 16),
+          labelStyle: TextStyle(color: context.secondaryTextColor, fontSize: 16),
+          floatingLabelStyle: TextStyle(color: context.primaryColor, fontSize: 16),
+        ),
+        style: TextStyle(color: context.textColor, fontSize: 16),
+      ),
+    );
+  }
+}

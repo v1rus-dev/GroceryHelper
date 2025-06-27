@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/theme/app_text_styles.dart';
+import 'package:groceryhelper/core/widgets/app_text_field.dart';
 
 class DebugInputFieldsSection extends StatelessWidget {
   const DebugInputFieldsSection({super.key});
@@ -11,17 +12,9 @@ class DebugInputFieldsSection extends StatelessWidget {
       children: [
         Text('Поля ввода', style: AppTextStyles.headline2),
         const SizedBox(height: 8),
-        TextField(
-          decoration: const InputDecoration(labelText: 'Обычное поле', hintText: 'Введите текст'),
-        ),
+        AppTextField(hintText: 'Поиск...'),
         const SizedBox(height: 8),
-        TextField(
-          decoration: const InputDecoration(
-            labelText: 'Поле с иконкой',
-            hintText: 'Введите текст',
-            prefixIcon: Icon(Icons.search),
-          ),
-        ),
+        AppTextField(hintText: 'Пароль', isPassword: true),
         const SizedBox(height: 16),
       ],
     );
