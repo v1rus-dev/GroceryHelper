@@ -15,7 +15,7 @@ class UserAuthenticatedScreen extends StatelessWidget {
             onPressed: () {
               context.read<UserBloc>().add(Unauthorize());
             },
-            child: const Text('Unauthorize'),
+            child: Column(),
           ),
         ],
       ),

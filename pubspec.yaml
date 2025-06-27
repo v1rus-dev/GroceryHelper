@@ -57,6 +57,7 @@ dependencies:
   dartz: ^0.10.1
   web: ^1.1.1
   flutter_svg: ^2.2.0
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

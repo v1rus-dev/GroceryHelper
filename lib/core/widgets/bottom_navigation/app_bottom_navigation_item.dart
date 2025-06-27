@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:groceryhelper/core/theme/app_theme_extension.dart';
 
 class AppBottomNavigationItemModel {
-  const AppBottomNavigationItemModel({required this.icon, this.selectedColor = const Color(0xFF2D264B)});
+  const AppBottomNavigationItemModel({required this.icon});
   final String icon;
-  final Color selectedColor;
 }
 
 class AppBottomNavigationItem extends StatefulWidget {
-  const AppBottomNavigationItem({
-    super.key,
-    required this.icon,
-    required this.isSelected,
-    required this.onTap,
-    this.selectedColor = const Color(0xFF2D264B),
-  });
+  const AppBottomNavigationItem({super.key, required this.icon, required this.isSelected, required this.onTap});
 
   final String icon;
   final bool isSelected;
   final VoidCallback onTap;
-  final Color selectedColor;
 
   @override
   State<AppBottomNavigationItem> createState() => _AppBottomNavigationItemState();
@@ -40,10 +33,16 @@ class _AppBottomNavigationItemState extends State<AppBottomNavigationItem> {
           duration: const Duration(milliseconds: 150),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
-            color: widget.isSelected ? widget.selectedColor : Colors.transparent,
+            color: widget.isSelected ? context.navigationColor : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
             boxShadow: widget.isSelected
-                ? [BoxShadow(offset: const Offset(0, 4), blurRadius: 2, color: widget.selectedColor.withOpacity(0.25))]
+                ? [
+                    BoxShadow(
+                      offset: const Offset(0, 4),
+                      blurRadius: 2,
+                      color: context.navigationColor.withValues(alpha: 0.25),
+                    ),
+                  ]
                 : null,
           ),
           child: Material(
@@ -65,7 +64,7 @@ class _AppBottomNavigationItemState extends State<AppBottomNavigationItem> {
                     height: 24,
                     colorFilter: widget.isSelected
                         ? ColorFilter.mode(Colors.white, BlendMode.srcIn)
-                        : ColorFilter.mode(widget.selectedColor, BlendMode.srcIn),
+                        : ColorFilter.mode(context.navigationColor, BlendMode.srcIn),
                   ),
                 ),
               ),

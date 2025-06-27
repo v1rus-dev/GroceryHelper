@@ -1,3 +1,4 @@
+import 'package:groceryhelper/core/widgets/app_main_toolbar.dart';
 import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,10 @@ class ShoppingList extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<ShoppingListBloc, ShoppingListState>(
         builder: (context, state) {
-          return Scaffold(body: Column(children: [Text('ShoppingList')]));
+          return Scaffold(
+            appBar: AppMainToolbar(text: 'Продукты'),
+            body: Column(children: []),
+          );
         },
       ),
     );

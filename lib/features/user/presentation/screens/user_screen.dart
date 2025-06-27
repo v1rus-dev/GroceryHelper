@@ -1,3 +1,4 @@
+import 'package:groceryhelper/core/widgets/app_main_toolbar.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_authenticated_screen.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_unauthenticated_screen.dart';
@@ -12,11 +13,14 @@ class UserScreen extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          return switch (state) {
-            UserInitial() => Column(),
-            UserAuthenticated() => UserAuthenticatedScreen(),
-            UserUnauthenticated() => UserUnauthenticatedScreen(),
-          };
+          return Scaffold(
+            appBar: AppMainToolbar(text: 'Профиль'),
+            body: switch (state) {
+              UserInitial() => Column(),
+              UserAuthenticated() => UserAuthenticatedScreen(),
+              UserUnauthenticated() => UserUnauthenticatedScreen(),
+            },
+          );
         },
       ),
     );

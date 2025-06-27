@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation_item.dart';
+import 'package:groceryhelper/core/theme/app_theme_extension.dart';
 
 class AppBottomNavigation extends StatefulWidget {
   const AppBottomNavigation({super.key, required this.items, required this.onTap, required this.currentIndex});
@@ -18,7 +19,7 @@ class _AppBottomNavigationState extends State<AppBottomNavigation> {
   Widget build(BuildContext context) {
     return Container(
       height: 56,
-      color: Colors.white,
+      color: context.backgroundColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(

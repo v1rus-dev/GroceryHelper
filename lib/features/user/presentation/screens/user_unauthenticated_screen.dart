@@ -5,6 +5,6 @@ class UserUnauthenticatedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Column(children: [Text('UserUnauthenticatedScreen')]));
+    return SafeArea(child: Column(children: []));
   }
 }

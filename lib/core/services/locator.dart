@@ -1,6 +1,7 @@
 import 'package:groceryhelper/core/repositories/auth_repository.dart';
 import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/services/error_display_service.dart';
+import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
@@ -23,6 +24,7 @@ Future<void> initBlocs() async {
   locator.registerFactory(() => BusketsBloc());
   locator.registerFactory(() => ShoppingListBloc());
   locator.registerFactory(() => UserBloc(authUsecase: locator()));
+  locator.registerFactory(() => ThemeBloc());
 }
 
 Future<void> initRepositories() async {

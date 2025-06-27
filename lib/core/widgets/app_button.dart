@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/theme/app_colors.dart';
 import 'package:groceryhelper/core/theme/app_text_styles.dart';
 
 class AppButton extends StatefulWidget {
-  const AppButton({
-    super.key,
-    required this.onPressed,
-    required this.text,
-    this.color = AppColors.primary,
-    this.usePressEffect = false,
-  });
+  const AppButton({super.key, required this.onPressed, required this.text, this.color, this.usePressEffect = false});
 
   final VoidCallback onPressed;
   final String text;
-  final Color color;
+  final Color? color;
   final bool usePressEffect;
 
   @override
@@ -25,11 +18,14 @@ class _AppButtonState extends State<AppButton> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final buttonColor = widget.color ?? theme.colorScheme.primary;
+
     Widget buttonContent = SizedBox(
       height: 56,
       width: double.infinity,
       child: Material(
-        color: widget.color,
+        color: buttonColor,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
@@ -38,7 +34,7 @@ class _AppButtonState extends State<AppButton> {
           onTapUp: widget.usePressEffect ? (_) => setState(() => _isPressed = false) : null,
           onTapCancel: widget.usePressEffect ? () => setState(() => _isPressed = false) : null,
           child: Center(
-            child: Text(widget.text, style: AppTextStyles.button.copyWith(color: Colors.white)),
+            child: Text(widget.text, style: AppTextStyles.button.copyWith(color: theme.colorScheme.onPrimary)),
           ),
         ),
       ),
