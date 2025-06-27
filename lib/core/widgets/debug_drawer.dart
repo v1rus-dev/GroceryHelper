@@ -29,10 +29,7 @@ class _DebugDrawerState extends State<DebugDrawer> {
           setState(() {
             _position += details.delta.dy;
             // Ограничиваем движение в пределах экрана
-            _position = _position.clamp(
-              0.0,
-              MediaQuery.of(context).size.height - 60.0,
-            );
+            _position = _position.clamp(0.0, MediaQuery.of(context).size.height - 60.0);
           });
         },
         child: AnimatedContainer(
@@ -46,11 +43,7 @@ class _DebugDrawerState extends State<DebugDrawer> {
               bottomLeft: Radius.circular(_isExpanded ? 12 : 20),
             ),
             boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 8,
-                offset: const Offset(-2, 2),
-              ),
+              BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(-2, 2)),
             ],
           ),
           child: Material(
@@ -85,34 +78,57 @@ class _DebugDrawerState extends State<DebugDrawer> {
                         bottomLeft: Radius.circular(_isExpanded ? 12 : 20),
                       ),
                     ),
-                    child: Icon(
-                      _isExpanded ? Icons.chevron_right : Icons.bug_report,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+                    child: Icon(_isExpanded ? Icons.chevron_right : Icons.bug_report, color: Colors.white, size: 20),
                   ),
-                  // Текст (показывается только при развернутом состоянии)
+                  // Текст и кнопки (показываются только при развернутом состоянии)
                   if (_isExpanded)
                     Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  TalkerScreen(talker: TalkerService.instance),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            // Кнопка Talker
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context, rootNavigator: true).push(
+                                  MaterialPageRoute(builder: (context) => TalkerScreen(talker: TalkerService.instance)),
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                margin: const EdgeInsets.only(left: 8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade600,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Text(
+                                  'Talker',
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                                ),
+                              ),
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            'Debug',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                            // Кнопка Debug
+                            GestureDetector(
+                              onTap: () {
+                                appRouter.push(RouterPaths.debug);
+                                setState(() {
+                                  _isExpanded = false;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                margin: const EdgeInsets.only(left: 8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade600,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Text(
+                                  'Debug',
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ),

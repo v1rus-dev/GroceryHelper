@@ -1,5 +1,6 @@
 import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
+import 'package:groceryhelper/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation.dart';
@@ -39,11 +40,11 @@ class RootScreen extends StatelessWidget {
       body: child,
       bottomNavigationBar: SafeArea(
         child: AppBottomNavigation(
-          items: const [
-            AppBottomNavigationItemModel(icon: AppAssets.navHome),
-            AppBottomNavigationItemModel(icon: AppAssets.navBusket),
-            AppBottomNavigationItemModel(icon: AppAssets.navProducts),
-            AppBottomNavigationItemModel(icon: AppAssets.navProfile),
+          items: [
+            AppBottomNavigationItemModel(icon: AppAssets.navHome, selectedColor: AppColors.navigation),
+            AppBottomNavigationItemModel(icon: AppAssets.navBusket, selectedColor: AppColors.navigation),
+            AppBottomNavigationItemModel(icon: AppAssets.navProducts, selectedColor: AppColors.navigation),
+            AppBottomNavigationItemModel(icon: AppAssets.navProfile, selectedColor: AppColors.navigation),
           ],
           onTap: (index) {
             _onItemTapped(context, index);

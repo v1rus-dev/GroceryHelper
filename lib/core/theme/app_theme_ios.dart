@@ -6,30 +6,22 @@ import 'app_dimens.dart';
 
 class AppThemeIOS {
   static ThemeData get light => ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: Colors.white,
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryLight),
+    primaryColor: AppColors.primaryLight,
+    scaffoldBackgroundColor: AppColors.background,
     textTheme: AppTextStyles.textTheme,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.white,
-      foregroundColor: AppColors.primary,
-      elevation: 0,
-    ),
+    appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryLight, foregroundColor: Colors.white, elevation: 0),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.primaryLight,
         foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.radiusM),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimens.radiusM)),
         textStyle: AppTextStyles.button,
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppDimens.radiusS),
-      ),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppDimens.radiusS)),
     ),
-    cupertinoOverrideTheme: CupertinoThemeData(primaryColor: AppColors.primary),
+    cupertinoOverrideTheme: CupertinoThemeData(primaryColor: AppColors.primaryLight),
   );
 }
