@@ -27,25 +27,47 @@ class AppBottomNavigationItem extends StatefulWidget {
 }
 
 class _AppBottomNavigationItemState extends State<AppBottomNavigationItem> {
+  bool _isPressed = false;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 48,
-      height: 48,
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: widget.onTap,
-          child: Container(
-            height: 40,
-            child: Center(
-              child: SvgPicture.asset(
-                widget.icon,
-                width: 24,
-                height: 24,
-                colorFilter: widget.isSelected ? ColorFilter.mode(widget.selectedColor, BlendMode.srcIn) : null,
+    return Transform.scale(
+      scale: _isPressed ? 0.95 : 1.0,
+      child: SizedBox(
+        width: 48,
+        height: 48,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeInOut,
+          decoration: BoxDecoration(
+            color: widget.isSelected ? widget.selectedColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: widget.isSelected
+                ? [BoxShadow(offset: const Offset(0, 4), blurRadius: 2, color: widget.selectedColor.withOpacity(0.25))]
+                : null,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: widget.onTap,
+              onTapDown: (_) => setState(() => _isPressed = true),
+              onTapUp: (_) => setState(() => _isPressed = false),
+              onTapCancel: () => setState(() => _isPressed = false),
+              child: Center(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: SvgPicture.asset(
+                    widget.icon,
+                    key: ValueKey(widget.isSelected),
+                    width: 24,
+                    height: 24,
+                    colorFilter: widget.isSelected
+                        ? ColorFilter.mode(Colors.white, BlendMode.srcIn)
+                        : ColorFilter.mode(widget.selectedColor, BlendMode.srcIn),
+                  ),
+                ),
               ),
             ),
           ),

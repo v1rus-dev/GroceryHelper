@@ -1,13 +1,13 @@
 import 'package:groceryhelper/core/navigation/app_router.dart';
 import 'package:groceryhelper/core/services/locator.dart';
-import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
 import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
 import 'package:groceryhelper/core/utils/platform_type.dart';
 import 'package:groceryhelper/core/widgets/debug_drawer.dart';
+import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
-import 'package:groceryhelper/features/recipes/presentation/bloc/recipes_bloc.dart';
+import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';
 import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
 import 'package:groceryhelper/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +29,8 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => locator<RecipesBloc>()),
+        BlocProvider(create: (_) => locator<HomeBloc>()),
+        BlocProvider(create: (_) => locator<BusketsBloc>()),
         BlocProvider(create: (_) => locator<ShoppingListBloc>()),
         BlocProvider(create: (_) => locator<UserBloc>()..add(UserInitEvent())),
       ],

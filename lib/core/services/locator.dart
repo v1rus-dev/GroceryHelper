@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:groceryhelper/core/repositories/auth_repository.dart';
 import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/services/error_display_service.dart';
+import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
-import 'package:groceryhelper/features/recipes/presentation/bloc/recipes_bloc.dart';
+import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';
 import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'google_client_id_io.dart' if (dart.library.html) 'google_client_id_web.dart';
@@ -19,9 +19,9 @@ Future<void> initServiceLocator() async {
 }
 
 Future<void> initBlocs() async {
-  locator.registerFactory(() => RecipesBloc());
+  locator.registerFactory(() => HomeBloc());
+  locator.registerFactory(() => BusketsBloc());
   locator.registerFactory(() => ShoppingListBloc());
-
   locator.registerFactory(() => UserBloc(authUsecase: locator()));
 }
 

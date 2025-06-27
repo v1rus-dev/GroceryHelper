@@ -22,18 +22,17 @@ class _AppBottomNavigationState extends State<AppBottomNavigation> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ...widget.items.asMap().entries.map((entry) {
               final index = entry.key;
               final item = entry.value;
-              return Expanded(
-                child: AppBottomNavigationItem(
-                  icon: item.icon,
-                  isSelected: index == widget.currentIndex,
-                  onTap: () {
-                    widget.onTap(index);
-                  },
-                ),
+              return AppBottomNavigationItem(
+                icon: item.icon,
+                isSelected: index == widget.currentIndex,
+                onTap: () {
+                  widget.onTap(index);
+                },
               );
             }),
           ],
