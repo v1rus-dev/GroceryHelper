@@ -2,8 +2,6 @@ import 'package:groceryhelper/core/navigation/app_router.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-import 'package:groceryhelper/core/services/talker_service.dart';
 
 class DebugDrawer extends StatefulWidget {
   const DebugDrawer({super.key});
@@ -90,9 +88,10 @@ class _DebugDrawerState extends State<DebugDrawer> {
                             // Кнопка Talker
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(builder: (context) => TalkerScreen(talker: TalkerService.instance)),
-                                );
+                                appRouter.push(RouterPaths.talker);
+                                setState(() {
+                                  _isExpanded = false;
+                                });
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
