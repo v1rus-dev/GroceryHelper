@@ -5,7 +5,7 @@ import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
 import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart' as theme_bloc;
 import 'package:groceryhelper/core/utils/platform_type.dart';
-import 'package:groceryhelper/core/widgets/debug_drawer.dart';
+import 'package:groceryhelper/core/utils/debug/presentation/widgets/utils/debug_drawer.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
 import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';

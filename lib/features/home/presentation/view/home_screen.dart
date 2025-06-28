@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:groceryhelper/core/widgets/app_main_toolbar.dart';
-import 'package:groceryhelper/core/widgets/switch_theme_button.dart';
+import 'package:groceryhelper/core/widgets/toolbars/app_main_toolbar.dart';
+import 'package:groceryhelper/core/widgets/buttons/switch_theme_button.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 
 class HomeScreen extends StatelessWidget {

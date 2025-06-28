@@ -1,7 +1,7 @@
 import 'package:groceryhelper/core/navigation/app_router.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
-import 'package:groceryhelper/core/widgets/app_main_toolbar.dart';
-import 'package:groceryhelper/core/widgets/settings_button.dart';
+import 'package:groceryhelper/core/widgets/toolbars/app_main_toolbar.dart';
+import 'package:groceryhelper/core/widgets/buttons/settings_button.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_authenticated_screen.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_unauthenticated_screen.dart';

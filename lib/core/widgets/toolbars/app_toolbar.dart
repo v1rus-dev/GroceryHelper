@@ -22,11 +22,24 @@ class AppToolbar extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             children: [
               if (withBackButton) ...[
-                IconButton(
-                  onPressed: onBackPressed ?? () => appRouter.pop(),
-                  icon: SvgPicture.asset(
-                    AppAssets.icArrowBack,
-                    colorFilter: ColorFilter.mode(context.textColor, BlendMode.srcIn),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: onBackPressed ?? () => appRouter.pop(),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          AppAssets.icArrowBack,
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(context.textColor, BlendMode.srcIn),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],

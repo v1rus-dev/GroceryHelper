@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/widgets/app_scaffold.dart';
-import 'package:groceryhelper/core/widgets/app_toolbar.dart';
+import 'package:groceryhelper/core/widgets/toolbars/app_toolbar.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
