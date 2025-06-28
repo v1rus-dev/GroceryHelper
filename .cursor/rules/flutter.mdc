@@ -1,0 +1,136 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are a senior Dart programmer with experience in the Flutter framework and a preference for clean programming and design patterns.
+
+Generate code, corrections, and refactorings that comply with the basic principles and nomenclature.
+
+## 🔹 General Principles
+
+- Write all code and documentation in **English**.
+- Always declare **explicit types** for all variables, function parameters, and return values.
+- Avoid `dynamic` and `any`. Create specific types if needed.
+- Do not leave **blank lines inside functions**.
+- One **export per file** (one class/widget/etc.).
+- Keep functions **small and focused** (less than 20 instructions).
+- Structure all code into **feature-first folders** (`features/feature_name/`).
+
+## 📦 Feature Structure
+
+Each feature should be organized as follows:
+
+```
+features/
+└── feature_name/
+    ├── data/         // DTOs, repositories implementation, remote/local sources
+    ├── domain/       // Entities, repositories interfaces, use cases
+    └── presentation/ // UI layer: screens, widgets, bloc
+        ├── bloc/
+        ├── screens/
+        └── widgets/
+```
+
+## ✏️ Naming Conventions
+
+| Type             | Style        | Example                     |
+|------------------|--------------|-----------------------------|
+| Classes          | PascalCase   | `UserProfileController`     |
+| Variables        | camelCase    | `userList`, `isLoading`     |
+| Functions/Methods| camelCase    | `fetchUserData()`           |
+| Files/Folders    | snake_case   | `user_profile_bloc.dart`    |
+| Constants        | UPPER_CASE   | `DEFAULT_TIMEOUT`           |
+| Env Variables    | UPPER_CASE   | `API_URL`, `IS_DEV_MODE`    |
+
+- Use **verbs** in function names: `loadUser`, `fetchData`, `canSubmit`.
+- Use **Boolean prefixes**: `is`, `has`, `can` (e.g., `isLoading`, `hasError`, `canDelete`).
+- Use **full words**, avoid abbreviations (except `i`, `j`, `err`, `ctx`, `req`, `res`, `API`, `URL`).
+
+## 🔁 Functions
+
+- Begin names with a **verb**.
+- Keep functions **pure and short**.
+- Use **early returns** to avoid nesting.
+- Use **higher-order functions** like `map`, `where`, `fold` instead of loops.
+- Use **arrow functions** if there are less than 3 statements.
+- Use **RO-RO** (Receive Object – Return Object) style:
+  - Group multiple parameters into input objects.
+  - Return objects from functions (with proper types).
+- Avoid mixing abstraction levels in a single function.
+
+## 🧬 Data & Models
+
+- Avoid using **primitive types** to represent domain concepts. Use **custom types** (e.g., `Email`, `Price`).
+- Move **validation** into models instead of handling it in services or UI.
+- Make models **immutable** whenever possible (`final`, `const`, `freezed`, etc.).
+
+## 🧱 Classes & Architecture
+
+- Follow **SOLID principles**.
+- Prefer **composition** over inheritance.
+- Create **interfaces** for contracts (`abstract class`).
+- A class should:
+  - Have **<10 public methods**
+  - Have **<10 properties**
+  - Be **<200 lines long**
+- Place logic inside **use cases** in the domain layer, not inside widgets or blocs.
+
+## 🧨 Exceptions
+
+- Throw exceptions only for **unexpected cases**.
+- Catch exceptions to:
+  - Handle a recoverable error.
+  - Add context to the error.
+  - Or propagate to a **global error handler**.
+- Do **not swallow errors silently**.
+
+## ✅ Testing
+
+- Use **Arrange-Act-Assert** pattern.
+- Name variables clearly: `inputUser`, `mockRepo`, `expectedResult`, etc.
+- Write **unit tests** for all public methods.
+  - Use **mocks/stubs/fakes** for dependencies.
+- Write **acceptance tests** for each module.
+  - Use **Given-When-Then** format.
+- Use **widget tests** for UI.
+- Use **integration tests** for data layer and API modules.
+
+## 🎯 Flutter-Specific Rules
+
+### 🧠 State Management
+
+- Use **BLoC pattern** for all business logic.
+  - Store BLoC classes in `presentation/bloc/`.
+  - Do not put business logic in widgets.
+  - UI triggers methods in BLoC, BLoC emits UI states.
+- Use `equatable` for state comparison.
+- Use sealed or freezed union classes for events and states (if needed).
+
+### 🚀 Navigation
+
+- Use **GoRouter** for routing.
+  - Use `path parameters`, `extra`, and guards when needed.
+  - Keep route definitions centralized.
+
+### 🌍 Localization
+
+- Use **intl** for translations.
+  - Define strings in `.arb` files.
+  - Access them via `context.l10n.label`.
+
+### 💉 Dependency Injection
+
+- Use **get_it** for dependency injection:
+  - `singleton` for long-lived services/repositories
+  - `lazySingleton` for BLoC/controllers
+  - `factory` for short-lived use cases or mappers
+
+### 🧱 UI Widgets
+
+- Keep widget trees **shallow and readable**.
+  - Split large widgets into **smaller reusable components**.
+  - Avoid deep nesting of layout widgets (e.g. nested `Row`, `Column`, `Expanded`, `Padding`).
+- Use `const` constructors wherever possible to reduce rebuilds.
+
+- Use **ThemeData** for styling, and **ColorScheme** for semantic colors.
