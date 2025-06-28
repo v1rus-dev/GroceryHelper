@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/theme/app_text_styles.dart';
 
 class AppButton extends StatefulWidget {
-  const AppButton({super.key, required this.onPressed, required this.text, this.color, this.usePressEffect = false});
+  const AppButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    this.color,
+    this.usePressEffect = false,
+    this.isDisabled = false,
+  });
 
   final VoidCallback onPressed;
   final String text;
   final Color? color;
   final bool usePressEffect;
+  final bool isDisabled;
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -19,7 +27,10 @@ class _AppButtonState extends State<AppButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final buttonColor = widget.color ?? theme.colorScheme.primary;
+    final buttonColor = widget.isDisabled
+        ? theme.colorScheme.surfaceVariant
+        : (widget.color ?? theme.colorScheme.primary);
+    final textColor = widget.isDisabled ? theme.colorScheme.onSurfaceVariant : theme.colorScheme.onPrimary;
 
     Widget buttonContent = SizedBox(
       height: 56,
@@ -29,18 +40,18 @@ class _AppButtonState extends State<AppButton> {
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: widget.onPressed,
-          onTapDown: widget.usePressEffect ? (_) => setState(() => _isPressed = true) : null,
-          onTapUp: widget.usePressEffect ? (_) => setState(() => _isPressed = false) : null,
-          onTapCancel: widget.usePressEffect ? () => setState(() => _isPressed = false) : null,
+          onTap: widget.isDisabled ? null : widget.onPressed,
+          onTapDown: (widget.usePressEffect && !widget.isDisabled) ? (_) => setState(() => _isPressed = true) : null,
+          onTapUp: (widget.usePressEffect && !widget.isDisabled) ? (_) => setState(() => _isPressed = false) : null,
+          onTapCancel: (widget.usePressEffect && !widget.isDisabled) ? () => setState(() => _isPressed = false) : null,
           child: Center(
-            child: Text(widget.text, style: AppTextStyles.button.copyWith(color: theme.colorScheme.onPrimary)),
+            child: Text(widget.text, style: AppTextStyles.button.copyWith(color: textColor)),
           ),
         ),
       ),
     );
 
-    if (widget.usePressEffect) {
+    if (widget.usePressEffect && !widget.isDisabled) {
       return Transform.translate(offset: Offset(0, _isPressed ? 2 : 0), child: buttonContent);
     }
 

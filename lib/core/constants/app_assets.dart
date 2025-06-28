@@ -20,4 +20,7 @@ class AppAssets {
   static const String icPassword = 'assets/icons/ic_password.svg';
   static const String icUser = 'assets/icons/ic_user.svg';
   static const String icSettings = 'assets/icons/ic_settings.svg';
+
+  static const String icCheck = 'assets/icons/ic_check.svg';
+  static const String icWarning = 'assets/icons/ic_warning.svg';
 }

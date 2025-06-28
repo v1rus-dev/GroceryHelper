@@ -23,10 +23,10 @@ class EmailLoginPart extends StatelessWidget {
       children: [
         Text('Чтобы пользоваться всеми возможностями приложения, пожалуйста войдите.', style: AppTextStyles.body),
         const Gap(40),
-        AppTextField(hintText: 'Почта', leadingIcon: AppAssets.icEmail, controller: emailController),
+        AppTextField(labelText: 'Почта', leadingIcon: AppAssets.icEmail, controller: emailController),
         const Gap(8),
         AppTextField(
-          hintText: 'Пароль',
+          labelText: 'Пароль',
           isPassword: true,
           leadingIcon: AppAssets.icPassword,
           controller: passwordController,
