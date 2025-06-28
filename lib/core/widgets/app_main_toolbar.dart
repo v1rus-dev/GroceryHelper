@@ -4,17 +4,17 @@ import 'package:groceryhelper/core/theme/app_text_styles.dart';
 class AppMainToolbar extends StatelessWidget implements PreferredSizeWidget {
   const AppMainToolbar({
     super.key,
-    this.text,
+    this.title,
     this.child,
     this.showGroceryHelperTitle = false,
     this.trailingWidget,
     this.onTrailingTap,
   }) : assert(
-         text != null || child != null || showGroceryHelperTitle == true,
-         'Необходимо передать либо text, либо child, либо установить showGroceryHelperTitle = true',
+         title != null || child != null || showGroceryHelperTitle == true,
+         'Необходимо передать либо title, либо child, либо установить showGroceryHelperTitle = true',
        );
 
-  final String? text;
+  final String? title;
   final Widget? child;
   final bool showGroceryHelperTitle;
   final Widget? trailingWidget;
@@ -25,7 +25,7 @@ class AppMainToolbar extends StatelessWidget implements PreferredSizeWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 16, trailingWidget != null ? 12 : 20, 0),
+        padding: EdgeInsets.fromLTRB(20, trailingWidget != null ? 13 : 16, trailingWidget != null ? 12 : 20, 0),
         child: Row(
           children: [
             Expanded(child: child ?? _buildTitle(context)),
@@ -59,7 +59,7 @@ class AppMainToolbar extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    return Text(text!, style: AppTextStyles.headline1.copyWith(color: theme.colorScheme.onSurface));
+    return Text(title!, style: AppTextStyles.headline1.copyWith(color: theme.colorScheme.onSurface));
   }
 
   @override

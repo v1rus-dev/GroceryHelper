@@ -19,4 +19,5 @@ class AppAssets {
   static const String icEmail = 'assets/icons/ic_email.svg';
   static const String icPassword = 'assets/icons/ic_password.svg';
   static const String icUser = 'assets/icons/ic_user.svg';
+  static const String icSettings = 'assets/icons/ic_settings.svg';
 }

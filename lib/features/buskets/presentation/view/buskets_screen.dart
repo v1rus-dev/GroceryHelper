@@ -18,7 +18,7 @@ class BusketsScreen extends StatelessWidget {
       child: BlocBuilder<BusketsBloc, BusketsState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppMainToolbar(text: 'Корзины'),
+            appBar: AppMainToolbar(title: 'Корзины'),
             floatingActionButton: AppFubButton(
               onTap: () {
                 _onCreateBusket(context);

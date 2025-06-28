@@ -8,4 +8,5 @@ class RouterPaths {
   static const String register = '/register';
   static const String talker = '/talker';
   static const String debug = '/debug';
+  static const String settings = '/settings';
 }

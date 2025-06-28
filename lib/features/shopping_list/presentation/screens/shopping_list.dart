@@ -18,7 +18,7 @@ class ShoppingList extends StatelessWidget {
       child: BlocBuilder<ShoppingListBloc, ShoppingListState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppMainToolbar(text: 'Продукты'),
+            appBar: AppMainToolbar(title: 'Продукты'),
             floatingActionButton: AppFubButton(
               onTap: () {
                 _onAddItem(context);
