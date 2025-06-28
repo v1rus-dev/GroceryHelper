@@ -70,7 +70,7 @@ class _AppTextFieldState extends State<AppTextField> {
           labelText: widget.labelText,
           prefixIcon: widget.leadingIcon != null
               ? Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
                   child: SvgPicture.asset(
                     widget.leadingIcon!,
                     width: 24,
@@ -83,7 +83,7 @@ class _AppTextFieldState extends State<AppTextField> {
               ? IconButton(
                   onPressed: _togglePasswordVisibility,
                   icon: SvgPicture.asset(
-                    _obscureText ? AppAssets.icPasswordShow : AppAssets.icPasswordHide,
+                    _obscureText ? AppAssets.icPasswordHide : AppAssets.icPasswordShow,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(context.secondaryTextColor, BlendMode.srcIn),

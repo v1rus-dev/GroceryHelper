@@ -26,12 +26,13 @@ class AppColors {
   static const Color accent = Color(0xFFFF6B6B);
   static const Color error = Color(0xFFE74C3C);
   static const Color text = Color(0xFF2D264B);
-  static const Color secondaryText = Color(0xFF9E9E9E);
+  static final Color secondaryText = Color(0xFFBABABA);
+  static final Color divider = Color(0xFFEFEFEF).withValues(alpha: 0.8);
 
   // Цвета для темной темы
   static const Color darkBackground = Color(0xFF121212);
   static const Color darkSurface = Color(0xFF1E1E1E);
   static const Color darkText = Colors.white;
   static const Color darkSecondaryText = Color(0xFFB0B0B0);
-  static const Color darkDivider = Color(0xFF2A2A2A);
+  static final Color darkDivider = Color(0xFF2A2A2A).withValues(alpha: 0.8);
 }

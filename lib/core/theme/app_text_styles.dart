@@ -6,7 +6,12 @@ class AppTextStyles {
 
   static const TextStyle _headline2Base = TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Nunito');
 
-  static const TextStyle _bodyBase = TextStyle(fontSize: 16, fontFamily: 'Nunito');
+  static const TextStyle _bodyBase = TextStyle(
+    fontSize: 16,
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.normal,
+    height: 17 / 16,
+  );
 
   static const TextStyle _buttonBase = TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'Nunito');
 

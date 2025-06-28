@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'app_colors.dart';
 import 'app_text_styles.dart';
 import 'app_dimens.dart';
@@ -15,7 +16,18 @@ class AppTheme {
     primaryColor: AppColors.primaryLight,
     scaffoldBackgroundColor: AppColors.background,
     textTheme: AppTextStyles.textTheme,
-    appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryLight, foregroundColor: Colors.white, elevation: 0),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.primaryLight,
+      foregroundColor: Colors.white,
+      elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryLight,
@@ -41,7 +53,18 @@ class AppTheme {
     primaryColor: AppColors.primaryDark,
     scaffoldBackgroundColor: AppColors.darkBackground,
     textTheme: AppTextStyles.textTheme,
-    appBarTheme: const AppBarTheme(backgroundColor: AppColors.darkSurface, foregroundColor: Colors.white, elevation: 0),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.darkSurface,
+      foregroundColor: Colors.white,
+      elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryLight,
@@ -90,7 +113,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     surface: AppColors.background,
     text: AppColors.text,
     secondaryText: AppColors.secondaryText,
-    divider: AppColors.secondaryText,
+    divider: AppColors.divider,
     navigation: AppColors.navigation,
     busket: AppColors.primaryBusketLight,
     primary: AppColors.primaryLight,

@@ -22,8 +22,6 @@ class AppMainToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return SizedBox(
       width: double.infinity,
       child: Padding(
