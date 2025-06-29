@@ -1,7 +1,9 @@
 import 'package:groceryhelper/core/repositories/auth_repository.dart';
 import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/services/error_display_service.dart';
+import 'package:groceryhelper/core/services/global_key_service.dart';
 import 'package:groceryhelper/core/services/navigation_state_service.dart';
+import 'package:groceryhelper/core/services/smooth_dialog_service.dart';
 import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
@@ -34,7 +36,9 @@ Future<void> initRepositories() async {
 }
 
 Future<void> initServices() async {
+  locator.registerSingleton(GlobalKeyService.instance);
   locator.registerSingleton(DialogService.instance);
+  locator.registerSingleton(SmoothDialogService.instance);
   locator.registerSingleton(ErrorDisplayService.instance);
   locator.registerSingleton(NavigationStateService.instance);
 }
