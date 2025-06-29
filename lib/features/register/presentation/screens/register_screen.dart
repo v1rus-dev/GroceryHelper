@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/navigation/app_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:groceryhelper/core/utils/validators/universal_validator.dart';
 import 'package:groceryhelper/core/utils/validators/rules/validation_rules.dart';
 import 'package:groceryhelper/core/utils/validators/utils/rule_validation_result.dart';
@@ -7,20 +9,30 @@ import 'package:groceryhelper/core/widgets/app_scaffold.dart';
 import 'package:groceryhelper/core/widgets/buttons/app_button.dart';
 import 'package:groceryhelper/core/widgets/textFields/app_text_field.dart';
 import 'package:groceryhelper/core/widgets/textFields/rule_validation_requirements_list.dart';
+import 'package:groceryhelper/features/register/presentation/bloc/register_bloc.dart';
 import 'package:groceryhelper/features/register/presentation/widgets/login_link.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/widgets/toolbars/app_toolbar.dart';
 import 'package:go_router/go_router.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(create: (context) => RegisterBloc(useMock: true), child: const RegisterScreenView());
+  }
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class RegisterScreenView extends StatefulWidget {
+  const RegisterScreenView({super.key});
+
+  @override
+  State<RegisterScreenView> createState() => _RegisterScreenViewState();
+}
+
+class _RegisterScreenViewState extends State<RegisterScreenView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -110,8 +122,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _confirmPasswordValidationResult = confirmPasswordResult;
     });
     if (usernameResult.isValid && emailResult.isValid && passwordResult.isValid && confirmPasswordResult.isValid) {
-      print('Регистрация успешна!');
-      // Здесь будет логика регистрации
+      final completer = Completer();
+      context.read<RegisterBloc>().add(
+        RegisterUserEvent(
+          username: _usernameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          completer: completer,
+        ),
+      );
+
+      completer.future
+          .then((_) {
+            // Успешная регистрация - пользователь будет автоматически перенаправлен
+            // благодаря authStateChanges в UserBloc
+          })
+          .catchError((error) {
+            // Ошибка уже обработана в BLoC
+          });
     }
   }
 
@@ -148,88 +176,149 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppToolbar(title: 'Регистрация', withBackButton: true, onBackPressed: () => context.pop()),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Column(
-          children: [
-            AppTextField(
-              labelText: 'Имя пользователя',
-              leadingIcon: AppAssets.icUser,
-              controller: _usernameController,
-              focusNode: _usernameFocusNode,
-              onChanged: (_) => _onFieldChanged(),
-              onSubmitted: _onUsernameSubmitted,
-              textInputAction: TextInputAction.next,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: RuleValidationRequirementsList(
-                validationResult: _usernameValidationResult ?? RuleValidationResult.success(_usernameValidator.rules),
-                showRequirements: true,
+      appBar: AppToolbar(title: 'Регистрация (Тест)', withBackButton: true, onBackPressed: () => context.pop()),
+      body: BlocConsumer<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          if (state is RegisterError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.red));
+          } else if (state is RegisterSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Регистрация успешна! (Тестовый режим)\nEmail: ${state.userCredential.email}\nUID: ${state.userCredential.uid}',
+                ),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 5),
               ),
+            );
+          }
+        },
+        builder: (context, state) {
+          final isLoading = state is RegisterLoading;
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              children: [
+                // Информация о тестовом режиме
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                          SizedBox(width: 8),
+                          Text(
+                            'Тестовый режим',
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Регистрация работает в тестовом режиме. Пользователи не создаются в Firebase.\n\nЗанятые email для тестирования:\n• test@example.com\n• admin@test.com\n• user@demo.com',
+                        style: TextStyle(color: Colors.orange.shade700, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+                Gap(20),
+                AppTextField(
+                  labelText: 'Имя пользователя',
+                  leadingIcon: AppAssets.icUser,
+                  controller: _usernameController,
+                  focusNode: _usernameFocusNode,
+                  onChanged: (_) => _onFieldChanged(),
+                  onSubmitted: _onUsernameSubmitted,
+                  textInputAction: TextInputAction.next,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: RuleValidationRequirementsList(
+                    validationResult:
+                        _usernameValidationResult ?? RuleValidationResult.success(_usernameValidator.rules),
+                    showRequirements: true,
+                  ),
+                ),
+                Gap(12),
+                AppTextField(
+                  labelText: 'Почта',
+                  leadingIcon: AppAssets.icEmail,
+                  controller: _emailController,
+                  focusNode: _emailFocusNode,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (_) => _onFieldChanged(),
+                  onSubmitted: _onEmailSubmitted,
+                  textInputAction: TextInputAction.next,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: RuleValidationRequirementsList(
+                    validationResult: _emailValidationResult ?? RuleValidationResult.success(_emailValidator.rules),
+                    showRequirements: true,
+                  ),
+                ),
+                Gap(12),
+                AppTextField(
+                  labelText: 'Пароль',
+                  isPassword: true,
+                  leadingIcon: AppAssets.icPassword,
+                  controller: _passwordController,
+                  focusNode: _passwordFocusNode,
+                  onChanged: (_) => _onPasswordChanged(),
+                  onSubmitted: _onPasswordSubmitted,
+                  textInputAction: TextInputAction.next,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: RuleValidationRequirementsList(
+                    validationResult:
+                        _passwordValidationResult ?? RuleValidationResult.success(_passwordValidator.rules),
+                    showRequirements: true,
+                  ),
+                ),
+                Gap(12),
+                AppTextField(
+                  labelText: 'Повторите пароль',
+                  isPassword: true,
+                  leadingIcon: AppAssets.icPassword,
+                  controller: _confirmPasswordController,
+                  focusNode: _confirmPasswordFocusNode,
+                  onChanged: (_) => _onFieldChanged(),
+                  onSubmitted: _onConfirmPasswordSubmitted,
+                  textInputAction: TextInputAction.done,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: RuleValidationRequirementsList(
+                    validationResult:
+                        _confirmPasswordValidationResult ??
+                        RuleValidationResult.success(_confirmPasswordValidator.rules),
+                    showRequirements: true,
+                  ),
+                ),
+                Gap(12),
+                AppButton(
+                  text: isLoading ? 'Регистрация...' : 'Зарегистрироваться (Тест)',
+                  onPressed: isLoading ? () {} : _onRegister,
+                  isDisabled: !_isFormValid() || isLoading,
+                ),
+                const SizedBox(height: 24),
+                const LoginLink(),
+              ],
             ),
-            Gap(12),
-            AppTextField(
-              labelText: 'Почта',
-              leadingIcon: AppAssets.icEmail,
-              controller: _emailController,
-              focusNode: _emailFocusNode,
-              keyboardType: TextInputType.emailAddress,
-              onChanged: (_) => _onFieldChanged(),
-              onSubmitted: _onEmailSubmitted,
-              textInputAction: TextInputAction.next,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: RuleValidationRequirementsList(
-                validationResult: _emailValidationResult ?? RuleValidationResult.success(_emailValidator.rules),
-                showRequirements: true,
-              ),
-            ),
-            Gap(12),
-            AppTextField(
-              labelText: 'Пароль',
-              isPassword: true,
-              leadingIcon: AppAssets.icPassword,
-              controller: _passwordController,
-              focusNode: _passwordFocusNode,
-              onChanged: (_) => _onPasswordChanged(),
-              onSubmitted: _onPasswordSubmitted,
-              textInputAction: TextInputAction.next,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: RuleValidationRequirementsList(
-                validationResult: _passwordValidationResult ?? RuleValidationResult.success(_passwordValidator.rules),
-                showRequirements: true,
-              ),
-            ),
-            Gap(12),
-            AppTextField(
-              labelText: 'Повторите пароль',
-              isPassword: true,
-              leadingIcon: AppAssets.icPassword,
-              controller: _confirmPasswordController,
-              focusNode: _confirmPasswordFocusNode,
-              onChanged: (_) => _onFieldChanged(),
-              onSubmitted: _onConfirmPasswordSubmitted,
-              textInputAction: TextInputAction.done,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: RuleValidationRequirementsList(
-                validationResult:
-                    _confirmPasswordValidationResult ?? RuleValidationResult.success(_confirmPasswordValidator.rules),
-                showRequirements: true,
-              ),
-            ),
-            Gap(12),
-            AppButton(text: 'Зарегистрироваться', onPressed: _onRegister, isDisabled: !_isFormValid()),
-            const SizedBox(height: 24),
-            const LoginLink(),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

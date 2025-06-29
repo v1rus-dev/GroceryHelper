@@ -30,6 +30,7 @@ Future<void> initBlocs() async {
 
 Future<void> initRepositories() async {
   locator.registerSingleton(AuthRepository(googleClientId: getGoogleClientId()));
+  // RegisterRepository будет создаваться локально в RegisterBloc
 }
 
 Future<void> initServices() async {
@@ -40,4 +41,5 @@ Future<void> initServices() async {
 
 Future<void> initUsecases() async {
   locator.registerSingleton(AuthUsecase(authRepository: locator()));
+  // RegisterUsecase будет создаваться локально в RegisterBloc
 }

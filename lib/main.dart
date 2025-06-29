@@ -1,6 +1,7 @@
 import 'package:groceryhelper/core/navigation/app_router.dart';
 import 'package:groceryhelper/core/services/locator.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
 import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart' as theme_bloc;
@@ -94,12 +95,19 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           darkTheme: AppTheme.dark,
           themeMode: flutterThemeMode,
           builder: (context, child) {
-            return Stack(
-              children: [
-                child ?? const SizedBox(),
-                // Используем Builder, чтобы получить правильный context
-                Builder(builder: (context) => const DebugDrawer()),
-              ],
+            return Navigator(
+              key: DialogService.instance.navigatorKey,
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => Stack(
+                    children: [
+                      child ?? const SizedBox(),
+                      // Используем Builder, чтобы получить правильный context
+                      Builder(builder: (context) => const DebugDrawer()),
+                    ],
+                  ),
+                );
+              },
             );
           },
         );

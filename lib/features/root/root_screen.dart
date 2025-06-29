@@ -1,7 +1,6 @@
 import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation_item.dart';
@@ -109,6 +108,13 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Обновляем индекс при изменении зависимостей (включая роутер)
+    _updateCurrentIndex();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
@@ -127,12 +133,5 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Обновляем индекс при изменении зависимостей (включая роутер)
-    _updateCurrentIndex();
   }
 }

@@ -126,6 +126,6 @@ class ErrorDisplayService {
 
   /// Показать успешное сообщение
   Future<void> showSuccess({required String message, String title = 'Успешно'}) async {
-    await _dialogService.showInfoDialog(title: title, message: message, buttonText: 'OK');
+    _dialogService.showInfoDialog(title: title, message: message, buttonText: 'OK');
   }
 }
