@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:groceryhelper/core/navigation/app_router.dart';
+import 'package:groceryhelper/core/utils/validators/universal_validator.dart';
+import 'package:groceryhelper/core/utils/validators/rules/validation_rules.dart';
+import 'package:groceryhelper/core/utils/validators/utils/rule_validation_result.dart';
+import 'package:groceryhelper/core/widgets/app_scaffold.dart';
+import 'package:groceryhelper/core/widgets/buttons/app_button.dart';
+import 'package:groceryhelper/core/widgets/textFields/app_text_field.dart';
+import 'package:groceryhelper/core/widgets/textFields/rule_validation_requirements_list.dart';
+import 'package:groceryhelper/features/register/presentation/widgets/login_link.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/core/constants/app_assets.dart';
-import 'package:groceryhelper/core/widgets/buttons/app_button.dart';
-import 'package:groceryhelper/core/widgets/app_scaffold.dart';
 import 'package:groceryhelper/core/widgets/toolbars/app_toolbar.dart';
-import 'package:groceryhelper/core/widgets/textFields/app_text_field.dart';
-import 'package:groceryhelper/features/register/presentation/widgets/login_link.dart';
-import 'package:groceryhelper/core/utils/validators/username_validator.dart';
-import 'package:groceryhelper/core/utils/validators/email_validator.dart';
-import 'package:groceryhelper/core/utils/validators/password_validator.dart';
-import 'package:groceryhelper/core/utils/validators/confirm_password_validator.dart';
-import 'package:groceryhelper/core/utils/validators/validation_result.dart';
 import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -32,21 +32,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _confirmPasswordFocusNode = FocusNode();
 
-  // Создаем экземпляры валидаторов
-  final UsernameValidator _usernameValidator = UsernameValidator();
-  final EmailValidator _emailValidator = EmailValidator();
-  final PasswordValidator _passwordValidator = PasswordValidator();
-  final ConfirmPasswordValidator _confirmPasswordValidator = ConfirmPasswordValidator();
+  // Универсальные валидаторы
+  final UniversalValidator _usernameValidator = UniversalValidator([
+    const RequiredRule(),
+    const MinLengthRule(3),
+    const MaxLengthRule(32),
+  ]);
+  final UniversalValidator _emailValidator = UniversalValidator([const RequiredRule(), const EmailFormatRule()]);
+  final UniversalValidator _passwordValidator = UniversalValidator([
+    const RequiredRule(),
+    const MinLengthRule(8),
+    const MaxLengthRule(50),
+    const UppercaseRule(),
+    const LowercaseRule(),
+    const NumbersRule(),
+  ]);
+  late UniversalValidator _confirmPasswordValidator;
 
   // Результаты валидации для каждого поля
-  ValidationResult? _usernameValidationResult;
-  ValidationResult? _emailValidationResult;
-  ValidationResult? _passwordValidationResult;
-  ValidationResult? _confirmPasswordValidationResult;
+  RuleValidationResult? _usernameValidationResult;
+  RuleValidationResult? _emailValidationResult;
+  RuleValidationResult? _passwordValidationResult;
+  RuleValidationResult? _confirmPasswordValidationResult;
 
   @override
   void initState() {
     super.initState();
+    _usernameController.addListener(_onFieldChanged);
+    _emailController.addListener(_onFieldChanged);
+    _passwordController.addListener(_onPasswordChanged);
+    _confirmPasswordController.addListener(_onFieldChanged);
+    _confirmPasswordValidator = UniversalValidator([const RequiredRule(), PasswordMatchRule(_passwordController.text)]);
   }
 
   void _onUsernameSubmitted(String value) {
@@ -62,7 +78,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _onConfirmPasswordSubmitted(String value) {
-    // Закрываем клавиатуру на последнем поле
     FocusScope.of(context).unfocus();
   }
 
@@ -72,76 +87,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-
-    // Освобождаем FocusNode
     _usernameFocusNode.dispose();
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
-
     super.dispose();
   }
 
   void _onRegister() {
-    // Запускаем валидацию во всех валидаторах
     _usernameValidator.startValidation();
     _emailValidator.startValidation();
     _passwordValidator.startValidation();
     _confirmPasswordValidator.startValidation();
-
-    // Валидируем все поля
     final usernameResult = _usernameValidator.validate(_usernameController.text);
     final emailResult = _emailValidator.validate(_emailController.text);
     final passwordResult = _passwordValidator.validate(_passwordController.text);
-    final confirmPasswordResult = _confirmPasswordValidator.validate(
-      _passwordController.text,
-      _confirmPasswordController.text,
-    );
-
+    final confirmPasswordResult = _confirmPasswordValidator.validate(_confirmPasswordController.text);
     setState(() {
       _usernameValidationResult = usernameResult;
       _emailValidationResult = emailResult;
       _passwordValidationResult = passwordResult;
       _confirmPasswordValidationResult = confirmPasswordResult;
     });
-
-    // Если нет ошибок, продолжаем регистрацию
     if (usernameResult.isValid && emailResult.isValid && passwordResult.isValid && confirmPasswordResult.isValid) {
       print('Регистрация успешна!');
       // Здесь будет логика регистрации
     }
   }
 
+  void _onPasswordChanged() {
+    // Обновляем валидатор подтверждения пароля с новым значением
+    _confirmPasswordValidator = UniversalValidator([const RequiredRule(), PasswordMatchRule(_passwordController.text)]);
+    _onFieldChanged();
+  }
+
   void _onFieldChanged() {
-    // Проверяем поля в реальном времени (валидаторы сами решают, показывать ли ошибки)
     setState(() {
       _usernameValidationResult = _usernameValidator.validate(_usernameController.text);
       _emailValidationResult = _emailValidator.validate(_emailController.text);
       _passwordValidationResult = _passwordValidator.validate(_passwordController.text);
-      _confirmPasswordValidationResult = _confirmPasswordValidator.validate(
-        _passwordController.text,
-        _confirmPasswordController.text,
-      );
+      _confirmPasswordValidationResult = _confirmPasswordValidator.validate(_confirmPasswordController.text);
     });
   }
 
   bool _isFormValid() {
-    // Кнопка активна по умолчанию, если валидаторы еще не сработали
-    // Отключается только если валидаторы сработали и показали ошибки
-
-    // Проверяем, сработали ли валидаторы (есть ли результаты валидации)
     final hasValidationResults =
         _usernameValidationResult != null ||
         _emailValidationResult != null ||
         _passwordValidationResult != null ||
         _confirmPasswordValidationResult != null;
-
-    // Если валидаторы еще не сработали, кнопка активна
     if (!hasValidationResults) {
       return true;
     }
-
-    // Если валидаторы сработали, проверяем все результаты
     return (_usernameValidationResult?.isValid ?? true) &&
         (_emailValidationResult?.isValid ?? true) &&
         (_passwordValidationResult?.isValid ?? true) &&
@@ -161,10 +158,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               leadingIcon: AppAssets.icUser,
               controller: _usernameController,
               focusNode: _usernameFocusNode,
-              validationResult: _usernameValidationResult,
               onChanged: (_) => _onFieldChanged(),
               onSubmitted: _onUsernameSubmitted,
               textInputAction: TextInputAction.next,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: RuleValidationRequirementsList(
+                validationResult: _usernameValidationResult ?? RuleValidationResult.success(_usernameValidator.rules),
+                showRequirements: true,
+              ),
             ),
             Gap(12),
             AppTextField(
@@ -173,10 +176,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               controller: _emailController,
               focusNode: _emailFocusNode,
               keyboardType: TextInputType.emailAddress,
-              validationResult: _emailValidationResult,
               onChanged: (_) => _onFieldChanged(),
               onSubmitted: _onEmailSubmitted,
               textInputAction: TextInputAction.next,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: RuleValidationRequirementsList(
+                validationResult: _emailValidationResult ?? RuleValidationResult.success(_emailValidator.rules),
+                showRequirements: true,
+              ),
             ),
             Gap(12),
             AppTextField(
@@ -185,10 +194,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               leadingIcon: AppAssets.icPassword,
               controller: _passwordController,
               focusNode: _passwordFocusNode,
-              validationResult: _passwordValidationResult,
-              onChanged: (_) => _onFieldChanged(),
+              onChanged: (_) => _onPasswordChanged(),
               onSubmitted: _onPasswordSubmitted,
               textInputAction: TextInputAction.next,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: RuleValidationRequirementsList(
+                validationResult: _passwordValidationResult ?? RuleValidationResult.success(_passwordValidator.rules),
+                showRequirements: true,
+              ),
             ),
             Gap(12),
             AppTextField(
@@ -197,10 +212,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               leadingIcon: AppAssets.icPassword,
               controller: _confirmPasswordController,
               focusNode: _confirmPasswordFocusNode,
-              validationResult: _confirmPasswordValidationResult,
               onChanged: (_) => _onFieldChanged(),
               onSubmitted: _onConfirmPasswordSubmitted,
               textInputAction: TextInputAction.done,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: RuleValidationRequirementsList(
+                validationResult:
+                    _confirmPasswordValidationResult ?? RuleValidationResult.success(_confirmPasswordValidator.rules),
+                showRequirements: true,
+              ),
             ),
             Gap(12),
             AppButton(text: 'Зарегистрироваться', onPressed: _onRegister, isDisabled: !_isFormValid()),
