@@ -41,6 +41,12 @@ class AppTheme {
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppDimens.radiusS)),
     ),
     extensions: [AppThemeColors.light],
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
   );
 
   static ThemeData get dark => ThemeData(
@@ -81,6 +87,12 @@ class AppTheme {
       fillColor: AppColors.darkDivider,
     ),
     extensions: [AppThemeColors.dark],
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
   );
 
   static ThemeData getTheme(bool isDark) {
