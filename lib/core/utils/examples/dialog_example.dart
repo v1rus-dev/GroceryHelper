@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/services/dialog_service.dart';
+import 'package:groceryhelper/core/services/new_dialog_service.dart';
 import 'package:groceryhelper/core/services/locator.dart';
-import 'package:groceryhelper/core/dialogs/dialogs.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
 
 /// Пример использования новой системы диалогов
 class DialogExample {
-  static final DialogService _dialogService = locator<DialogService>();
+  static final NewDialogService _dialogService = locator<NewDialogService>();
 
   /// Пример показа диалога загрузки
-  static Future<void> showLoadingExample() async {
+  static Future<void> showLoadingExample(BuildContext context) async {
     TalkerService.log('DialogExample: showLoadingExample');
-    _dialogService.showLoading();
+
+    _dialogService.showLoading(context, 'Загружаем данные...');
 
     TalkerService.log('DialogExample: showLoadingExample: start loading');
     // Симуляция загрузки
@@ -19,30 +19,14 @@ class DialogExample {
 
     TalkerService.log('DialogExample: showLoadingExample: loading done');
 
-    TalkerService.log('DialogExample: showLoadingExample: update dialog with text');
-
-    // Обновляем диалог с текстом
-    _dialogService.updateDialog(const LoadingWithTextDialog(text: 'Загружаем данные...'));
-
-    TalkerService.log('DialogExample: showLoadingExample: update dialog with text done');
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Показываем диалог подтверждения
-    final result = await _dialogService.updateDialog(
-      const ConfirmDialog(
-        title: 'Загрузка завершена',
-        message: 'Данные успешно загружены. Продолжить?',
-        confirmButtonText: 'Продолжить',
-      ),
-    );
-
-    TalkerService.log('DialogExample: showLoadingExample: result: $result');
+    // Показываем диалог успеха
+    await _dialogService.showSuccess(context, 'Данные успешно загружены!', title: 'Загрузка завершена');
   }
 
   /// Пример показа диалога с кнопками подтверждения и отмены
-  static Future<void> showConfirmCancelExample() async {
+  static Future<void> showConfirmCancelExample(BuildContext context) async {
     final result = await _dialogService.showConfirmCancelDialog(
+      context: context,
       title: 'Подтверждение действия',
       message: 'Вы уверены, что хотите выполнить это действие?',
       confirmButtonText: 'Да, выполнить',
@@ -51,174 +35,121 @@ class DialogExample {
 
     if (result == true) {
       // Показываем диалог загрузки
-      _dialogService.showLoadingWithText('Выполняем действие...');
+      _dialogService.showLoading(context, 'Выполняем действие...');
 
       await Future.delayed(const Duration(seconds: 2));
 
       // Показываем результат
-      final result = await _dialogService.updateDialog(
-        const ConfirmDialog(title: 'Готово!', message: 'Действие выполнено успешно.', confirmButtonText: 'OK'),
-      );
+      await _dialogService.showSuccess(context, 'Действие выполнено успешно!', title: 'Готово!');
 
-      TalkerService.log('DialogExample: showConfirmCancelExample: result: $result');
+      TalkerService.log('DialogExample: showConfirmCancelExample: action completed');
     }
   }
 
   /// Пример последовательного показа диалогов
-  static Future<void> showSequentialDialogsExample() async {
+  static Future<void> showSequentialDialogsExample(BuildContext context) async {
     // Начинаем с загрузки
-    _dialogService.showLoading();
+    _dialogService.showLoading(context, 'Проверяем данные...');
 
     await Future.delayed(const Duration(seconds: 1));
 
-    // Обновляем с текстом
-    _dialogService.updateDialog(const LoadingWithTextDialog(text: 'Проверяем данные...'));
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    // Обновляем с другим текстом
-    _dialogService.updateDialog(const LoadingWithTextDialog(text: 'Обрабатываем информацию...'));
+    // Показываем ошибку
+    await _dialogService.showError(context, 'Обнаружены проблемы с данными');
 
     await Future.delayed(const Duration(seconds: 1));
 
     // Показываем диалог с выбором
-    await _dialogService.updateDialog(
-      const ConfirmCancelDialog(
-        title: 'Обработка завершена',
-        message: 'Найдено 5 новых элементов. Добавить их в список?',
-        confirmButtonText: 'Добавить',
-        cancelButtonText: 'Пропустить',
-      ),
+    final result = await _dialogService.showConfirmCancelDialog(
+      context: context,
+      title: 'Обработка завершена',
+      message: 'Найдено 5 новых элементов. Добавить их в список?',
+      confirmButtonText: 'Добавить',
+      cancelButtonText: 'Пропустить',
     );
+
+    if (result == true) {
+      await _dialogService.showSuccess(context, 'Элементы добавлены в список!');
+    }
   }
 
   /// Пример обработки ошибки с retry
-  static Future<void> showErrorWithRetryExample() async {
-    _dialogService.showLoadingWithText('Подключаемся к серверу...');
+  static Future<void> showErrorWithRetryExample(BuildContext context) async {
+    _dialogService.showLoading(context, 'Подключаемся к серверу...');
 
     await Future.delayed(const Duration(seconds: 1));
 
     // Симулируем ошибку
-    final shouldRetry = await _dialogService.showErrorDialog(
+    await _dialogService.showError(context, 'Не удалось подключиться к серверу. Проверьте интернет-соединение.');
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    // Показываем диалог с опциями retry
+    final result = await _dialogService.showCustomDialog<String>(
+      context: context,
       title: 'Ошибка подключения',
-      message: 'Не удалось подключиться к серверу. Проверьте интернет-соединение.',
-      retryButtonText: 'Попробовать еще',
-      closeButtonText: 'Отмена',
-      onRetry: () async {
-        // Закрываем диалог ошибки
-        _dialogService.closeDialog();
-
-        // Показываем загрузку снова
-        _dialogService.showLoadingWithText('Повторное подключение...');
-
-        await Future.delayed(const Duration(seconds: 2));
-
-        // Показываем успех
-        await _dialogService.updateDialog(
-          const ConfirmDialog(
-            title: 'Подключение восстановлено',
-            message: 'Соединение с сервером установлено успешно.',
-            confirmButtonText: 'Продолжить',
-          ),
-        );
-      },
+      message: 'Что вы хотите сделать?',
+      options: {'Попробовать еще': 'retry', 'Отмена': 'cancel'},
     );
 
-    if (shouldRetry == false) {
-      _dialogService.closeDialog();
+    if (result == 'retry') {
+      _dialogService.showLoading(context, 'Повторное подключение...');
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      await _dialogService.showSuccess(
+        context,
+        'Соединение с сервером установлено успешно!',
+        title: 'Подключение восстановлено',
+      );
     }
   }
 
   /// Пример кастомного диалога
-  static Future<void> showCustomDialogExample() async {
-    _dialogService.showLoading();
+  static Future<void> showCustomDialogExample(BuildContext context) async {
+    _dialogService.showLoading(context, 'Подготавливаем информацию...');
 
     await Future.delayed(const Duration(seconds: 1));
 
-    // Показываем кастомный диалог
-    await _dialogService.updateDialog(
-      const CustomInfoDialog(
-        title: 'Информация',
-        message: 'Это пример кастомного диалога с дополнительной информацией.',
-        icon: Icons.info_outline,
-        iconColor: Colors.blue,
-      ),
+    // Показываем кастомный диалог с множественными опциями
+    final result = await _dialogService.showCustomDialog<String>(
+      context: context,
+      title: 'Выберите действие',
+      message: 'Что вы хотите сделать с этим элементом?',
+      options: {'Редактировать': 'edit', 'Удалить': 'delete', 'Дублировать': 'duplicate', 'Отмена': 'cancel'},
     );
+
+    switch (result) {
+      case 'edit':
+        await _dialogService.showSuccess(context, 'Режим редактирования активирован!');
+        break;
+      case 'delete':
+        await _dialogService.showSuccess(context, 'Элемент удален!');
+        break;
+      case 'duplicate':
+        await _dialogService.showSuccess(context, 'Элемент продублирован!');
+        break;
+    }
   }
 
   /// Простой пример показа диалога загрузки
-  static Future<void> showSimpleLoadingExample() async {
-    _dialogService.showLoading();
+  static Future<void> showSimpleLoadingExample(BuildContext context) async {
+    _dialogService.showLoading(context, 'Загрузка...');
     await Future.delayed(const Duration(seconds: 2));
-    _dialogService.closeDialog();
+    await _dialogService.showSuccess(context, 'Загрузка завершена!');
   }
 
   /// Простой пример показа диалога подтверждения
-  static Future<void> showSimpleConfirmExample() async {
-    await _dialogService.showConfirmDialog(title: 'Тест', message: 'Это тестовый диалог');
+  static Future<void> showSimpleConfirmExample(BuildContext context) async {
+    await _dialogService.showConfirmDialog(context: context, title: 'Тест', message: 'Это тестовый диалог');
   }
 
   /// Простой пример показа диалога подтверждения/отмены
-  static Future<void> showSimpleConfirmCancelExample() async {
+  static Future<void> showSimpleConfirmCancelExample(BuildContext context) async {
     final result = await _dialogService.showConfirmCancelDialog(
+      context: context,
       title: 'Тест',
       message: 'Это тестовый диалог с отменой',
     );
     print('Результат: $result');
-  }
-}
-
-/// Пример кастомного диалога
-class CustomInfoDialog extends StatelessWidget {
-  final String title;
-  final String message;
-  final IconData icon;
-  final Color iconColor;
-
-  const CustomInfoDialog({
-    super.key,
-    required this.title,
-    required this.message,
-    required this.icon,
-    required this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: Container(
-        constraints: const BoxConstraints(minWidth: 200, maxWidth: 400),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10)),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 48, color: iconColor),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(message, style: const TextStyle(fontSize: 16), textAlign: TextAlign.center),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Понятно')),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

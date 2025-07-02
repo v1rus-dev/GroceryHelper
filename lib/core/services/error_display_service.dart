@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/errors/errors.dart';
-import 'package:groceryhelper/core/services/dialog_service.dart';
+import 'package:groceryhelper/core/services/new_dialog_service.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
 
 class ErrorDisplayService {
@@ -12,10 +12,11 @@ class ErrorDisplayService {
 
   static ErrorDisplayService get instance => _instance;
 
-  final DialogService _dialogService = DialogService.instance;
+  final NewDialogService _dialogService = NewDialogService.instance;
 
   /// Обрабатывает и отображает ошибку согласно её типу
   Future<void> handleError(
+    BuildContext context,
     Object error,
     StackTrace stackTrace, {
     String? customMessage,
@@ -43,17 +44,17 @@ class ErrorDisplayService {
     TalkerService.error('Error handled by ErrorDisplayService: ${appError.message}', error, stackTrace);
 
     // Отображаем ошибку согласно её типу
-    await _displayError(appError, onRetry: onRetry);
+    await _displayError(context, appError, onRetry: onRetry);
   }
 
   /// Отображает ошибку согласно её типу
-  Future<void> _displayError(AppError appError, {VoidCallback? onRetry}) async {
+  Future<void> _displayError(BuildContext context, AppError appError, {VoidCallback? onRetry}) async {
     switch (appError.type) {
       case AppErrorType.dialog:
-        await _showErrorDialog(appError, onRetry: onRetry);
+        await _showErrorDialog(context, appError, onRetry: onRetry);
         break;
       case AppErrorType.snackbar:
-        _showErrorSnackbar(appError);
+        _showErrorSnackbar(context, appError);
         break;
       case AppErrorType.inline:
         // Inline ошибки обрабатываются на уровне UI компонентов
@@ -67,33 +68,30 @@ class ErrorDisplayService {
   }
 
   /// Показывает диалог с ошибкой
-  Future<void> _showErrorDialog(AppError appError, {VoidCallback? onRetry}) async {
-    await _dialogService.showErrorDialog(title: _getErrorTitle(appError), message: appError.message, onRetry: onRetry);
+  Future<void> _showErrorDialog(BuildContext context, AppError appError, {VoidCallback? onRetry}) async {
+    await _dialogService.showError(context, appError.message);
   }
 
   /// Показывает снекбар с ошибкой
-  void _showErrorSnackbar(AppError appError) {
-    final context = _dialogService.navigatorKey.currentContext;
-    if (context != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              const Icon(Icons.error_outline, color: Colors.white, size: 20),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(appError.message, style: const TextStyle(color: Colors.white)),
-              ),
-            ],
-          ),
-          backgroundColor: Colors.red[600],
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          margin: const EdgeInsets.all(16),
-          duration: const Duration(seconds: 4),
+  void _showErrorSnackbar(BuildContext context, AppError appError) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.error_outline, color: Colors.white, size: 20),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(appError.message, style: const TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
-      );
-    }
+        backgroundColor: Colors.red[600],
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 4),
+      ),
+    );
   }
 
   /// Получает заголовок для ошибки в зависимости от её причины
@@ -115,17 +113,18 @@ class ErrorDisplayService {
 
   /// Показать кастомную ошибку напрямую
   Future<void> showCustomError({
+    required BuildContext context,
     required String message,
     AppErrorType type = AppErrorType.dialog,
     VoidCallback? onRetry,
   }) async {
     final appError = AppError(message: message, type: type);
 
-    await _displayError(appError, onRetry: onRetry);
+    await _displayError(context, appError, onRetry: onRetry);
   }
 
   /// Показать успешное сообщение
-  Future<void> showSuccess({required String message, String title = 'Успешно'}) async {
-    _dialogService.showInfoDialog(title: title, message: message, buttonText: 'OK');
+  Future<void> showSuccess({required BuildContext context, required String message, String title = 'Успешно'}) async {
+    await _dialogService.showSuccess(context, message, title: title);
   }
 }

@@ -1,34 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/dialogs/base_dialog.dart';
+import 'package:groceryhelper/core/services/talker_service.dart';
 
-/// Диалог загрузки без текста
-class LoadingDialog extends BaseDialog {
-  const LoadingDialog({super.key});
+typedef CloseDialog = void Function();
 
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      child: Center(
-        child: Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(borderRadius),
-            boxShadow: [
-              BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10)),
-            ],
-          ),
-          child: const Center(child: CircularProgressIndicator()),
-        ),
-      ),
-    );
-  }
+CloseDialog showLoadingDialog({required BuildContext context, required String text}) {
+  final dialog = AlertDialog(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [CircularProgressIndicator(), SizedBox(height: 10), Text(text)],
+    ),
+  );
 
-  @override
-  Widget buildContent(BuildContext context) {
-    return const SizedBox.shrink(); // Не используется в этом диалоге
-  }
+  showDialog(context: context, barrierDismissible: false, builder: (context) => dialog);
+
+  return () {
+    try {
+      TalkerService.log('LoadingDialog: Closing dialog');
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      // Игнорируем ошибки при закрытии диалога
+    }
+  };
 }

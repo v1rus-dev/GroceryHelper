@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/core/errors/errors.dart';
 import 'package:groceryhelper/features/register/domain/entities/register_request.dart';
 import 'package:groceryhelper/features/register/domain/repositories/register_repository.dart';
 
@@ -20,7 +21,7 @@ class RegisterRepositoryMock implements RegisterRepository {
   final Duration _networkDelay = const Duration(milliseconds: 1500);
 
   @override
-  Future<Either<Exception, dynamic>> registerWithEmailAndPassword(RegisterRequest request) async {
+  Future<Either<AppError, dynamic>> registerWithEmailAndPassword(RegisterRequest request) async {
     try {
       TalkerService.log('Mock: Creating user with email: ${request.email}');
 
@@ -30,7 +31,7 @@ class RegisterRepositoryMock implements RegisterRepository {
       // Проверяем, не занят ли email
       if (_usedEmails.contains(request.email.toLowerCase())) {
         TalkerService.warning('Mock: Email already in use: ${request.email}');
-        return left(Exception('Пользователь с такой почтой уже существует'));
+        return left(AppError(message: 'Пользователь с такой почтой уже существует', type: AppErrorType.dialog));
       }
 
       // Имитируем успешную регистрацию
@@ -49,12 +50,12 @@ class RegisterRepositoryMock implements RegisterRepository {
       );
     } catch (e) {
       TalkerService.error('Mock: Unexpected error during registration', e);
-      return left(Exception('Неожиданная ошибка при регистрации'));
+      return left(AppError(message: 'Неожиданная ошибка при регистрации', type: AppErrorType.dialog, cause: e));
     }
   }
 
   @override
-  Future<Either<Exception, bool>> isEmailAlreadyInUse(String email) async {
+  Future<Either<AppError, bool>> isEmailAlreadyInUse(String email) async {
     try {
       TalkerService.log('Mock: Checking if email is already in use: $email');
 
@@ -67,7 +68,7 @@ class RegisterRepositoryMock implements RegisterRepository {
       return right(isInUse);
     } catch (e) {
       TalkerService.error('Mock: Unexpected error while checking email', e);
-      return left(Exception('Ошибка при проверке почты'));
+      return left(AppError(message: 'Ошибка при проверке почты', type: AppErrorType.dialog, cause: e));
     }
   }
 

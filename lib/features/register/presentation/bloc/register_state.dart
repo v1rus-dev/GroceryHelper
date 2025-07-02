@@ -11,20 +11,13 @@ final class RegisterInitial extends RegisterState {}
 
 final class RegisterLoading extends RegisterState {}
 
-final class RegisterSuccess extends RegisterState {
-  final dynamic userCredential;
-
-  const RegisterSuccess({required this.userCredential});
-
-  @override
-  List<Object> get props => [userCredential];
-}
+final class RegisterSuccess extends RegisterState {}
 
 final class RegisterError extends RegisterState {
-  final String message;
+  final AppError error;
 
-  const RegisterError({required this.message});
+  const RegisterError({required this.error});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [error];
 }

@@ -11,12 +11,6 @@ final class RegisterUserEvent extends RegisterEvent {
   final String username;
   final String email;
   final String password;
-  final Completer completer;
 
-  const RegisterUserEvent({
-    required this.username,
-    required this.email,
-    required this.password,
-    required this.completer,
-  });
+  const RegisterUserEvent({required this.username, required this.email, required this.password});
 }

@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
 import 'package:groceryhelper/core/utils/validators/universal_validator.dart';
 import 'package:groceryhelper/core/utils/validators/rules/validation_rules.dart';
 import 'package:groceryhelper/core/utils/validators/utils/rule_validation_result.dart';
@@ -67,6 +66,9 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   RuleValidationResult? _passwordValidationResult;
   RuleValidationResult? _confirmPasswordValidationResult;
 
+  // Менеджер для управления диалогами состояний
+  final StateDialogManager _dialogManager = StateDialogManager();
+
   @override
   void initState() {
     super.initState();
@@ -95,6 +97,9 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
 
   @override
   void dispose() {
+    // Очищаем диалоги при уничтожении виджета
+    _dialogManager.dispose();
+
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -122,24 +127,13 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
       _confirmPasswordValidationResult = confirmPasswordResult;
     });
     if (usernameResult.isValid && emailResult.isValid && passwordResult.isValid && confirmPasswordResult.isValid) {
-      final completer = Completer();
       context.read<RegisterBloc>().add(
         RegisterUserEvent(
           username: _usernameController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text,
-          completer: completer,
         ),
       );
-
-      completer.future
-          .then((_) {
-            // Успешная регистрация - пользователь будет автоматически перенаправлен
-            // благодаря authStateChanges в UserBloc
-          })
-          .catchError((error) {
-            // Ошибка уже обработана в BLoC
-          });
     }
   }
 
@@ -178,26 +172,22 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
     return AppScaffold(
       appBar: AppToolbar(title: 'Регистрация (Тест)', withBackButton: true, onBackPressed: () => context.pop()),
       body: BlocConsumer<RegisterBloc, RegisterState>(
-        listener: (context, state) {
-          if (state is RegisterError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.red));
-          } else if (state is RegisterSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Регистрация успешна! (Тестовый режим)\nEmail: ${state.userCredential.email}\nUID: ${state.userCredential.uid}',
-                ),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 5),
-              ),
-            );
+        listener: (context, state) async {
+          switch (state) {
+            case RegisterInitial():
+              null;
+            case RegisterLoading():
+              _dialogManager.showLoading(context, 'Loading...');
+            case RegisterSuccess():
+              await _dialogManager.showSuccess(context, 'Registration successful');
+              if (context.mounted) {
+                context.pop();
+              }
+            case RegisterError():
+              await _dialogManager.showError(context, state.error.message);
           }
         },
         builder: (context, state) {
-          final isLoading = state is RegisterLoading;
-
           return SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Column(
@@ -308,11 +298,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                   ),
                 ),
                 Gap(12),
-                AppButton(
-                  text: isLoading ? 'Регистрация...' : 'Зарегистрироваться (Тест)',
-                  onPressed: isLoading ? () {} : _onRegister,
-                  isDisabled: !_isFormValid() || isLoading,
-                ),
+                AppButton(text: 'Зарегистрироваться (Тест)', onPressed: _onRegister, isDisabled: !_isFormValid()),
                 const SizedBox(height: 24),
                 const LoginLink(),
               ],

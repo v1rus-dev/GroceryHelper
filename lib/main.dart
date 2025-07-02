@@ -1,16 +1,16 @@
 import 'package:groceryhelper/core/navigation/app_router.dart';
 import 'package:groceryhelper/core/services/locator.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
-import 'package:groceryhelper/core/services/dialog_service.dart';
 import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
 import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart' as theme_bloc;
 import 'package:groceryhelper/core/utils/platform_type.dart';
 import 'package:groceryhelper/core/utils/debug/presentation/widgets/utils/debug_drawer.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
-import 'package:groceryhelper/features/user/presentation/bloc/user_bloc.dart';
+import 'package:groceryhelper/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';
 import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
+import 'package:groceryhelper/features/user/presentation/bloc/auth/auth_bloc.dart';
 import 'package:groceryhelper/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +36,7 @@ void main() async {
         BlocProvider(create: (_) => locator<BusketsBloc>()),
         BlocProvider(create: (_) => locator<ShoppingListBloc>()),
         BlocProvider(create: (_) => locator<UserBloc>()..add(UserInitEvent())),
+        BlocProvider(create: (_) => locator<AuthBloc>()..add(AuthInitEvent())),
         BlocProvider(create: (_) => locator<theme_bloc.ThemeBloc>()..add(theme_bloc.ThemeInitEvent())),
       ],
       child: const MyApp(),
@@ -95,19 +96,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           darkTheme: AppTheme.dark,
           themeMode: flutterThemeMode,
           builder: (context, child) {
-            return Navigator(
-              key: DialogService.instance.navigatorKey,
-              onGenerateRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) => Stack(
-                    children: [
-                      child ?? const SizedBox(),
-                      // Используем Builder, чтобы получить правильный context
-                      Builder(builder: (context) => const DebugDrawer()),
-                    ],
-                  ),
-                );
-              },
+            return Stack(
+              children: [
+                child ?? const SizedBox(),
+                // Используем Builder, чтобы получить правильный context
+                Builder(builder: (context) => const DebugDrawer()),
+              ],
             );
           },
         );

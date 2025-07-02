@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/core/errors/errors.dart';
 import 'package:groceryhelper/features/register/domain/entities/register_request.dart';
 import 'package:groceryhelper/features/register/domain/repositories/register_repository.dart';
 
@@ -10,7 +11,7 @@ class RegisterRepositoryImpl implements RegisterRepository {
   RegisterRepositoryImpl({FirebaseAuth? firebaseAuth}) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   @override
-  Future<Either<Exception, UserCredential>> registerWithEmailAndPassword(RegisterRequest request) async {
+  Future<Either<AppError, dynamic>> registerWithEmailAndPassword(RegisterRequest request) async {
     try {
       TalkerService.log('Creating user with email: ${request.email}');
 
@@ -48,15 +49,15 @@ class RegisterRepositoryImpl implements RegisterRepository {
           errorMessage = 'Ошибка при регистрации: ${e.message}';
       }
 
-      return left(Exception(errorMessage));
+      return left(AppError(message: errorMessage, type: AppErrorType.dialog, cause: e));
     } catch (e) {
       TalkerService.error('Unexpected error during registration', e);
-      return left(Exception('Неожиданная ошибка при регистрации'));
+      return left(AppError(message: 'Неожиданная ошибка при регистрации', type: AppErrorType.dialog, cause: e));
     }
   }
 
   @override
-  Future<Either<Exception, bool>> isEmailAlreadyInUse(String email) async {
+  Future<Either<AppError, bool>> isEmailAlreadyInUse(String email) async {
     try {
       TalkerService.log('Checking if email is already in use: $email');
 
@@ -67,10 +68,10 @@ class RegisterRepositoryImpl implements RegisterRepository {
       return right(isInUse);
     } on FirebaseAuthException catch (e) {
       TalkerService.error('Firebase Auth Exception while checking email', e);
-      return left(e);
+      return left(AppError(message: 'Ошибка при проверке почты: ${e.message}', type: AppErrorType.dialog, cause: e));
     } catch (e) {
       TalkerService.error('Unexpected error while checking email', e);
-      return left(Exception('Ошибка при проверке почты'));
+      return left(AppError(message: 'Ошибка при проверке почты', type: AppErrorType.dialog, cause: e));
     }
   }
 }

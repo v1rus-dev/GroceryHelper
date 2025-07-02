@@ -6,6 +6,8 @@ import 'package:groceryhelper/core/widgets/buttons/sign_in_with_apple.dart';
 import 'package:groceryhelper/features/user/presentation/widgets/create_account.dart';
 import 'package:groceryhelper/features/user/presentation/widgets/email_login_part.dart';
 import 'package:groceryhelper/features/user/presentation/widgets/or_part.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/auth/auth_bloc.dart';
 
 class UserUnauthenticatedScreen extends StatefulWidget {
   UserUnauthenticatedScreen({super.key});
@@ -23,12 +25,11 @@ class _UserUnauthenticatedScreenState extends State<UserUnauthenticatedScreen> {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       return;
     }
-
-    print('onLogIn');
+    // TODO: реализовать вход по email/password через AuthBloc
   }
 
   _onSignInWithGoogle() {
-    print('onSignInWithGoogle');
+    context.read<AuthBloc>().add(AuthByGoogle());
   }
 
   _onSignInWithApple() {

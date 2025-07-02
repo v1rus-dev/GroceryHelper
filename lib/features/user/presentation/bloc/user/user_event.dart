@@ -8,7 +8,3 @@ sealed class UserEvent extends Equatable {
 }
 
 final class UserInitEvent extends UserEvent {}
-
-final class AuthByGoogle extends UserEvent {}
-
-final class Unauthorize extends UserEvent {}
