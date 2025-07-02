@@ -1,7 +1,6 @@
 import 'package:groceryhelper/core/repositories/auth_repository.dart';
 import 'package:groceryhelper/core/services/error_display_service.dart';
 import 'package:groceryhelper/core/services/navigation_state_service.dart';
-import 'package:groceryhelper/core/services/new_dialog_service.dart';
 import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
@@ -22,12 +21,12 @@ Future<void> initServiceLocator() async {
 }
 
 Future<void> initBlocs() async {
-  locator.registerFactory(() => HomeBloc());
-  locator.registerFactory(() => BusketsBloc());
-  locator.registerFactory(() => ShoppingListBloc());
-  locator.registerFactory(() => UserBloc());
-  locator.registerFactory(() => AuthBloc(authUsecase: locator()));
-  locator.registerFactory(() => ThemeBloc());
+  locator.registerSingleton(HomeBloc());
+  locator.registerSingleton(BusketsBloc());
+  locator.registerSingleton(ShoppingListBloc());
+  locator.registerSingleton(UserBloc());
+  locator.registerSingleton(AuthBloc(authUsecase: locator()));
+  locator.registerSingleton(ThemeBloc());
 }
 
 Future<void> initRepositories() async {
@@ -38,7 +37,6 @@ Future<void> initRepositories() async {
 Future<void> initServices() async {
   locator.registerSingleton(ErrorDisplayService.instance);
   locator.registerSingleton(NavigationStateService.instance);
-  locator.registerSingleton(NewDialogService.instance);
 }
 
 Future<void> initUsecases() async {

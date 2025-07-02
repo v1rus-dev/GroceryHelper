@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/dialogs/generic_dialog.dart';
+import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
 
 /// Показывает диалог успеха с одной кнопкой "OK"
 Future<void> showSuccessDialog(
@@ -7,8 +7,8 @@ Future<void> showSuccessDialog(
   String message, {
   String title = 'Success',
   String buttonText = 'OK',
-}) {
-  return showGenericDialog(context: context, title: title, message: message, optionsBuilder: () => {buttonText: null});
+}) async {
+  await StateDialogManager().showConfirmDialog(message, title: title, optionsBuilder: () => {buttonText: null});
 }
 
 /// Показывает диалог успеха с двумя кнопками
@@ -20,11 +20,10 @@ Future<T?> showSuccessDialogWithTwoButtons<T>({
   required String secondaryButtonText,
   T? primaryButtonValue,
   T? secondaryButtonValue,
-}) {
-  return showGenericDialog<T>(
-    context: context,
+}) async {
+  return await StateDialogManager().showConfirmDialog<T>(
+    message,
     title: title,
-    message: message,
     optionsBuilder: () => {secondaryButtonText: secondaryButtonValue, primaryButtonText: primaryButtonValue},
   );
 }
@@ -35,6 +34,6 @@ Future<T?> showSuccessDialogWithOptions<T>({
   required String message,
   String title = 'Success',
   required Map<String, T?> options,
-}) {
-  return showGenericDialog<T>(context: context, title: title, message: message, optionsBuilder: () => options);
+}) async {
+  return await StateDialogManager().showConfirmDialog<T>(message, title: title, optionsBuilder: () => options);
 }

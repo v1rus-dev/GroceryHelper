@@ -12,11 +12,19 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthUsecase authUsecase;
   StreamSubscription<User?>? _authStateSubscription;
+  AuthContentState? _lastContentState;
 
   AuthBloc({required this.authUsecase}) : super(AuthInitial()) {
     on<AuthInitEvent>(_onInit);
     on<AuthByGoogle>(_onAuthByGoogle);
+    on<AuthByApple>(_onAuthByApple);
     on<Unauthorize>(_onUnauthorize);
+    on<ResetToContentState>(_onResetToContentState);
+  }
+
+  void _emitContentState(AuthContentState state, Emitter<AuthState> emit) {
+    _lastContentState = state;
+    emit(state);
   }
 
   Future<void> _onInit(AuthInitEvent event, Emitter<AuthState> emit) async {
@@ -24,15 +32,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       authUsecase.authStateChanges,
       onData: (user) {
         if (user == null) {
-          emit(Unauthenticated());
+          _emitContentState(Unauthenticated(), emit);
         } else {
-          emit(Authenticated());
+          _emitContentState(Authenticated(), emit);
         }
       },
     );
   }
 
   Future<void> _onAuthByGoogle(AuthByGoogle event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
     final credentials = await authUsecase.signInWithGoogle();
     credentials.fold(
       (failure) {
@@ -41,13 +50,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       (creds) {
         TalkerService.log('User authenticated: ${creds.user?.email}');
-        // emit(Authenticated()); // authStateChanges сам обновит
+        emit(AuthSuccess());
+      },
+    );
+  }
+
+  Future<void> _onAuthByApple(AuthByApple event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final credentials = await authUsecase.signInWithApple();
+    credentials.fold(
+      (failure) {
+        TalkerService.error('Authentication failed: $failure');
+        emit(AuthFailure(error: failure));
+      },
+      (creds) {
+        TalkerService.log('User authenticated: ${creds.user?.email}');
+        emit(AuthSuccess());
       },
     );
   }
 
   Future<void> _onUnauthorize(Unauthorize event, Emitter<AuthState> emit) async {
     await authUsecase.signOut();
+  }
+
+  Future<void> _onResetToContentState(ResetToContentState event, Emitter<AuthState> emit) async {
+    if (_lastContentState != null) {
+      _emitContentState(_lastContentState!, emit);
+    } else {
+      _emitContentState(AuthInitial(), emit);
+    }
   }
 
   @override

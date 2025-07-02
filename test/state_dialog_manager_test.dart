@@ -30,7 +30,7 @@ void main() {
     testWidgets('should show loading dialog', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(home: Scaffold()));
 
-      dialogManager.showLoading(tester.element(find.byType(Scaffold)), 'Loading...');
+      dialogManager.showLoading('Loading...');
 
       await tester.pump();
 
@@ -42,11 +42,11 @@ void main() {
       await tester.pumpWidget(MaterialApp(home: Scaffold()));
 
       // Показываем первый loading
-      dialogManager.showLoading(tester.element(find.byType(Scaffold)), 'Loading 1...');
+      dialogManager.showLoading('Loading 1...');
       await tester.pump();
 
       // Показываем второй loading
-      dialogManager.showLoading(tester.element(find.byType(Scaffold)), 'Loading 2...');
+      dialogManager.showLoading('Loading 2...');
       await tester.pump();
 
       // Проверяем что только второй loading виден

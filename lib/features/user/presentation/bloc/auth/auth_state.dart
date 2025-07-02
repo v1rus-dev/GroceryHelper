@@ -21,6 +21,8 @@ final class AuthFailure extends AuthDialogState {
   const AuthFailure({required this.error});
 }
 
+final class AuthSuccess extends AuthDialogState {}
+
 sealed class AuthContentState extends AuthState {
   const AuthContentState({super.isDialogState = false});
 }

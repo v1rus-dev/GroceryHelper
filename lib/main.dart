@@ -4,6 +4,7 @@ import 'package:groceryhelper/core/services/talker_service.dart';
 import 'package:groceryhelper/core/theme/app_theme.dart';
 import 'package:groceryhelper/core/theme/app_theme_ios.dart';
 import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart' as theme_bloc;
+import 'package:groceryhelper/core/services/global_context_service.dart';
 import 'package:groceryhelper/core/utils/platform_type.dart';
 import 'package:groceryhelper/core/utils/debug/presentation/widgets/utils/debug_drawer.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
@@ -32,12 +33,12 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => locator<HomeBloc>()),
-        BlocProvider(create: (_) => locator<BusketsBloc>()),
-        BlocProvider(create: (_) => locator<ShoppingListBloc>()),
-        BlocProvider(create: (_) => locator<UserBloc>()..add(UserInitEvent())),
-        BlocProvider(create: (_) => locator<AuthBloc>()..add(AuthInitEvent())),
-        BlocProvider(create: (_) => locator<theme_bloc.ThemeBloc>()..add(theme_bloc.ThemeInitEvent())),
+        BlocProvider.value(value: locator<HomeBloc>()),
+        BlocProvider.value(value: locator<BusketsBloc>()),
+        BlocProvider.value(value: locator<ShoppingListBloc>()),
+        BlocProvider.value(value: locator<UserBloc>()..add(UserInitEvent())),
+        BlocProvider.value(value: locator<AuthBloc>()..add(AuthInitEvent())),
+        BlocProvider.value(value: locator<theme_bloc.ThemeBloc>()..add(theme_bloc.ThemeInitEvent())),
       ],
       child: const MyApp(),
     ),
@@ -99,7 +100,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             return Stack(
               children: [
                 child ?? const SizedBox(),
-                // Используем Builder, чтобы получить правильный context
                 Builder(builder: (context) => const DebugDrawer()),
               ],
             );

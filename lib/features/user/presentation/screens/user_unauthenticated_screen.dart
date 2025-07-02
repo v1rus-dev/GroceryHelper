@@ -32,9 +32,9 @@ class _UserUnauthenticatedScreenState extends State<UserUnauthenticatedScreen> {
     context.read<AuthBloc>().add(AuthByGoogle());
   }
 
-  _onSignInWithApple() {
-    print('onSignInWithApple');
-  }
+  // _onSignInWithApple() {
+  //   context.read<AuthBloc>().add(AuthByApple());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,8 @@ class _UserUnauthenticatedScreenState extends State<UserUnauthenticatedScreen> {
               OrPart(),
               const Gap(20),
               SignInWithGoogle(onPressed: _onSignInWithGoogle),
-              const Gap(8),
-              SignInWithApple(onPressed: _onSignInWithApple),
+              // const Gap(8),
+              // SignInWithApple(onPressed: _onSignInWithApple),
               const Gap(20),
               CreateAccount(),
             ],

@@ -11,4 +11,8 @@ final class AuthInitEvent extends AuthEvent {}
 
 final class AuthByGoogle extends AuthEvent {}
 
+final class AuthByApple extends AuthEvent {}
+
 final class Unauthorize extends AuthEvent {}
+
+final class ResetToContentState extends AuthEvent {}

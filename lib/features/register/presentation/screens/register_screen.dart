@@ -177,14 +177,14 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
             case RegisterInitial():
               null;
             case RegisterLoading():
-              _dialogManager.showLoading(context, 'Loading...');
+              _dialogManager.showLoading('Loading...');
             case RegisterSuccess():
-              await _dialogManager.showSuccess(context, 'Registration successful');
+              await _dialogManager.showSuccess('Registration successful');
               if (context.mounted) {
                 context.pop();
               }
             case RegisterError():
-              await _dialogManager.showError(context, state.error.message);
+              await _dialogManager.showError(state.error.message);
           }
         },
         builder: (context, state) {

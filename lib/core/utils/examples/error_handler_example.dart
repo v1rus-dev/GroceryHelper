@@ -13,12 +13,7 @@ class ErrorHandlerExample {
       throw SocketException('No internet connection');
     } catch (error, stackTrace) {
       // Система автоматически определит тип ошибки и покажет соответствующий UI
-      ErrorHandler.handleNetworkError(
-        context,
-        error,
-        stackTrace,
-        onRetry: () => networkRequestExample(context), // Retry callback
-      );
+      ErrorHandler.handleNetworkError(error, stackTrace, onRetry: () => networkRequestExample(context));
     }
   }
 
@@ -29,7 +24,7 @@ class ErrorHandlerExample {
       throw TimeoutException('Request timeout', const Duration(seconds: 30));
     } catch (error, stackTrace) {
       // Покажет диалог с ошибкой таймаута
-      await ErrorHandler.handle(context, error, stackTrace);
+      await ErrorHandler.handle(error, stackTrace);
     }
   }
 
@@ -40,18 +35,18 @@ class ErrorHandlerExample {
       throw Exception('firebase-auth-error: invalid-credential');
     } catch (error, stackTrace) {
       // Система определит Firebase ошибку и покажет соответствующий заголовок
-      ErrorHandler.handleCriticalError(context, error, stackTrace);
+      ErrorHandler.handleCriticalError(error, stackTrace);
     }
   }
 
   /// Пример показа кастомной ошибки
   static Future<void> customErrorExample(BuildContext context) async {
-    await ErrorHandler.showError(context: context, message: 'Это кастомная ошибка', type: AppErrorType.snackbar);
+    await ErrorHandler.showError(message: 'Это кастомная ошибка', type: AppErrorType.snackbar);
   }
 
   /// Пример показа успешного сообщения
   static Future<void> successExample(BuildContext context) async {
-    await ErrorHandler.showSuccess(context: context, title: 'Готово!', message: 'Операция выполнена успешно');
+    await ErrorHandler.showSuccess(title: 'Готово!', message: 'Операция выполнена успешно');
   }
 
   /// Пример silent ошибки (только логирование)
@@ -60,7 +55,7 @@ class ErrorHandlerExample {
       throw Exception('This is a silent error');
     } catch (error, stackTrace) {
       // Только залогирует ошибку, не покажет пользователю
-      ErrorHandler.handleSilentError(context, error, stackTrace);
+      ErrorHandler.handleSilentError(error, stackTrace);
     }
   }
 
@@ -70,7 +65,7 @@ class ErrorHandlerExample {
       throw Exception('Bloc error');
     } catch (error, stackTrace) {
       // Покажет snackbar с ошибкой
-      ErrorHandler.handleBlocError(context, error, stackTrace);
+      ErrorHandler.handleBlocError(error, stackTrace);
     }
   }
 }

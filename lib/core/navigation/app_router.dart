@@ -1,4 +1,5 @@
 import 'package:groceryhelper/core/navigation/router_paths.dart';
+import 'package:groceryhelper/core/services/global_context_service.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
 import 'package:groceryhelper/features/home/presentation/view/home_screen.dart';
 import 'package:groceryhelper/features/settings/presentation/screens/settings_screen.dart';
@@ -13,6 +14,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter/widgets.dart';
 
 final GoRouter appRouter = GoRouter(
+  navigatorKey: GlobalContextService.instance.navigatorKey,
   initialLocation: RouterPaths.home,
   routes: [
     ShellRoute(

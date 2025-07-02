@@ -20,11 +20,16 @@ class AuthUsecase {
     );
   }
 
-  Future<Either<AppError, void>> signOut() async {
-    final result = await authRepository.signOut();
+  Future<Either<AppError, UserCredential>> signInWithApple() async {
+    final result = await authRepository.signInWithApple();
     return result.fold(
       (e) => left(mapExceptionToAppError(e, StackTrace.current)),
-      (r) => right(r),
+      (userCredential) => right(userCredential),
     );
+  }
+
+  Future<Either<AppError, void>> signOut() async {
+    final result = await authRepository.signOut();
+    return result.fold((e) => left(mapExceptionToAppError(e, StackTrace.current)), (r) => right(r));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:groceryhelper/core/dialogs/generic_dialog.dart';
+import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
 
-Future<void> showErrorDialog(BuildContext context, String text) {
-  return showGenericDialog(context: context, title: 'Error', message: text, optionsBuilder: () => {'Ok': null});
+Future<void> showErrorDialog(BuildContext context, String text) async {
+  await StateDialogManager().showConfirmDialog(text, title: 'Error', optionsBuilder: () => {'Ok': null});
 }

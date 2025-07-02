@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:groceryhelper/core/dialogs/generic_dialog.dart';
+import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
 
-Future<bool> showLogoutDialog(BuildContext context) {
-  return showGenericDialog(
-    context: context,
-    title: "Logout",
-    message: "Are you sure you want to logout?",
+Future<bool> showLogoutDialog(BuildContext context) async {
+  final result = await StateDialogManager().showConfirmDialog<bool>(
+    'Are you sure you want to logout?',
+    title: 'Logout',
     optionsBuilder: () => {'Cancel': false, 'Logout': true},
-  ).then((value) => value ?? false);
+  );
+  return result ?? false;
 }

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "38573626363-96oegqfnc1qsioomn116292pfd6mq9hf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "yegor.cheprasov.groceryhelper",
+            "certificate_hash": "39f0881882273c404e97beb1eaaa335098c2bb4b"
+          }
+        },
+        {
           "client_id": "38573626363-qgv0hu5kqiaanmis2q7o36b1na4gqegc.apps.googleusercontent.com",
           "client_type": 3
         }

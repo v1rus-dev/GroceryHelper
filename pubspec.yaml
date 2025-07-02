@@ -52,6 +52,7 @@ dependencies:
   firebase_analytics: ^11.5.0
   firebase_crashlytics: ^4.3.7
   google_sign_in: ^6.3.0
+  sign_in_with_apple: ^7.0.1
   flutter_signin_button: ^2.0.0
   gap: ^3.0.1
   dartz: ^0.10.1
