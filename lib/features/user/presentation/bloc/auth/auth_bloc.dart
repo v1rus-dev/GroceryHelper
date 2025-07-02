@@ -73,6 +73,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onAuthByEmail(AuthByEmail event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+
     final credentials = await authUsecase.signInWithEmailAndPassword(event.email, event.password);
     credentials.fold(
       (failure) {

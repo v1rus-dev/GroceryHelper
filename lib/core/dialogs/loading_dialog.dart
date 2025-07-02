@@ -1,23 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/services/global_context_service.dart';
+import 'package:groceryhelper/core/theme/app_theme_extension.dart';
 
 typedef CloseDialog = Future<void> Function();
 
-CloseDialog showLoadingDialog({required String text}) {
+class LoadingDialogView extends StatelessWidget {
+  final String? text;
+
+  const LoadingDialogView({super.key, this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
+          decoration: BoxDecoration(color: context.theme.background, borderRadius: BorderRadius.circular(16.0)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              if (text != null) ...[const SizedBox(height: 10), Text(text!)],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+CloseDialog showLoadingDialog({String? text}) {
   final context = GlobalContextService.instance.navigatorKey.currentContext;
 
   if (context == null) return () async {};
 
-  // Показ диалога через root navigator
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (_) => AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [const CircularProgressIndicator(), const SizedBox(height: 10), Text(text)],
-      ),
-    ),
+    builder: (_) => LoadingDialogView(text: text),
   );
 
   return () async {
@@ -26,7 +47,7 @@ CloseDialog showLoadingDialog({required String text}) {
         final navigator = GlobalContextService.instance.navigatorKey.currentState;
         if (navigator?.canPop() == true) {
           navigator!.pop();
-        } else {}
+        }
       } catch (e, stack) {
         // Игнорируем ошибки при закрытии диалога (например, если контекст уже уничтожен)
       }

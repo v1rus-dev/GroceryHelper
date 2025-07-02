@@ -28,6 +28,7 @@ class AppTheme {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     ),
+    dialogTheme: DialogThemeData(backgroundColor: AppColors.background),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryLight,
@@ -53,6 +54,7 @@ class AppTheme {
     primaryColor: AppColors.primaryDark,
     scaffoldBackgroundColor: AppColors.darkBackground,
     textTheme: AppTextStyles.textTheme,
+    dialogTheme: DialogThemeData(backgroundColor: AppColors.darkBackground),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.darkSurface,
       foregroundColor: Colors.white,
@@ -110,7 +112,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   // Светлая тема
   static final light = AppThemeColors(
     background: AppColors.background,
-    surface: AppColors.background,
+    surface: AppColors.primaryBackground,
     text: AppColors.text,
     secondaryText: AppColors.secondaryText,
     divider: AppColors.divider,

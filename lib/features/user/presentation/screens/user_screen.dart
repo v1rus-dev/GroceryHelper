@@ -27,7 +27,7 @@ class UserScreen extends StatelessWidget {
           final mappedState = state as AuthDialogState;
           switch (mappedState) {
             case AuthLoading():
-              StateDialogManager.instance.showLoading("Вход");
+              StateDialogManager.instance.showLoading();
             case AuthFailure():
               await StateDialogManager.instance.showError(mappedState.error.message);
             case AuthSuccess():

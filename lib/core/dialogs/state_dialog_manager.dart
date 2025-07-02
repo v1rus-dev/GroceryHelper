@@ -14,7 +14,7 @@ class StateDialogManager {
   CloseDialog? _currentLoadingDialog;
 
   /// Показывает loading диалог, закрывая предыдущий если он был открыт
-  Future<void> showLoading(String text) async {
+  Future<void> showLoading({String? text}) async {
     await _closeCurrentLoading();
     _currentLoadingDialog = showLoadingDialog(text: text);
   }

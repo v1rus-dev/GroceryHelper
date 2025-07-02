@@ -11,7 +11,7 @@ class DialogExample {
   static Future<void> showLoadingExample(BuildContext context) async {
     TalkerService.log('DialogExample: showLoadingExample');
 
-    _dialogService.showLoading('Загружаем данные...');
+    _dialogService.showLoading(text: 'Загружаем данные...');
 
     TalkerService.log('DialogExample: showLoadingExample: start loading');
     // Симуляция загрузки
@@ -33,7 +33,7 @@ class DialogExample {
 
     if (result == true) {
       // Показываем диалог загрузки
-      _dialogService.showLoading('Выполняем действие...');
+      _dialogService.showLoading(text: 'Выполняем действие...');
 
       await Future.delayed(const Duration(seconds: 2));
 
@@ -44,7 +44,7 @@ class DialogExample {
   /// Пример последовательного показа диалогов
   static Future<void> showSequentialDialogsExample(BuildContext context) async {
     // Начинаем с загрузки
-    _dialogService.showLoading('Проверяем данные...');
+    _dialogService.showLoading(text: 'Проверяем данные...');
 
     await Future.delayed(const Duration(seconds: 1));
 
@@ -67,7 +67,7 @@ class DialogExample {
 
   /// Пример обработки ошибки с retry
   static Future<void> showErrorWithRetryExample(BuildContext context) async {
-    _dialogService.showLoading('Подключаемся к серверу...');
+    _dialogService.showLoading(text: 'Подключаемся к серверу...');
 
     await Future.delayed(const Duration(seconds: 1));
 
@@ -84,7 +84,7 @@ class DialogExample {
     );
 
     if (result == 'retry') {
-      _dialogService.showLoading('Повторное подключение...');
+      _dialogService.showLoading(text: 'Повторное подключение...');
 
       await Future.delayed(const Duration(seconds: 2));
 
@@ -97,7 +97,7 @@ class DialogExample {
 
   /// Пример кастомного диалога
   static Future<void> showCustomDialogExample(BuildContext context) async {
-    _dialogService.showLoading('Подготавливаем информацию...');
+    _dialogService.showLoading(text: 'Подготавливаем информацию...');
 
     await Future.delayed(const Duration(seconds: 1));
 
@@ -128,7 +128,7 @@ class DialogExample {
 
   /// Простой пример показа диалога загрузки
   static Future<void> showSimpleLoadingExample(BuildContext context) async {
-    _dialogService.showLoading('Загрузка...');
+    _dialogService.showLoading(text: 'Загрузка...');
     await Future.delayed(const Duration(seconds: 2));
     await _dialogService.showSuccess('Загрузка завершена!');
   }
