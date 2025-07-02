@@ -10,6 +10,8 @@ class AuthUsecase {
 
   Stream<User?> get authStateChanges => authRepository.authStateChanges;
 
+  Stream<User?> get user => authRepository.user;
+
   User? get currentUser => authRepository.currentUser;
 
   Future<Either<AppError, UserCredential>> signInWithGoogle() async {
@@ -22,6 +24,14 @@ class AuthUsecase {
 
   Future<Either<AppError, UserCredential>> signInWithApple() async {
     final result = await authRepository.signInWithApple();
+    return result.fold(
+      (e) => left(mapExceptionToAppError(e, StackTrace.current)),
+      (userCredential) => right(userCredential),
+    );
+  }
+
+  Future<Either<AppError, UserCredential>> signInWithEmailAndPassword(String email, String password) async {
+    final result = await authRepository.signInWithEmailAndPassword(email, password);
     return result.fold(
       (e) => left(mapExceptionToAppError(e, StackTrace.current)),
       (userCredential) => right(userCredential),

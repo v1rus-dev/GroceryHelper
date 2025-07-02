@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/theme/app_text_styles.dart';
+import 'package:groceryhelper/core/widgets/buttons/empty_toolbar_button.dart';
 
 class AppMainToolbar extends StatelessWidget implements PreferredSizeWidget {
   const AppMainToolbar({
@@ -25,13 +26,16 @@ class AppMainToolbar extends StatelessWidget implements PreferredSizeWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, trailingWidget != null ? 13 : 16, trailingWidget != null ? 12 : 20, 0),
+        padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
         child: Row(
           children: [
             Expanded(child: child ?? _buildTitle(context)),
             if (trailingWidget != null) ...[
               const SizedBox(width: 20),
               GestureDetector(onTap: onTrailingTap, child: trailingWidget!),
+            ] else ...[
+              const SizedBox(width: 20),
+              const EmptyToolbarButton(),
             ],
           ],
         ),

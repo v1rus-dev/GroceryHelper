@@ -8,7 +8,7 @@ import 'package:groceryhelper/features/register/domain/repositories/register_rep
 class RegisterRepositoryImpl implements RegisterRepository {
   final FirebaseAuth _firebaseAuth;
 
-  RegisterRepositoryImpl({FirebaseAuth? firebaseAuth}) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  RegisterRepositoryImpl({required FirebaseAuth firebaseAuth}) : _firebaseAuth = firebaseAuth;
 
   @override
   Future<Either<AppError, dynamic>> registerWithEmailAndPassword(RegisterRequest request) async {

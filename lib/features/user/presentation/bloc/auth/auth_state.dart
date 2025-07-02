@@ -29,6 +29,13 @@ sealed class AuthContentState extends AuthState {
 
 final class AuthInitial extends AuthContentState {}
 
-final class Authenticated extends AuthContentState {}
+final class Authenticated extends AuthContentState {
+  final User user;
+
+  const Authenticated({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
 
 final class Unauthenticated extends AuthContentState {}

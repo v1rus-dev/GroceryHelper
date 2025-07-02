@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/theme/app_text_styles.dart';
-import 'package:groceryhelper/core/widgets/buttons/app_button.dart';
+import 'package:groceryhelper/core/widgets/buttons/app_primary_button.dart';
 import 'package:groceryhelper/core/widgets/textFields/app_text_field.dart';
 
 class EmailLoginPart extends StatelessWidget {
@@ -32,7 +32,7 @@ class EmailLoginPart extends StatelessWidget {
           controller: passwordController,
         ),
         const Gap(20),
-        AppButton(onPressed: onLogIn, text: 'Войти'),
+        AppPrimaryButton(onPressed: onLogIn, text: 'Войти'),
       ],
     );
   }

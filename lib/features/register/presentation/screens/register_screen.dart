@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
+import 'package:groceryhelper/core/services/locator.dart';
 import 'package:groceryhelper/core/utils/validators/universal_validator.dart';
 import 'package:groceryhelper/core/utils/validators/rules/validation_rules.dart';
 import 'package:groceryhelper/core/utils/validators/utils/rule_validation_result.dart';
 import 'package:groceryhelper/core/widgets/app_scaffold.dart';
-import 'package:groceryhelper/core/widgets/buttons/app_button.dart';
+import 'package:groceryhelper/core/widgets/buttons/app_primary_button.dart';
 import 'package:groceryhelper/core/widgets/textFields/app_text_field.dart';
 import 'package:groceryhelper/core/widgets/textFields/rule_validation_requirements_list.dart';
+import 'package:groceryhelper/features/register/domain/repositories/register_repository.dart';
 import 'package:groceryhelper/features/register/presentation/bloc/register_bloc.dart';
 import 'package:groceryhelper/features/register/presentation/widgets/login_link.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/widgets/toolbars/app_toolbar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:groceryhelper/core/constants/app_constant_values.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => RegisterBloc(useMock: true), child: const RegisterScreenView());
+    return FutureBuilder<RegisterRepository>(
+      future: locator.getAsync<RegisterRepository>(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          // Можно показать лоадер или пустой контейнер
+          return const Center(child: CircularProgressIndicator());
+        }
+        return BlocProvider(
+          create: (context) => RegisterBloc(registerRepository: snapshot.data!),
+          child: const RegisterScreenView(),
+        );
+      },
+    );
   }
 }
 
@@ -193,36 +208,37 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
             child: Column(
               children: [
                 // Информация о тестовом режиме
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+                if (AppConstantValues.isRegisterTestMode)
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                            SizedBox(width: 8),
+                            Text(
+                              'Тестовый режим',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Регистрация работает в тестовом режиме. Пользователи не создаются в Firebase.\n\nЗанятые email для тестирования:\n• test@example.com\n• admin@test.com\n• user@demo.com',
+                          style: TextStyle(color: Colors.orange.shade700, fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.info_outline, color: Colors.orange, size: 20),
-                          SizedBox(width: 8),
-                          Text(
-                            'Тестовый режим',
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Регистрация работает в тестовом режиме. Пользователи не создаются в Firebase.\n\nЗанятые email для тестирования:\n• test@example.com\n• admin@test.com\n• user@demo.com',
-                        style: TextStyle(color: Colors.orange.shade700, fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ),
-                Gap(20),
+                if (AppConstantValues.isRegisterTestMode) Gap(20),
                 AppTextField(
                   labelText: 'Имя пользователя',
                   leadingIcon: AppAssets.icUser,
@@ -298,7 +314,11 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                   ),
                 ),
                 Gap(12),
-                AppButton(text: 'Зарегистрироваться (Тест)', onPressed: _onRegister, isDisabled: !_isFormValid()),
+                AppPrimaryButton(
+                  text: 'Зарегистрироваться (Тест)',
+                  onPressed: _onRegister,
+                  isDisabled: !_isFormValid(),
+                ),
                 const SizedBox(height: 24),
                 const LoginLink(),
               ],

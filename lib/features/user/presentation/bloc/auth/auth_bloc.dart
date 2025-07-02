@@ -18,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInitEvent>(_onInit);
     on<AuthByGoogle>(_onAuthByGoogle);
     on<AuthByApple>(_onAuthByApple);
+    on<AuthByEmail>(_onAuthByEmail);
     on<Unauthorize>(_onUnauthorize);
     on<ResetToContentState>(_onResetToContentState);
   }
@@ -29,12 +30,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onInit(AuthInitEvent event, Emitter<AuthState> emit) async {
     await emit.onEach<User?>(
-      authUsecase.authStateChanges,
+      authUsecase.user,
       onData: (user) {
         if (user == null) {
           _emitContentState(Unauthenticated(), emit);
         } else {
-          _emitContentState(Authenticated(), emit);
+          _emitContentState(Authenticated(user: user), emit);
         }
       },
     );
@@ -58,6 +59,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onAuthByApple(AuthByApple event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final credentials = await authUsecase.signInWithApple();
+    credentials.fold(
+      (failure) {
+        TalkerService.error('Authentication failed: $failure');
+        emit(AuthFailure(error: failure));
+      },
+      (creds) {
+        TalkerService.log('User authenticated: ${creds.user?.email}');
+        emit(AuthSuccess());
+      },
+    );
+  }
+
+  Future<void> _onAuthByEmail(AuthByEmail event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final credentials = await authUsecase.signInWithEmailAndPassword(event.email, event.password);
     credentials.fold(
       (failure) {
         TalkerService.error('Authentication failed: $failure');

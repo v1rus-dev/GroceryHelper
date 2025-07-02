@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dartz/dartz.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
@@ -9,12 +8,14 @@ class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  AuthRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignIn, String? googleClientId})
-    : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+  AuthRepository({required FirebaseAuth firebaseAuth, GoogleSignIn? googleSignIn, String? googleClientId})
+    : _firebaseAuth = firebaseAuth,
       _googleSignIn =
           googleSignIn ?? (kIsWeb && googleClientId != null ? GoogleSignIn(clientId: googleClientId) : GoogleSignIn());
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+
+  Stream<User?> get user => _firebaseAuth.userChanges();
 
   User? get currentUser => _firebaseAuth.currentUser;
 
@@ -65,6 +66,17 @@ class AuthRepository {
     } catch (e) {
       TalkerService.error('Unexpected error during Apple sign in', e);
       return left(Exception(e.toString()));
+    }
+  }
+
+  Future<Either<Exception, UserCredential>> signInWithEmailAndPassword(String email, String password) async {
+    try {
+      final result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      TalkerService.log('Successfully signed in with email: ${result.user?.email}');
+      return right(result);
+    } on FirebaseAuthException catch (e) {
+      TalkerService.error('Firebase Auth Exception during email sign in', e);
+      return left(e);
     }
   }
 

@@ -25,7 +25,7 @@ class _UserUnauthenticatedScreenState extends State<UserUnauthenticatedScreen> {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       return;
     }
-    // TODO: реализовать вход по email/password через AuthBloc
+    context.read<AuthBloc>().add(AuthByEmail(email: _emailController.text, password: _passwordController.text));
   }
 
   _onSignInWithGoogle() {
@@ -38,28 +38,27 @@ class _UserUnauthenticatedScreenState extends State<UserUnauthenticatedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const Gap(20),
-              EmailLoginPart(
-                emailController: _emailController,
-                passwordController: _passwordController,
-                onLogIn: _onLogIn,
-              ),
-              const Gap(20),
-              OrPart(),
-              const Gap(20),
-              SignInWithGoogle(onPressed: _onSignInWithGoogle),
-              // const Gap(8),
-              // SignInWithApple(onPressed: _onSignInWithApple),
-              const Gap(20),
-              CreateAccount(),
-            ],
-          ),
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            const Gap(20),
+            EmailLoginPart(
+              emailController: _emailController,
+              passwordController: _passwordController,
+              onLogIn: _onLogIn,
+            ),
+            const Gap(20),
+            OrPart(),
+            const Gap(20),
+            SignInWithGoogle(onPressed: _onSignInWithGoogle),
+            // const Gap(8),
+            // SignInWithApple(onPressed: _onSignInWithApple),
+            const Gap(20),
+            CreateAccount(),
+            const Gap(20),
+          ],
         ),
       ),
     );

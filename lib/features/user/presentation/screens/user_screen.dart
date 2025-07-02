@@ -43,11 +43,15 @@ class UserScreen extends StatelessWidget {
                 title: 'Профиль',
                 trailingWidget: SettingsButton(onTap: _onSettingsTap),
               ),
-              body: switch (state) {
-                AuthInitial() => Column(),
-                Authenticated() => UserAuthenticatedScreen(),
-                Unauthenticated() => UserUnauthenticatedScreen(),
-              },
+              body: SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: switch (state) {
+                  AuthInitial() => Column(mainAxisSize: MainAxisSize.min),
+                  Authenticated() => UserAuthenticatedScreen(user: state.user),
+                  Unauthenticated() => UserUnauthenticatedScreen(),
+                },
+              ),
+              resizeToAvoidBottomInset: true,
             );
           },
         ),

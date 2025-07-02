@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/theme/app_text_styles.dart';
 
-class AppButton extends StatefulWidget {
-  const AppButton({
+class AppPrimaryButton extends StatefulWidget {
+  const AppPrimaryButton({
     super.key,
     required this.onPressed,
     required this.text,
@@ -18,17 +18,17 @@ class AppButton extends StatefulWidget {
   final bool isDisabled;
 
   @override
-  State<AppButton> createState() => _AppButtonState();
+  State<AppPrimaryButton> createState() => _AppPrimaryButtonState();
 }
 
-class _AppButtonState extends State<AppButton> {
+class _AppPrimaryButtonState extends State<AppPrimaryButton> {
   bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final buttonColor = widget.isDisabled
-        ? theme.colorScheme.surfaceVariant
+        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
         : (widget.color ?? theme.colorScheme.primary);
     final textColor = widget.isDisabled ? theme.colorScheme.onSurfaceVariant : theme.colorScheme.onPrimary;
 

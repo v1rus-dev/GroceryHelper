@@ -7,7 +7,6 @@ import 'package:groceryhelper/core/services/talker_service.dart';
 import 'package:groceryhelper/features/register/domain/entities/register_request.dart';
 import 'package:groceryhelper/features/register/domain/usecases/register_usecase.dart';
 import 'package:groceryhelper/features/register/domain/repositories/register_repository.dart';
-import 'package:groceryhelper/features/register/data/repositories/register_repository_factory.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -15,12 +14,8 @@ part 'register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   late final RegisterUsecase _registerUsecase;
 
-  RegisterBloc({RegisterRepository? registerRepository, bool useMock = true}) : super(RegisterInitial()) {
-    // Создаем репозиторий локально, если не передан
-    final repository = registerRepository ?? RegisterRepositoryFactory.create(useMock: useMock);
-
-    // Создаем use case локально
-    _registerUsecase = RegisterUsecase(registerRepository: repository);
+  RegisterBloc({required RegisterRepository registerRepository}) : super(RegisterInitial()) {
+    _registerUsecase = RegisterUsecase(registerRepository: registerRepository);
 
     on<RegisterUserEvent>(_onRegisterUser);
   }
