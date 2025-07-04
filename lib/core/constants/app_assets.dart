@@ -23,4 +23,5 @@ class AppAssets {
 
   static const String icCheck = 'assets/icons/ic_check.svg';
   static const String icWarning = 'assets/icons/ic_warning.svg';
+  static const String icDropDown = 'assets/icons/ic_drop_down.svg';
 }

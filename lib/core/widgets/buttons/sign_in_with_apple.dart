@@ -16,10 +16,10 @@ class SignInWithApple extends StatelessWidget {
       height: 56,
       width: double.infinity,
       child: Material(
-        color: context.backgroundColor,
+        color: context.theme.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: context.textColor, width: 1),
+          side: BorderSide(color: context.theme.text, width: 1),
         ),
         child: InkWell(
           onTap: onPressed,
@@ -31,10 +31,10 @@ class SignInWithApple extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   AppAssets.appleLogo,
-                  colorFilter: ColorFilter.mode(context.textColor, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(context.theme.text, BlendMode.srcIn),
                 ),
                 const Gap(8),
-                Text('Продолжить с Apple', style: AppTextStyles.button.copyWith(color: context.textColor)),
+                Text('Продолжить с Apple', style: AppTextStyles.button.copyWith(color: context.theme.text)),
               ],
             ),
           ),

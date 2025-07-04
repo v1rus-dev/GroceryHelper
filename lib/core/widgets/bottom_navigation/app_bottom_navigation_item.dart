@@ -33,14 +33,14 @@ class _AppBottomNavigationItemState extends State<AppBottomNavigationItem> {
           duration: const Duration(milliseconds: 150),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
-            color: widget.isSelected ? context.navigationColor : Colors.transparent,
+            color: widget.isSelected ? context.theme.navigation : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
             boxShadow: widget.isSelected
                 ? [
                     BoxShadow(
                       offset: const Offset(0, 4),
                       blurRadius: 2,
-                      color: context.navigationColor.withValues(alpha: 0.25),
+                      color: context.theme.navigation.withValues(alpha: 0.25),
                     ),
                   ]
                 : null,
@@ -64,7 +64,7 @@ class _AppBottomNavigationItemState extends State<AppBottomNavigationItem> {
                     height: 24,
                     colorFilter: widget.isSelected
                         ? ColorFilter.mode(Colors.white, BlendMode.srcIn)
-                        : ColorFilter.mode(context.navigationColor, BlendMode.srcIn),
+                        : ColorFilter.mode(context.theme.navigation, BlendMode.srcIn),
                   ),
                 ),
               ),

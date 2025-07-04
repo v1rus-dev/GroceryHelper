@@ -10,12 +10,12 @@ class OrPart extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(child: Divider(color: context.dividerColor)),
+        Expanded(child: Divider(color: context.theme.divider)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text('или', style: AppTextStyles.body.copyWith(color: context.secondaryTextColor)),
+          child: Text('или', style: AppTextStyles.body.copyWith(color: context.theme.secondaryText)),
         ),
-        Expanded(child: Divider(color: context.dividerColor)),
+        Expanded(child: Divider(color: context.theme.divider)),
       ],
     );
   }

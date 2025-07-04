@@ -19,7 +19,7 @@ class _AppBottomNavigationState extends State<AppBottomNavigation> {
   Widget build(BuildContext context) {
     return Container(
       height: 56,
-      color: context.backgroundColor,
+      color: context.theme.background,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(

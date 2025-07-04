@@ -16,7 +16,7 @@ class SignInWithGoogle extends StatelessWidget {
       height: 56,
       width: double.infinity,
       child: Material(
-        color: context.backgroundColor,
+        color: context.theme.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
           side: BorderSide(color: Color(0xFF4285F4), width: 1),

@@ -17,11 +17,11 @@ class LoginLink extends StatelessWidget {
           children: [
             TextSpan(
               text: 'Уже есть аккаунт? ',
-              style: AppTextStyles.body.copyWith(color: context.secondaryTextColor),
+              style: AppTextStyles.body.copyWith(color: context.theme.secondaryText),
             ),
             TextSpan(
               text: 'Войти!',
-              style: AppTextStyles.body.copyWith(color: context.primaryColor),
+              style: AppTextStyles.body.copyWith(color: context.theme.primary),
             ),
           ],
         ),

@@ -13,7 +13,7 @@ class ProductsList extends StatelessWidget {
   const ProductsList({super.key});
 
   _onAddItem(BuildContext context) {
-    appRouter.push(RouterPaths.addProduct);
+    appRouter.push(RouterPaths.productForm, extra: false);
   }
 
   @override

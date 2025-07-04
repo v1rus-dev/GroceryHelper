@@ -28,8 +28,8 @@ class _AppSecondaryButtonState extends State<AppSecondaryButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final Color borderColor = widget.isDisabled ? context.secondaryTextColor : (widget.color ?? context.primaryColor);
-    final Color textColor = widget.isDisabled ? context.secondaryTextColor : (widget.color ?? context.primaryColor);
+    final Color borderColor = widget.isDisabled ? context.theme.secondaryText : (widget.color ?? context.theme.primary);
+    final Color textColor = widget.isDisabled ? context.theme.secondaryText : (widget.color ?? context.theme.primary);
     final Color backgroundColor = widget.isDisabled
         ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
         : Colors.transparent;

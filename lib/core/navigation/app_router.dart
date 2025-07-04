@@ -1,7 +1,7 @@
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:groceryhelper/core/services/global_context_service.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
-import 'package:groceryhelper/features/add_product/presentation/screens/add_products_screen.dart';
+import 'package:groceryhelper/features/product_form/presentation/screens/product_form_screen.dart';
 import 'package:groceryhelper/features/create_busket/presentation/screens/create_busket_screen.dart';
 import 'package:groceryhelper/features/home/presentation/view/home_screen.dart';
 import 'package:groceryhelper/features/settings/presentation/screens/settings_screen.dart';
@@ -76,7 +76,10 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(path: RouterPaths.register, builder: (context, state) => RegisterScreen()),
     GoRoute(path: RouterPaths.settings, builder: (context, state) => SettingsScreen()),
-    GoRoute(path: RouterPaths.addProduct, builder: (context, state) => AddProductsScreen()),
+    GoRoute(
+      path: RouterPaths.productForm,
+      builder: (context, state) => ProductFormScreen(isEdit: state.extra as bool? ?? false),
+    ),
     GoRoute(path: RouterPaths.createBusket, builder: (context, state) => CreateBusketScreen()),
     // Debug screens
     GoRoute(

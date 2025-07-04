@@ -39,6 +39,9 @@ class AppTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppDimens.radiusS)),
+      hintStyle: TextStyle(fontFamily: 'Nunito'),
+      labelStyle: TextStyle(fontFamily: 'Nunito'),
+      floatingLabelStyle: TextStyle(fontFamily: 'Nunito'),
     ),
     extensions: [AppThemeColors.light],
     pageTransitionsTheme: const PageTransitionsTheme(
@@ -85,6 +88,9 @@ class AppTheme {
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppDimens.radiusS)),
       filled: true,
       fillColor: AppColors.darkDivider,
+      hintStyle: TextStyle(fontFamily: 'Nunito'),
+      labelStyle: TextStyle(fontFamily: 'Nunito'),
+      floatingLabelStyle: TextStyle(fontFamily: 'Nunito'),
     ),
     extensions: [AppThemeColors.dark],
     pageTransitionsTheme: const PageTransitionsTheme(
@@ -108,9 +114,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     required this.text,
     required this.secondaryText,
     required this.divider,
+    required this.border,
     required this.navigation,
     required this.busket,
     required this.primary,
+    required this.textFieldBackground,
   });
 
   final Color background;
@@ -118,9 +126,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   final Color text;
   final Color secondaryText;
   final Color divider;
+  final Color border;
   final Color navigation;
   final Color busket;
   final Color primary;
+  final Color textFieldBackground;
   // Светлая тема
   static final light = AppThemeColors(
     background: AppColors.background,
@@ -128,9 +138,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     text: AppColors.text,
     secondaryText: AppColors.secondaryText,
     divider: AppColors.divider,
+    border: AppColors.border,
     navigation: AppColors.navigation,
     busket: AppColors.primaryBusketLight,
     primary: AppColors.primaryLight,
+    textFieldBackground: AppColors.textFieldBackground,
   );
 
   // Темная тема
@@ -140,9 +152,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     text: AppColors.darkText,
     secondaryText: AppColors.darkSecondaryText,
     divider: AppColors.darkDivider,
+    border: AppColors.darkBorder,
     navigation: AppColors.navigationDark,
     busket: AppColors.primaryBusketDark,
     primary: AppColors.primaryDark,
+    textFieldBackground: AppColors.darkTextFieldBackground,
   );
 
   @override
@@ -152,9 +166,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     Color? text,
     Color? secondaryText,
     Color? divider,
+    Color? border,
     Color? navigation,
     Color? busket,
     Color? primary,
+    Color? textFieldBackground,
   }) {
     return AppThemeColors(
       background: background ?? this.background,
@@ -162,9 +178,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       text: text ?? this.text,
       secondaryText: secondaryText ?? this.secondaryText,
       divider: divider ?? this.divider,
+      border: border ?? this.border,
       navigation: navigation ?? this.navigation,
       busket: busket ?? this.busket,
       primary: primary ?? this.primary,
+      textFieldBackground: textFieldBackground ?? this.textFieldBackground,
     );
   }
 
@@ -179,9 +197,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       text: Color.lerp(text, other.text, t)!,
       secondaryText: Color.lerp(secondaryText, other.secondaryText, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
+      border: Color.lerp(border, other.border, t)!,
       navigation: Color.lerp(navigation, other.navigation, t)!,
       busket: Color.lerp(busket, other.busket, t)!,
       primary: Color.lerp(primary, other.primary, t)!,
+      textFieldBackground: Color.lerp(textFieldBackground, other.textFieldBackground, t)!,
     );
   }
 }

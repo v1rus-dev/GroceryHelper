@@ -17,11 +17,11 @@ class CreateAccount extends StatelessWidget {
           children: [
             TextSpan(
               text: 'Нет аккаунта? ',
-              style: TextStyle(color: context.secondaryTextColor, fontSize: 16, fontWeight: FontWeight.w400),
+              style: TextStyle(color: context.theme.secondaryText, fontSize: 16, fontWeight: FontWeight.w400),
             ),
             TextSpan(
               text: 'Зарегистрируйтесь!',
-              style: TextStyle(color: context.primaryColor, fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(color: context.theme.primary, fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ],
         ),

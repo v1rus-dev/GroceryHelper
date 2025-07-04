@@ -36,7 +36,7 @@ class AppToolbar extends StatelessWidget implements PreferredSizeWidget {
                           AppAssets.icArrowBack,
                           width: 24,
                           height: 24,
-                          colorFilter: ColorFilter.mode(context.textColor, BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(context.theme.text, BlendMode.srcIn),
                         ),
                       ),
                     ),
@@ -45,12 +45,12 @@ class AppToolbar extends StatelessWidget implements PreferredSizeWidget {
               ],
               Padding(
                 padding: EdgeInsets.fromLTRB(withBackButton ? 4 : 20, 0, 20, 0),
-                child: Text(title, style: AppTextStyles.headline2.copyWith(color: context.textColor)),
+                child: Text(title, style: AppTextStyles.headline2.copyWith(color: context.theme.text)),
               ),
             ],
           ),
         ),
-        Divider(color: context.dividerColor, height: 1, thickness: 1),
+        Divider(color: context.theme.divider, height: 1, thickness: 1),
       ],
     );
   }

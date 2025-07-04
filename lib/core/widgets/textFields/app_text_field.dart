@@ -74,10 +74,7 @@ class _AppTextFieldState extends State<AppTextField> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFBDBDBD).withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
+      decoration: BoxDecoration(color: context.theme.textFieldBackground, borderRadius: BorderRadius.circular(12)),
       child: Focus(
         onFocusChange: (hasFocus) {
           setState(() {
@@ -103,7 +100,7 @@ class _AppTextFieldState extends State<AppTextField> with TickerProviderStateMix
                       widget.leadingIcon!,
                       width: 24,
                       height: 24,
-                      colorFilter: ColorFilter.mode(context.secondaryTextColor, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(context.theme.secondaryText, BlendMode.srcIn),
                     ),
                   )
                 : null,
@@ -119,7 +116,7 @@ class _AppTextFieldState extends State<AppTextField> with TickerProviderStateMix
                             _obscureText ? AppAssets.icPasswordHide : AppAssets.icPasswordShow,
                             width: 24,
                             height: 24,
-                            colorFilter: ColorFilter.mode(context.secondaryTextColor, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(context.theme.secondaryText, BlendMode.srcIn),
                           ),
                         ),
                       );
@@ -130,18 +127,30 @@ class _AppTextFieldState extends State<AppTextField> with TickerProviderStateMix
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: context.primaryColor, width: 1),
+              borderSide: BorderSide(color: context.theme.primary, width: 1),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            hintStyle: TextStyle(fontFamily: 'Nunito', color: context.secondaryTextColor, fontSize: 16),
-            labelStyle: TextStyle(fontFamily: 'Nunito', color: context.secondaryTextColor, fontSize: 16),
+            hintStyle: TextStyle(
+              fontFamily: Theme.of(context).textTheme.bodyMedium?.fontFamily,
+              color: context.theme.secondaryText,
+              fontSize: 16,
+            ),
+            labelStyle: TextStyle(
+              fontFamily: Theme.of(context).textTheme.bodyMedium?.fontFamily,
+              color: context.theme.secondaryText,
+              fontSize: 16,
+            ),
             floatingLabelStyle: TextStyle(
-              fontFamily: 'Nunito',
-              color: _hasFocus ? context.primaryColor : context.secondaryTextColor,
+              fontFamily: Theme.of(context).textTheme.bodyMedium?.fontFamily,
+              color: _hasFocus ? context.theme.primary : context.theme.secondaryText,
               fontSize: 16,
             ),
           ),
-          style: TextStyle(color: context.textColor, fontSize: 16),
+          style: TextStyle(
+            color: context.theme.text,
+            fontSize: 16,
+            fontFamily: Theme.of(context).textTheme.bodyMedium?.fontFamily,
+          ),
         ),
       ),
     );
