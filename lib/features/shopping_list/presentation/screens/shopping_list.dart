@@ -3,19 +3,19 @@ import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/theme/app_theme_extension.dart';
 import 'package:groceryhelper/core/widgets/buttons/app_fub_button.dart';
 import 'package:groceryhelper/core/widgets/toolbars/app_main_toolbar.dart';
-import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
+import 'package:groceryhelper/features/products_list/presentation/bloc/products_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShoppingList extends StatelessWidget {
-  const ShoppingList({super.key});
+class ProductsList extends StatelessWidget {
+  const ProductsList({super.key});
 
   _onAddItem(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<ShoppingListBloc, ShoppingListState>(
+      child: BlocBuilder<ProductsListBloc, ProductsListState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppMainToolbar(title: 'Продукты'),

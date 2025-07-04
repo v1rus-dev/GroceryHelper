@@ -1,10 +1,12 @@
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:groceryhelper/core/services/global_context_service.dart';
 import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/features/add_product/presentation/screens/add_products_screen.dart';
+import 'package:groceryhelper/features/create_busket/presentation/screens/create_busket_screen.dart';
 import 'package:groceryhelper/features/home/presentation/view/home_screen.dart';
 import 'package:groceryhelper/features/settings/presentation/screens/settings_screen.dart';
 import 'package:groceryhelper/features/register/presentation/screens/register_screen.dart';
-import 'package:groceryhelper/features/shopping_list/presentation/screens/shopping_list.dart';
+import 'package:groceryhelper/features/products_list/presentation/screens/products_list.dart';
 import 'package:groceryhelper/features/buskets/presentation/view/buskets_screen.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_screen.dart';
 import 'package:groceryhelper/features/root/root_screen.dart';
@@ -48,10 +50,10 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: RouterPaths.shoppingList,
-          builder: (context, state) => ShoppingList(),
+          builder: (context, state) => ProductsList(),
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
-            child: ShoppingList(),
+            child: ProductsList(),
             transitionDuration: const Duration(milliseconds: 200),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return FadeTransition(opacity: animation, child: child);
@@ -74,6 +76,9 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(path: RouterPaths.register, builder: (context, state) => RegisterScreen()),
     GoRoute(path: RouterPaths.settings, builder: (context, state) => SettingsScreen()),
+    GoRoute(path: RouterPaths.addProduct, builder: (context, state) => AddProductsScreen()),
+    GoRoute(path: RouterPaths.createBusket, builder: (context, state) => CreateBusketScreen()),
+    // Debug screens
     GoRoute(
       path: RouterPaths.talker,
       builder: (context, state) => TalkerScreen(talker: TalkerService.instance),

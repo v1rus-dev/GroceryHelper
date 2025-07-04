@@ -9,4 +9,6 @@ class RouterPaths {
   static const String talker = '/talker';
   static const String debug = '/debug';
   static const String settings = '/settings';
+  static const String addProduct = '/add-product';
+  static const String createBusket = '/create-busket';
 }

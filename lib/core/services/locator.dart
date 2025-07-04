@@ -9,7 +9,7 @@ import 'package:groceryhelper/features/register/register.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';
-import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
+import 'package:groceryhelper/features/products_list/presentation/bloc/products_list_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/auth/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'google_client_id_io.dart' if (dart.library.html) 'google_client_id_web.dart';
@@ -31,7 +31,7 @@ Future<void> initFirebase() async {
 Future<void> initBlocs() async {
   locator.registerSingleton(HomeBloc());
   locator.registerSingleton(BusketsBloc());
-  locator.registerSingleton(ShoppingListBloc());
+  locator.registerSingleton(ProductsListBloc());
   locator.registerSingleton(UserBloc());
   locator.registerSingleton(AuthBloc(authUsecase: locator()));
   locator.registerSingleton(ThemeBloc());

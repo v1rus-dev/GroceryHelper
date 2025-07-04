@@ -7,7 +7,7 @@ import 'package:groceryhelper/core/utils/debug/presentation/widgets/utils/debug_
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';
-import 'package:groceryhelper/features/shopping_list/presentation/bloc/shopping_list_bloc.dart';
+import 'package:groceryhelper/features/products_list/presentation/bloc/products_list_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/auth/auth_bloc.dart';
 import 'package:groceryhelper/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,7 +32,7 @@ void main() async {
       providers: [
         BlocProvider.value(value: locator<HomeBloc>()),
         BlocProvider.value(value: locator<BusketsBloc>()),
-        BlocProvider.value(value: locator<ShoppingListBloc>()),
+        BlocProvider.value(value: locator<ProductsListBloc>()),
         BlocProvider.value(value: locator<UserBloc>()..add(UserInitEvent())),
         BlocProvider.value(value: locator<AuthBloc>()..add(AuthInitEvent())),
         BlocProvider.value(value: locator<theme_bloc.ThemeBloc>()..add(theme_bloc.ThemeInitEvent())),

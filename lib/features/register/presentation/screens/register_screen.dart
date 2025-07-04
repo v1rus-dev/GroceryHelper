@@ -185,7 +185,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppToolbar(title: 'Регистрация (Тест)', withBackButton: true, onBackPressed: () => context.pop()),
+      appBar: AppToolbar(title: 'Регистрация (Тест)', withBackButton: true),
       body: BlocConsumer<RegisterBloc, RegisterState>(
         listener: (context, state) async {
           switch (state) {
