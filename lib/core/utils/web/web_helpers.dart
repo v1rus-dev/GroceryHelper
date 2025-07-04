@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:groceryhelper/core/utils/extentions/color_extensions.dart';
 import 'package:web/web.dart' as html;
 
+export 'web_helpers_stub.dart'
+    if (dart.library.html) 'web_helpers_web.dart';
+
 class WebHelpers {
   static bool isRunningAsPwa() {
     if (!kIsWeb) return false;

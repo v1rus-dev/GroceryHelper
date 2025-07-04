@@ -3,11 +3,10 @@ import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:groceryhelper/core/utils/web_helpers.dart';
+import 'package:groceryhelper/core/utils/web/web_helpers.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation_item.dart';
 import 'package:groceryhelper/core/services/navigation_state_service.dart';
-import 'package:web/web.dart' as html;
 
 class RootScreen extends StatefulWidget {
   final Widget child;
