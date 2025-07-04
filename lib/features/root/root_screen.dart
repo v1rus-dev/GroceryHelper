@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:groceryhelper/core/constants/app_assets.dart';
 import 'package:groceryhelper/core/navigation/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:groceryhelper/core/utils/web_helpers.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation.dart';
 import 'package:groceryhelper/core/widgets/bottom_navigation/app_bottom_navigation_item.dart';
 import 'package:groceryhelper/core/services/navigation_state_service.dart';
+import 'package:web/web.dart' as html;
 
 class RootScreen extends StatefulWidget {
   final Widget child;
@@ -119,17 +122,20 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: SafeArea(
-        child: AppBottomNavigation(
-          items: [
-            AppBottomNavigationItemModel(icon: AppAssets.navHome),
-            AppBottomNavigationItemModel(icon: AppAssets.navBusket),
-            AppBottomNavigationItemModel(icon: AppAssets.navProducts),
-            AppBottomNavigationItemModel(icon: AppAssets.navProfile),
-          ],
-          onTap: (index) {
-            _onItemTapped(context, index);
-          },
-          currentIndex: _currentIndex,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: WebHelpers.isRunningAsPwa() ? 20 : 0),
+          child: AppBottomNavigation(
+            items: [
+              AppBottomNavigationItemModel(icon: AppAssets.navHome),
+              AppBottomNavigationItemModel(icon: AppAssets.navBusket),
+              AppBottomNavigationItemModel(icon: AppAssets.navProducts),
+              AppBottomNavigationItemModel(icon: AppAssets.navProfile),
+            ],
+            onTap: (index) {
+              _onItemTapped(context, index);
+            },
+            currentIndex: _currentIndex,
+          ),
         ),
       ),
     );

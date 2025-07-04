@@ -68,6 +68,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   void _onSystemThemeChanged(SystemThemeChangedEvent event, Emitter<ThemeState> emit) {
     if (state.themeMode == ThemeMode.system) {
       final isDark = _calculateIsDark(ThemeMode.system, event.isSystemDark);
+
       emit(ThemeState(themeMode: state.themeMode, isDark: isDark));
     }
   }
