@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
+import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
 
 void main() {
   group('StateDialogManager', () {

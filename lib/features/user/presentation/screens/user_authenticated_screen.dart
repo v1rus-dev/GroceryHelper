@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
-import 'package:groceryhelper/core/services/locator.dart';
-import 'package:groceryhelper/core/theme/app_text_styles.dart';
-import 'package:groceryhelper/core/theme/app_theme_extension.dart';
-import 'package:groceryhelper/core/widgets/buttons/app_secondary_button.dart';
+import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
+import 'package:groceryhelper/infrastructure/services/locator.dart';
+import 'package:groceryhelper/common_ui/theme/app_text_styles.dart';
+import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
+import 'package:groceryhelper/common_ui/widgets/buttons/app_secondary_button.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/auth/auth_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user/user_bloc.dart';
 

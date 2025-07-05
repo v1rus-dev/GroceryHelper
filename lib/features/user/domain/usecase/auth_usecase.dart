@@ -1,7 +1,7 @@
-import 'package:groceryhelper/core/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:groceryhelper/core/errors/errors.dart';
+import 'package:groceryhelper/domain/repositories/auth_repository.dart';
 
 class AuthUsecase {
   final AuthRepository authRepository;

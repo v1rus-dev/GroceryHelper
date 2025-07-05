@@ -1,9 +1,9 @@
-import 'package:groceryhelper/core/navigation/app_router.dart';
-import 'package:groceryhelper/core/services/locator.dart';
-import 'package:groceryhelper/core/services/talker_service.dart';
-import 'package:groceryhelper/core/theme/app_theme.dart';
-import 'package:groceryhelper/core/theme/bloc/theme_bloc.dart' as theme_bloc;
-import 'package:groceryhelper/core/utils/debug/presentation/widgets/utils/debug_drawer.dart';
+import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
+import 'package:groceryhelper/infrastructure/services/locator.dart';
+import 'package:groceryhelper/infrastructure/services/talker_service.dart';
+import 'package:groceryhelper/common_ui/theme/app_theme.dart';
+import 'package:groceryhelper/common_ui/theme/bloc/theme_bloc.dart' as theme_bloc;
+import 'package:groceryhelper/debug_tools/presentation/widgets/utils/debug_drawer.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';

@@ -1,10 +1,10 @@
-import 'package:groceryhelper/core/navigation/app_router.dart';
-import 'package:groceryhelper/core/navigation/router_paths.dart';
-import 'package:groceryhelper/core/services/locator.dart';
-import 'package:groceryhelper/core/dialogs/state_dialog_manager.dart';
-import 'package:groceryhelper/core/utils/debug/presentation/widgets/safe_content_builder.dart';
-import 'package:groceryhelper/core/widgets/toolbars/app_main_toolbar.dart';
-import 'package:groceryhelper/core/widgets/buttons/settings_button.dart';
+import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
+import 'package:groceryhelper/infrastructure/navigation/router_paths.dart';
+import 'package:groceryhelper/infrastructure/services/locator.dart';
+import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
+import 'package:groceryhelper/debug_tools/presentation/widgets/safe_content_builder.dart';
+import 'package:groceryhelper/common_ui/widgets/toolbars/app_main_toolbar.dart';
+import 'package:groceryhelper/common_ui/widgets/buttons/settings_button.dart';
 import 'package:groceryhelper/features/user/presentation/bloc/auth/auth_bloc.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_authenticated_screen.dart';
 import 'package:groceryhelper/features/user/presentation/screens/user_unauthenticated_screen.dart';

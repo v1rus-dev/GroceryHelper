@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:groceryhelper/core/errors/errors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groceryhelper/features/user/domain/usecase/auth_usecase.dart';
-import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'dart:async';
 
 part 'auth_event.dart';

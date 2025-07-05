@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:groceryhelper/core/domain/enums/product_category.dart';
-import 'package:groceryhelper/core/domain/enums/product_type.dart';
-import 'package:groceryhelper/core/widgets/app_chip.dart';
+import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
+import 'package:groceryhelper/common_ui/widgets/utils/drag_handler.dart';
+import 'package:groceryhelper/domain/enums/product_category.dart';
+import 'package:groceryhelper/domain/enums/product_type.dart';
+import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
 import 'package:groceryhelper/features/category_type/domain/entities/category_type_result.dart';
 import 'package:groceryhelper/features/category_type/presentation/bloc/category_type_bloc.dart';
+import 'package:groceryhelper/features/category_type/presentation/bottom_sheet/add_custom_type.dart';
 
 class CategoryTypeScreen extends StatelessWidget {
   const CategoryTypeScreen({super.key, required this.selectedCategory});
@@ -36,6 +39,13 @@ class _CategoryTypeScreenViewState extends State<CategoryTypeScreenView> {
     Navigator.pop(context, CategoryTypeResult(category: selectedCategory, type: type));
   }
 
+  Future<void> _onAddCustomType(ProductCategory category) async {
+    final result = await showModalBottomSheet(
+      context: context,
+      builder: (context) => AddCustomTypeBottomSheet(selectedCategory: category),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -57,7 +67,7 @@ class _CategoryTypeScreenViewState extends State<CategoryTypeScreenView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(color: Color(0xFFD9D9D9), height: 4, width: 44),
+                  DragHandler(),
                   const Gap(8),
                   Center(child: Text('Категория и тип', style: Theme.of(context).textTheme.displayMedium)),
                   const SizedBox(height: 16),
@@ -87,14 +97,32 @@ class _CategoryTypeScreenViewState extends State<CategoryTypeScreenView> {
                       controller: scrollController,
                       children: [
                         ...state.types.map(
-                          (type) => Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => _onTypeTap(context, type),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                child: Text(type.displayName, style: Theme.of(context).textTheme.bodyMedium),
+                          (type) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () => _onTypeTap(context, type),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    child: Text(type.displayName, style: Theme.of(context).textTheme.bodyMedium),
+                                  ),
+                                ),
                               ),
+                              Divider(color: context.theme.divider, height: 1, thickness: 1),
+                            ],
+                          ),
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              _onAddCustomType(state.category);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: Text('Добавить тип', style: Theme.of(context).textTheme.bodyMedium),
                             ),
                           ),
                         ),

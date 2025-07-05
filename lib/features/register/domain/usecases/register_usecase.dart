@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:groceryhelper/core/errors/errors.dart';
-import 'package:groceryhelper/core/services/talker_service.dart';
+import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'package:groceryhelper/features/register/domain/entities/register_request.dart';
 import 'package:groceryhelper/features/register/domain/repositories/register_repository.dart';
 

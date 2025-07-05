@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:groceryhelper/core/widgets/app_scaffold.dart';
-import 'package:groceryhelper/core/widgets/toolbars/app_toolbar.dart';
+import 'package:groceryhelper/common_ui/widgets/layouts/app_scaffold.dart';
+import 'package:groceryhelper/common_ui/widgets/toolbars/app_toolbar.dart';
 import 'package:groceryhelper/features/create_busket/presentation/bloc/create_busket_bloc.dart';
 
 class CreateBusketScreen extends StatelessWidget {

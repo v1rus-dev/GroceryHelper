@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:groceryhelper/core/constants/app_assets.dart';
-import 'package:groceryhelper/core/navigation/app_router.dart';
-import 'package:groceryhelper/core/navigation/router_paths.dart';
-import 'package:groceryhelper/core/theme/app_theme_extension.dart';
-import 'package:groceryhelper/core/widgets/buttons/app_fub_button.dart';
-import 'package:groceryhelper/core/widgets/toolbars/app_main_toolbar.dart';
+import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
+import 'package:groceryhelper/infrastructure/navigation/router_paths.dart';
+import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
+import 'package:groceryhelper/common_ui/widgets/buttons/app_fub_button.dart';
+import 'package:groceryhelper/common_ui/widgets/toolbars/app_main_toolbar.dart';
 import 'package:groceryhelper/features/buskets/presentation/bloc/buskets_bloc.dart';
 
 class BusketsScreen extends StatelessWidget {

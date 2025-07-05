@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groceryhelper/core/utils/validators/universal_validator.dart';
-import 'package:groceryhelper/core/utils/validators/rules/validation_rules.dart';
-import 'package:groceryhelper/core/utils/validators/utils/rule_validation_result.dart';
+import 'package:groceryhelper/domain/validators/universal_validator.dart';
+import 'package:groceryhelper/domain/validators/rules/validation_rules.dart';
+import 'package:groceryhelper/domain/validators/utils/rule_validation_result.dart';
 
 void main() {
   group('UniversalValidator Tests', () {
