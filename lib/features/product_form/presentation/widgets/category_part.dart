@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:groceryhelper/domain/entities/app_product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
-import 'package:groceryhelper/domain/enums/product_type.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/drop_down_button.dart';
@@ -18,9 +18,9 @@ class CategoryPart extends StatelessWidget {
   });
 
   final ProductCategory selectedCategory;
-  final ProductType? selectedType;
+  final AppProductType? selectedType;
   final Function(ProductCategory) onCategorySelected;
-  final Function(ProductType) onTypeSelected;
+  final Function(AppProductType) onTypeSelected;
 
   _onTypeTap(BuildContext context, ProductCategory selectedCategory) async {
     final result = await showModalBottomSheet(

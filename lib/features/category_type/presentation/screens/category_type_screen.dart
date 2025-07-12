@@ -1,14 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
 import 'package:groceryhelper/common_ui/widgets/utils/drag_handler.dart';
+import 'package:groceryhelper/domain/entities/app_product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
-import 'package:groceryhelper/domain/enums/product_type.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
 import 'package:groceryhelper/features/category_type/domain/entities/category_type_result.dart';
 import 'package:groceryhelper/features/category_type/presentation/bloc/category_type_bloc.dart';
 import 'package:groceryhelper/features/category_type/presentation/bottom_sheet/add_custom_type.dart';
+import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
+import 'package:groceryhelper/infrastructure/services/locator.dart';
 
 class CategoryTypeScreen extends StatelessWidget {
   const CategoryTypeScreen({super.key, required this.selectedCategory});
@@ -17,9 +22,18 @@ class CategoryTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CategoryTypeBloc(selectedCategory),
-      child: CategoryTypeScreenView(selectedCategory: selectedCategory),
+    return FutureBuilder<ProductTypeRepository>(
+      future: locator.getAsync<ProductTypeRepository>(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator.adaptive());
+        }
+
+        return BlocProvider(
+          create: (context) => CategoryTypeBloc(selectedCategory, snapshot.data!)..add(CategoryTypeInitialized()),
+          child: CategoryTypeScreenView(selectedCategory: selectedCategory),
+        );
+      },
     );
   }
 }
@@ -34,16 +48,30 @@ class CategoryTypeScreenView extends StatefulWidget {
 }
 
 class _CategoryTypeScreenViewState extends State<CategoryTypeScreenView> {
-  void _onTypeTap(BuildContext context, ProductType type) {
+  void _onTypeTap(BuildContext context, AppProductType type) {
     final selectedCategory = context.read<CategoryTypeBloc>().state.category;
     Navigator.pop(context, CategoryTypeResult(category: selectedCategory, type: type));
   }
 
   Future<void> _onAddCustomType(ProductCategory category) async {
+    final bloc = context.read<CategoryTypeBloc>();
+
     final result = await showModalBottomSheet(
       context: context,
       builder: (context) => AddCustomTypeBottomSheet(selectedCategory: category),
     );
+
+    if (result == null || result is! String) return;
+
+    StateDialogManager.instance.showLoading();
+
+    final completer = Completer();
+
+    bloc.add(CategoryTypeAddCustomType(name: result, category: category, completer: completer));
+
+    completer.future.then((value) {
+      StateDialogManager.instance.dispose();
+    });
   }
 
   @override

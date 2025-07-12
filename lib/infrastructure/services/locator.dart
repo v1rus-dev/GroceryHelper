@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groceryhelper/domain/repositories/auth_repository.dart';
+import 'package:groceryhelper/features/category_type/data/datasource/local_product_type_datasource.dart';
+import 'package:groceryhelper/features/category_type/data/repository_impl/product_type_repository_impl.dart';
+import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
+import 'package:groceryhelper/infrastructure/database/app_database.dart';
 import 'package:groceryhelper/infrastructure/firebase/auth_repository_impl.dart';
 import 'package:groceryhelper/infrastructure/services/error_display_service.dart';
 import 'package:groceryhelper/infrastructure/services/navigation_state_service.dart';
@@ -17,8 +21,10 @@ import 'google_client_id_io.dart' if (dart.library.html) 'google_client_id_web.d
 
 final locator = GetIt.instance;
 
-Future<void> initServiceLocator() async {
+Future<void> initServiceLocator(AppDatabase appDatabase) async {
   await initFirebase();
+  await initDatabase(appDatabase);
+  await initDatasources();
   await initServices();
   await initRepositories();
   await initUsecases();
@@ -27,6 +33,10 @@ Future<void> initServiceLocator() async {
 
 Future<void> initFirebase() async {
   locator.registerSingleton(FirebaseAuth.instance);
+}
+
+Future<void> initDatabase(AppDatabase appDatabase) async {
+  locator.registerSingleton(appDatabase);
 }
 
 Future<void> initBlocs() async {
@@ -38,12 +48,19 @@ Future<void> initBlocs() async {
   locator.registerSingleton(ThemeBloc());
 }
 
+Future<void> initDatasources() async {
+  locator.registerSingleton(LocalProductTypeDatasource(appDatabase: locator()));
+}
+
 Future<void> initRepositories() async {
   locator.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(firebaseAuth: locator(), googleClientId: getGoogleClientId()),
   );
   locator.registerFactoryAsync<RegisterRepository>(
     () => RegisterRepositoryFactory.create(useMock: AppConstantValues.isRegisterTestMode),
+  );
+  locator.registerFactoryAsync<ProductTypeRepository>(
+    () => Future.value(ProductTypeRepositoryImpl(localProductTypeDatasource: locator())),
   );
 }
 

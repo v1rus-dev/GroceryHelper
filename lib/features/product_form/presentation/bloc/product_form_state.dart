@@ -4,9 +4,9 @@ class ProductFormState extends Equatable {
   const ProductFormState({required this.category, required this.type});
 
   final ProductCategory category;
-  final ProductType type;
+  final AppProductType type;
 
-  ProductFormState copyWith({ProductCategory? category, ProductType? type}) {
+  ProductFormState copyWith({ProductCategory? category, AppProductType? type}) {
     return ProductFormState(category: category ?? this.category, type: type ?? this.type);
   }
 

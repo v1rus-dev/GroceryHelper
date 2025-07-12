@@ -1,3 +1,4 @@
+import 'package:groceryhelper/infrastructure/database/app_database.dart';
 import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
 import 'package:groceryhelper/infrastructure/services/locator.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
@@ -26,7 +27,9 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  await initServiceLocator();
+  final database = AppDatabase();
+
+  await initServiceLocator(database);
   runApp(
     MultiBlocProvider(
       providers: [

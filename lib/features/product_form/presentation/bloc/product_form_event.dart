@@ -16,5 +16,5 @@ class ProductFormCategorySelected extends ProductFormEvent {
 class ProductFormTypeSelected extends ProductFormEvent {
   const ProductFormTypeSelected({required this.type});
 
-  final ProductType type;
+  final AppProductType type;
 }

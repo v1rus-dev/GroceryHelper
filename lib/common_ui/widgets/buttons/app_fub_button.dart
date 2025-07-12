@@ -6,8 +6,8 @@ class AppFubButton extends StatefulWidget {
     required this.onTap,
     required this.child,
     required this.color,
-    this.width = 48,
-    this.height = 48,
+    this.width = 56,
+    this.height = 56,
     this.borderRadius = 12,
   });
 

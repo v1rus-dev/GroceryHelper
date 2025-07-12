@@ -4,9 +4,9 @@ final class CategoryTypeState extends Equatable {
   const CategoryTypeState({required this.category, required this.types});
 
   final ProductCategory category;
-  final List<ProductType> types;
+  final List<AppProductType> types;
 
-  CategoryTypeState copyWith({ProductCategory? category, List<ProductType>? types}) {
+  CategoryTypeState copyWith({ProductCategory? category, List<AppProductType>? types}) {
     return CategoryTypeState(category: category ?? this.category, types: types ?? this.types);
   }
 

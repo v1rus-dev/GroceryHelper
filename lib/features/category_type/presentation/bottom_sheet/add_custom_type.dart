@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
 import 'package:groceryhelper/common_ui/widgets/textFields/app_text_field.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/app_primary_button.dart';
@@ -17,6 +18,14 @@ class AddCustomTypeBottomSheet extends StatefulWidget {
 
 class _AddCustomTypeBottomSheetState extends State<AddCustomTypeBottomSheet> {
   final TextEditingController _nameController = TextEditingController();
+
+  void _onAdd(BuildContext context) {
+    final name = _nameController.text;
+    if (name.isEmpty) return;
+
+    context.pop(name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +58,7 @@ class _AddCustomTypeBottomSheetState extends State<AddCustomTypeBottomSheet> {
           AppTextField(controller: _nameController, labelText: 'Название типа'),
           const Gap(20),
           SafeArea(
-            child: AppPrimaryButton(onPressed: () {}, text: "Добавить"),
+            child: AppPrimaryButton(onPressed: () => _onAdd(context), text: "Добавить"),
           ),
         ],
       ),
