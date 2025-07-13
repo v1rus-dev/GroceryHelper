@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
-import 'package:groceryhelper/domain/entities/app_product_type.dart';
+import 'package:groceryhelper/domain/entities/product_type.dart';
 
 class CategoryTypeItem extends StatelessWidget {
   const CategoryTypeItem({super.key, required this.type, required this.onTap});
 
-  final AppProductType type;
-  final Function(AppProductType) onTap;
+  final ProductType type;
+  final Function(ProductType) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CategoryTypeItem extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(type.displayName, style: Theme.of(context).textTheme.bodyMedium),
+                  child: Text(type.name, style: Theme.of(context).textTheme.bodyMedium),
                 ),
               ],
             ),

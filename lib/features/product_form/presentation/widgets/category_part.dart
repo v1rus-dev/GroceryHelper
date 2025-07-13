@@ -1,8 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:groceryhelper/domain/entities/app_product_type.dart';
+import 'package:groceryhelper/domain/entities/product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
@@ -20,9 +18,9 @@ class CategoryPart extends StatelessWidget {
   });
 
   final ProductCategory selectedCategory;
-  final AppProductType? selectedType;
+  final ProductType? selectedType;
   final Function(ProductCategory, bool) onCategorySelected;
-  final Function(AppProductType) onTypeSelected;
+  final Function(ProductType) onTypeSelected;
 
   _onTypeTap(BuildContext context, ProductCategory selectedCategory) async {
     final result = await showModalBottomSheet(
@@ -66,7 +64,7 @@ class CategoryPart extends StatelessWidget {
         ),
         const Gap(8),
         DropDownButton(
-          label: selectedType?.displayName,
+          label: selectedType?.name,
           hintText: "Выберите название продукта",
           onTap: () => _onTypeTap(context, selectedCategory),
         ),

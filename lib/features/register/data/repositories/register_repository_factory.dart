@@ -5,7 +5,7 @@ import 'package:groceryhelper/features/register/data/repositories/register_repos
 import 'package:groceryhelper/features/register/data/repositories/register_repository_impl.dart';
 
 class RegisterRepositoryFactory {
-  static Future<RegisterRepository> create({bool useMock = true}) async {
+  static RegisterRepository create({bool useMock = true}) {
     if (useMock) {
       return RegisterRepositoryMock();
     } else {

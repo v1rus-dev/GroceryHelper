@@ -3,16 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:groceryhelper/common_ui/widgets/layouts/app_scaffold.dart';
 import 'package:groceryhelper/common_ui/widgets/toolbars/app_toolbar.dart';
 import 'package:groceryhelper/features/create_busket/presentation/bloc/create_busket_bloc.dart';
+import 'package:groceryhelper/infrastructure/services/locator.dart';
 
 class CreateBusketScreen extends StatelessWidget {
   const CreateBusketScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CreateBusketBloc>(
-      create: (context) => CreateBusketBloc(),
-      child: const _CreateBusketScreenView(),
-    );
+    return BlocProvider.value(value: locator<CreateBusketBloc>(), child: const _CreateBusketScreenView());
   }
 }
 

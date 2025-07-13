@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:groceryhelper/infrastructure/preferences/app_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -17,8 +18,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   }
 
   Future<void> _onInit(ThemeInitEvent event, Emitter<ThemeState> emit) async {
-    final prefs = await SharedPreferences.getInstance();
-    final themeModeIndex = prefs.getInt(_themeModeKey) ?? ThemeMode.system.index;
+    final themeModeIndex = AppPreferences.getInt(_themeModeKey) ?? ThemeMode.system.index;
     final themeMode = ThemeMode.values[themeModeIndex];
 
     // Определяем текущую системную тему
@@ -44,8 +44,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         break;
     }
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_themeModeKey, newThemeMode.index);
+    await AppPreferences.setInt(_themeModeKey, newThemeMode.index);
 
     final brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
     final isSystemDark = brightness == Brightness.dark;
@@ -55,8 +54,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   }
 
   Future<void> _onSet(ThemeSetEvent event, Emitter<ThemeState> emit) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_themeModeKey, event.themeMode.index);
+    await AppPreferences.setInt(_themeModeKey, event.themeMode.index);
 
     final brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
     final isSystemDark = brightness == Brightness.dark;

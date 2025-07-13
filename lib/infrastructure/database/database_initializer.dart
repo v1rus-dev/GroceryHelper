@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../domain/enums/product_category.dart';
+import 'package:groceryhelper/infrastructure/preferences/app_preferences.dart';
+import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import '../../domain/enums/product_type.dart';
 import 'app_database.dart';
 
@@ -14,12 +13,13 @@ class DatabaseInitializer {
 
   /// Проверяет, была ли база данных уже инициализирована
   Future<bool> isInitialized() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_isInitializedKey) ?? false;
+    TalkerService.log('isInitialized: ${AppPreferences.getBool(_isInitializedKey)}');
+    return AppPreferences.getBool(_isInitializedKey) ?? false;
   }
 
   /// Инициализирует базу данных начальными данными
   Future<void> initializeIfNeeded() async {
+    TalkerService.log('initializeIfNeeded');
     if (await isInitialized()) {
       return;
     }
@@ -31,6 +31,7 @@ class DatabaseInitializer {
 
   /// Инициализирует таблицу типов продуктов
   Future<void> _initializeProductTypes() async {
+    TalkerService.log('initializeProductTypes');
     final productTypesCompanion = <ProductTypesTableCompanion>[];
 
     // Добавляем все предопределенные типы продуктов
@@ -74,14 +75,12 @@ class DatabaseInitializer {
 
   /// Отмечает базу данных как инициализированную
   Future<void> _markAsInitialized() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_isInitializedKey, true);
+    await AppPreferences.setBool(_isInitializedKey, true);
   }
 
   /// Сбрасывает флаг инициализации (для тестирования или переинициализации)
   Future<void> resetInitializationFlag() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_isInitializedKey);
+    await AppPreferences.remove(_isInitializedKey);
   }
 
   /// Полная переинициализация базы данных (удаляет все данные и создает заново)

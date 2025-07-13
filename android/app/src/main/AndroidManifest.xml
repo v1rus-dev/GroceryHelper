@@ -2,7 +2,7 @@
     package="yegor.cheprasov.groceryhelper">
     
     <application
-        android:label="groceryhelper"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

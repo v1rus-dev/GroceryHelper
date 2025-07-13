@@ -1,6 +1,6 @@
 import 'package:groceryhelper/infrastructure/database/app_database.dart';
 import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
-import 'package:groceryhelper/infrastructure/services/database_service.dart';
+import 'package:groceryhelper/infrastructure/preferences/app_preferences.dart';
 import 'package:groceryhelper/infrastructure/services/locator.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme.dart';
@@ -28,11 +28,15 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  await AppPreferences.init();
+
   final database = AppDatabase();
 
-  await initServiceLocator(database);
+  // Сначала инициализируем базу данных
+  await database.initializeDatabase();
 
-  locator<DatabaseService>().initializeDatabase();
+  // Потом регистрируем зависимости
+  await initServiceLocator(database);
 
   runApp(
     MultiBlocProvider(

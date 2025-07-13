@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:groceryhelper/domain/entities/app_product_type.dart';
+import 'package:groceryhelper/domain/entities/product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
@@ -13,8 +13,8 @@ part 'category_type_state.dart';
 class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
   final ProductTypeRepository productTypeRepository;
 
-  StreamSubscription<List<AppProductType>>? _userTypesSubscription;
-  List<AppProductType> _userTypes = [];
+  StreamSubscription<List<ProductType>>? _userTypesSubscription;
+  List<ProductType> _userTypes = [];
 
   CategoryTypeBloc(ProductCategory category, this.productTypeRepository)
     : super(CategoryTypeState(category: category, types: [])) {
@@ -26,6 +26,7 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
 
   _onCategoryTypeInitialized(CategoryTypeInitialized event, Emitter<CategoryTypeState> emit) {
     _userTypesSubscription = productTypeRepository.watchProductTypes().listen((userTypes) {
+      TalkerService.log('Types: $userTypes');
       _userTypes.clear();
       _userTypes.addAll(userTypes);
       add(CategoryTypeUpdateTypes());
@@ -47,7 +48,7 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
     emit(state.copyWith(types: getTypes(state.category)));
   }
 
-  List<AppProductType> getTypes(ProductCategory category) {
+  List<ProductType> getTypes(ProductCategory category) {
     return _userTypes.where((type) => type.category == category).toList();
   }
 

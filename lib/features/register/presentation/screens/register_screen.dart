@@ -23,19 +23,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<RegisterRepository>(
-      future: locator.getAsync<RegisterRepository>(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          // Можно показать лоадер или пустой контейнер
-          return const Center(child: CircularProgressIndicator());
-        }
-        return BlocProvider(
-          create: (context) => RegisterBloc(registerRepository: snapshot.data!),
-          child: const RegisterScreenView(),
-        );
-      },
-    );
+    return BlocProvider.value(value: locator<RegisterBloc>(), child: const RegisterScreenView());
   }
 }
 

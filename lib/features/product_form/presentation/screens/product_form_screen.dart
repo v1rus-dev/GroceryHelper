@@ -7,7 +7,6 @@ import 'package:groceryhelper/common_ui/widgets/buttons/app_primary_button.dart'
 import 'package:groceryhelper/common_ui/widgets/layouts/app_scaffold.dart';
 import 'package:groceryhelper/common_ui/widgets/textFields/app_text_field.dart';
 import 'package:groceryhelper/common_ui/widgets/toolbars/app_toolbar.dart';
-import 'package:groceryhelper/features/product_form/domain/repositories/products_repository.dart';
 import 'package:groceryhelper/features/product_form/presentation/bloc/product_form_bloc.dart';
 import 'package:groceryhelper/features/product_form/presentation/widgets/category_part.dart';
 import 'package:groceryhelper/features/product_form/presentation/widgets/units_part.dart';
@@ -22,18 +21,9 @@ class ProductFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: locator.getAsync<ProductsRepository>(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator.adaptive()));
-        }
-
-        return BlocProvider(
-          create: (context) => ProductFormBloc(productsRepository: snapshot.data!)..add(const ProductFormInit()),
-          child: ProductFormScreenView(isEdit: isEdit),
-        );
-      },
+    return BlocProvider.value(
+      value: locator<ProductFormBloc>()..add(const ProductFormInit()),
+      child: ProductFormScreenView(isEdit: isEdit),
     );
   }
 }

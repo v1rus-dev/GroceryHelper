@@ -13,7 +13,6 @@ import 'package:groceryhelper/debug_tools/presentation/widgets/debug_switches_se
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_icons_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_theme_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_dialogs_section.dart';
-import 'package:groceryhelper/debug_tools/presentation/widgets/debug_database_section.dart';
 
 class DebugScreen extends StatelessWidget {
   const DebugScreen({super.key});
@@ -44,7 +43,6 @@ class DebugScreen extends StatelessWidget {
             const DebugIconsSection(),
             const DebugThemeSection(),
             const DebugDialogsSection(),
-            const DebugDatabaseSection(),
           ],
         ),
       ),
