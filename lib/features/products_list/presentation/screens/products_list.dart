@@ -22,7 +22,7 @@ class ProductsList extends StatelessWidget {
       child: BlocBuilder<ProductsListBloc, ProductsListState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppMainToolbar(title: 'Продукты'),
+            appBar: AppMainToolbar(title: 'Товары'),
             floatingActionButton: AppFubButton(
               onTap: () {
                 _onAddItem(context);

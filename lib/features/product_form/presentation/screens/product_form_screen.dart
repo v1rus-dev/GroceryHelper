@@ -7,6 +7,7 @@ import 'package:groceryhelper/common_ui/widgets/textFields/app_text_field.dart';
 import 'package:groceryhelper/common_ui/widgets/toolbars/app_toolbar.dart';
 import 'package:groceryhelper/features/product_form/presentation/bloc/product_form_bloc.dart';
 import 'package:groceryhelper/features/product_form/presentation/widgets/category_part.dart';
+import 'package:groceryhelper/features/product_form/presentation/widgets/units_part.dart';
 
 class ProductFormScreen extends StatelessWidget {
   const ProductFormScreen({super.key, this.isEdit = false});
@@ -38,14 +39,13 @@ class _ProductFormScreenViewState extends State<ProductFormScreenView> {
     if (widget.isEdit) {
       return 'Редактирование продукта';
     }
-    return 'Добавление продукта';
+    return 'Добавление товара';
   }
 
   void _onSave() {}
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return BlocBuilder<ProductFormBloc, ProductFormState>(
       builder: (context, state) {
         return AppScaffold(
@@ -69,6 +69,8 @@ class _ProductFormScreenViewState extends State<ProductFormScreenView> {
                           onTypeSelected: (type) =>
                               context.read<ProductFormBloc>().add(ProductFormTypeSelected(type: type)),
                         ),
+                        const Gap(12),
+                        UnitsPart(selectedUnit: state.selectedUnit),
                       ],
                     ),
                   ),

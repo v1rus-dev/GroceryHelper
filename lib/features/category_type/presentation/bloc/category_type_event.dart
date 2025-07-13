@@ -29,12 +29,13 @@ class CategoryTypeUpdateTypes extends CategoryTypeEvent {
 }
 
 class CategoryTypeAddCustomType extends CategoryTypeEvent {
-  const CategoryTypeAddCustomType({required this.name, required this.category, required this.completer});
+  const CategoryTypeAddCustomType({required this.name, required this.category, required this.completer, this.typeId});
 
   final String name;
   final ProductCategory category;
   final Completer completer;
+  final int? typeId;
 
   @override
-  List<Object> get props => [name, category];
+  List<Object> get props => [name, category, typeId ?? 0];
 }

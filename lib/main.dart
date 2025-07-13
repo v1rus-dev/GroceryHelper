@@ -1,5 +1,6 @@
 import 'package:groceryhelper/infrastructure/database/app_database.dart';
 import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
+import 'package:groceryhelper/infrastructure/services/database_service.dart';
 import 'package:groceryhelper/infrastructure/services/locator.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme.dart';
@@ -30,6 +31,9 @@ void main() async {
   final database = AppDatabase();
 
   await initServiceLocator(database);
+
+  locator<DatabaseService>().initializeDatabase();
+
   runApp(
     MultiBlocProvider(
       providers: [

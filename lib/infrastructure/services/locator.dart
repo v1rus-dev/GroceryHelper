@@ -4,9 +4,11 @@ import 'package:groceryhelper/features/category_type/data/datasource/local_produ
 import 'package:groceryhelper/features/category_type/data/repository_impl/product_type_repository_impl.dart';
 import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
 import 'package:groceryhelper/infrastructure/database/app_database.dart';
+import 'package:groceryhelper/infrastructure/database/database_initializer.dart';
 import 'package:groceryhelper/infrastructure/firebase/auth_repository_impl.dart';
 import 'package:groceryhelper/infrastructure/services/error_display_service.dart';
 import 'package:groceryhelper/infrastructure/services/navigation_state_service.dart';
+import 'package:groceryhelper/infrastructure/services/database_service.dart';
 import 'package:groceryhelper/core/constants/app_constant_values.dart';
 import 'package:groceryhelper/common_ui/theme/bloc/theme_bloc.dart';
 import 'package:groceryhelper/features/home/presentation/bloc/home_bloc.dart';
@@ -37,6 +39,7 @@ Future<void> initFirebase() async {
 
 Future<void> initDatabase(AppDatabase appDatabase) async {
   locator.registerSingleton(appDatabase);
+  locator.registerSingleton(DatabaseService(database: appDatabase));
 }
 
 Future<void> initBlocs() async {

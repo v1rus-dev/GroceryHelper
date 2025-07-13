@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:groceryhelper/domain/entities/app_product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/domain/enums/product_type.dart';
+import 'package:groceryhelper/domain/enums/units.dart';
 
 part 'product_form_event.dart';
 part 'product_form_state.dart';

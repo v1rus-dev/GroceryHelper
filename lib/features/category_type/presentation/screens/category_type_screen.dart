@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
 import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
+import 'package:groceryhelper/common_ui/widgets/buttons/bottom_sheet_list_item.dart';
 import 'package:groceryhelper/common_ui/widgets/utils/drag_handler.dart';
 import 'package:groceryhelper/domain/entities/app_product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
@@ -13,6 +14,7 @@ import 'package:groceryhelper/features/category_type/domain/entities/category_ty
 import 'package:groceryhelper/features/category_type/presentation/bloc/category_type_bloc.dart';
 import 'package:groceryhelper/features/category_type/presentation/bottom_sheet/add_custom_type.dart';
 import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
+import 'package:groceryhelper/features/category_type/presentation/widgets/type_item.dart';
 import 'package:groceryhelper/infrastructure/services/locator.dart';
 
 class CategoryTypeScreen extends StatelessWidget {
@@ -58,7 +60,11 @@ class _CategoryTypeScreenViewState extends State<CategoryTypeScreenView> {
 
     final result = await showModalBottomSheet(
       context: context,
-      builder: (context) => AddCustomTypeBottomSheet(selectedCategory: category),
+      isScrollControlled: true,
+      builder: (BuildContext context) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: AddCustomTypeBottomSheet(selectedCategory: category),
+      ),
     );
 
     if (result == null || result is! String) return;
@@ -125,21 +131,10 @@ class _CategoryTypeScreenViewState extends State<CategoryTypeScreenView> {
                       controller: scrollController,
                       children: [
                         ...state.types.map(
-                          (type) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () => _onTypeTap(context, type),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    child: Text(type.displayName, style: Theme.of(context).textTheme.bodyMedium),
-                                  ),
-                                ),
-                              ),
-                              Divider(color: context.theme.divider, height: 1, thickness: 1),
-                            ],
+                          (type) => BottomSheetListItem(
+                            key: Key(type.displayName),
+                            label: type.displayName,
+                            onTap: () => _onTypeTap(context, type),
                           ),
                         ),
                         Material(

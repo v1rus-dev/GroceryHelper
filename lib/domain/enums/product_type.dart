@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'product_category.dart';
 
 enum ProductType {
@@ -61,6 +60,31 @@ extension ProductTypeExtension on ProductType {
     ProductType.babyCare => 'Уход за детьми',
     ProductType.babyToys => 'Игрушки для детей',
     ProductType.uncategorized => 'Без категории',
+  };
+
+  int get id => switch (this) {
+    ProductType.freshProduce => 1,
+    ProductType.drinks => 2,
+    ProductType.snacks => 3,
+    ProductType.dairy => 4,
+    ProductType.canned => 5,
+    ProductType.bakery => 6,
+    ProductType.cleaning => 7,
+    ProductType.paperProducts => 8,
+    ProductType.airFresheners => 9,
+    ProductType.kitchenSupplies => 10,
+    ProductType.hygiene => 11,
+    ProductType.skincare => 12,
+    ProductType.medicine => 13,
+    ProductType.cosmetics => 14,
+    ProductType.petFood => 15,
+    ProductType.petCare => 16,
+    ProductType.petToys => 17,
+    ProductType.diapers => 18,
+    ProductType.babyFood => 19,
+    ProductType.babyCare => 20,
+    ProductType.babyToys => 21,
+    ProductType.uncategorized => 99,
   };
 
   ProductCategory get category => switch (this) {
@@ -139,4 +163,8 @@ extension ProductTypeUtils on ProductType {
   static List<ProductType> get allTypes {
     return ProductType.values.where((type) => type != ProductType.uncategorized).toList();
   }
+}
+
+class ProductTypeHelper {
+  static ProductType fromId(int id) => ProductType.values.firstWhere((element) => element.id == id);
 }

@@ -10,12 +10,12 @@ class LocalProductTypeDatasource {
 
   Future<int> addProductType(ProductCategory category, String name) async {
     return appDatabase
-        .into(appDatabase.productTypes)
-        .insert(ProductTypesCompanion(name: Value(name), productCategory: Value(category)));
+        .into(appDatabase.productTypesTable)
+        .insert(ProductTypesTableCompanion(name: Value(name), productCategory: Value(category)));
   }
 
   Stream<List<AppProductTypeUser>> watchProductTypes() {
-    return appDatabase.productTypes
+    return appDatabase.productTypesTable
         .select()
         .map((item) => AppProductTypeUser(id: item.id, name: item.name, category: item.productCategory))
         .watch();
@@ -23,7 +23,7 @@ class LocalProductTypeDatasource {
 
   Future<List<AppProductTypeUser>> getProductTypes(ProductCategory category) async {
     final productTypes = await (appDatabase.select(
-      appDatabase.productTypes,
+      appDatabase.productTypesTable,
     )..where((a) => a.productCategory.equals(category.id))).get();
     return productTypes
         .map((item) => AppProductTypeUser(id: item.id, name: item.name, category: item.productCategory))

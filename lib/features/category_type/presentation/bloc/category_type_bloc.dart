@@ -18,14 +18,7 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
   List<AppProductTypeUser> _userTypes = [];
 
   CategoryTypeBloc(ProductCategory category, this.productTypeRepository)
-    : super(
-        CategoryTypeState(
-          category: category,
-          types: ProductTypeUtils.getTypesForCategory(
-            category,
-          ).map((type) => AppProductTypeDefault(type: type)).toList(),
-        ),
-      ) {
+    : super(CategoryTypeState(category: category, types: [])) {
     on<CategoryTypeSelected>(_onCategorySelected);
     on<CategoryTypeInitialized>(_onCategoryTypeInitialized);
     on<CategoryTypeAddCustomType>(_onCategoryTypeAddCustomType);
@@ -36,13 +29,13 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
     _userTypesSubscription = productTypeRepository.watchProductTypes().listen((userTypes) {
       _userTypes.clear();
       _userTypes.addAll(userTypes);
-      TalkerService.log('userTypes: $_userTypes');
       add(CategoryTypeUpdateTypes());
     });
   }
 
   _onCategorySelected(CategoryTypeSelected event, Emitter<CategoryTypeState> emit) {
-    emit(state.copyWith(category: event.category, types: getTypes()));
+    TalkerService.log('CategoryTypeSelected: ${event.category}');
+    emit(state.copyWith(category: event.category, types: getTypes(event.category)));
   }
 
   _onCategoryTypeAddCustomType(CategoryTypeAddCustomType event, Emitter<CategoryTypeState> emit) {
@@ -52,14 +45,11 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
   }
 
   _onCategoryTypeUpdateTypes(CategoryTypeUpdateTypes event, Emitter<CategoryTypeState> emit) {
-    emit(state.copyWith(types: getTypes()));
+    emit(state.copyWith(types: getTypes(state.category)));
   }
 
-  List<AppProductType> getTypes() {
-    final defaultTypes = ProductTypeUtils.getTypesForCategory(
-      state.category,
-    ).map((type) => AppProductTypeDefault(type: type));
-    return [...defaultTypes, ..._userTypes.where((type) => type.category == state.category)];
+  List<AppProductType> getTypes(ProductCategory category) {
+    return _userTypes.where((type) => type.category == category).toList();
   }
 
   @override
