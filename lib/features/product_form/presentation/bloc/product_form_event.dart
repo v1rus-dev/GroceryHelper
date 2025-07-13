@@ -7,14 +7,26 @@ sealed class ProductFormEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ProductFormInit extends ProductFormEvent {
+  const ProductFormInit();
+}
+
 class ProductFormCategorySelected extends ProductFormEvent {
-  const ProductFormCategorySelected({required this.category});
+  const ProductFormCategorySelected({required this.category, required this.updateType});
 
   final ProductCategory category;
+  final bool updateType;
 }
 
 class ProductFormTypeSelected extends ProductFormEvent {
   const ProductFormTypeSelected({required this.type});
 
   final AppProductType type;
+}
+
+class ProductFormSave extends ProductFormEvent {
+  const ProductFormSave({required this.name, required this.completer});
+
+  final String name;
+  final Completer completer;
 }

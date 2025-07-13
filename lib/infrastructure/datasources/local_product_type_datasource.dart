@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:groceryhelper/domain/entities/app_product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/infrastructure/database/app_database.dart';
 
 class LocalProductTypeDatasource {
-  AppDatabase appDatabase;
+  final AppDatabase appDatabase;
 
   LocalProductTypeDatasource({required this.appDatabase});
 
@@ -14,19 +13,14 @@ class LocalProductTypeDatasource {
         .insert(ProductTypesTableCompanion(name: Value(name), productCategory: Value(category)));
   }
 
-  Stream<List<AppProductTypeUser>> watchProductTypes() {
-    return appDatabase.productTypesTable
-        .select()
-        .map((item) => AppProductTypeUser(id: item.id, name: item.name, category: item.productCategory))
-        .watch();
+  Stream<List<ProductTypesTableData>> watchProductTypes() {
+    return appDatabase.productTypesTable.select().watch();
   }
 
-  Future<List<AppProductTypeUser>> getProductTypes(ProductCategory category) async {
+  Future<List<ProductTypesTableData>> getProductTypes(ProductCategory category) async {
     final productTypes = await (appDatabase.select(
       appDatabase.productTypesTable,
     )..where((a) => a.productCategory.equals(category.id))).get();
-    return productTypes
-        .map((item) => AppProductTypeUser(id: item.id, name: item.name, category: item.productCategory))
-        .toList();
+    return productTypes.toList();
   }
 }

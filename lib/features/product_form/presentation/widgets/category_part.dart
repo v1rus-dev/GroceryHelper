@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/domain/entities/app_product_type.dart';
@@ -19,7 +21,7 @@ class CategoryPart extends StatelessWidget {
 
   final ProductCategory selectedCategory;
   final AppProductType? selectedType;
-  final Function(ProductCategory) onCategorySelected;
+  final Function(ProductCategory, bool) onCategorySelected;
   final Function(AppProductType) onTypeSelected;
 
   _onTypeTap(BuildContext context, ProductCategory selectedCategory) async {
@@ -31,7 +33,7 @@ class CategoryPart extends StatelessWidget {
       builder: (context) => CategoryTypeScreen(selectedCategory: selectedCategory),
     );
     if (result is CategoryTypeResult) {
-      onCategorySelected(result.category);
+      onCategorySelected(result.category, false);
       onTypeSelected(result.type);
     }
   }
@@ -54,7 +56,7 @@ class CategoryPart extends StatelessWidget {
               (e) => AppChip(
                 label: e.displayName,
                 onTap: () {
-                  onCategorySelected(e);
+                  onCategorySelected(e, true);
                 },
                 color: e.color,
                 isSelected: e == selectedCategory,

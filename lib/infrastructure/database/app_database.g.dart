@@ -3,6 +3,425 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class $ProductTypesTableTable extends ProductTypesTable
+    with TableInfo<$ProductTypesTableTable, ProductTypesTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ProductTypesTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<ProductCategory, int>
+  productCategory =
+      GeneratedColumn<int>(
+        'product_category',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      ).withConverter<ProductCategory>(
+        $ProductTypesTableTable.$converterproductCategory,
+      );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _isCustomMeta = const VerificationMeta(
+    'isCustom',
+  );
+  @override
+  late final GeneratedColumn<bool> isCustom = GeneratedColumn<bool>(
+    'is_custom',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_custom" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<ProductType?, int> productType =
+      GeneratedColumn<int>(
+        'product_type',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      ).withConverter<ProductType?>(
+        $ProductTypesTableTable.$converterproductTypen,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    productCategory,
+    createdAt,
+    isCustom,
+    productType,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'product_types_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ProductTypesTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('is_custom')) {
+      context.handle(
+        _isCustomMeta,
+        isCustom.isAcceptableOrUnknown(data['is_custom']!, _isCustomMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ProductTypesTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ProductTypesTableData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      productCategory: $ProductTypesTableTable.$converterproductCategory
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.int,
+              data['${effectivePrefix}product_category'],
+            )!,
+          ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      isCustom: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_custom'],
+      )!,
+      productType: $ProductTypesTableTable.$converterproductTypen.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}product_type'],
+        ),
+      ),
+    );
+  }
+
+  @override
+  $ProductTypesTableTable createAlias(String alias) {
+    return $ProductTypesTableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<ProductCategory, int> $converterproductCategory =
+      const ProductCategoryConverter();
+  static TypeConverter<ProductType, int> $converterproductType =
+      const ProductTypeConverter();
+  static TypeConverter<ProductType?, int?> $converterproductTypen =
+      NullAwareTypeConverter.wrap($converterproductType);
+}
+
+class ProductTypesTableData extends DataClass
+    implements Insertable<ProductTypesTableData> {
+  final int id;
+  final String name;
+  final ProductCategory productCategory;
+  final DateTime createdAt;
+  final bool isCustom;
+  final ProductType? productType;
+  const ProductTypesTableData({
+    required this.id,
+    required this.name,
+    required this.productCategory,
+    required this.createdAt,
+    required this.isCustom,
+    this.productType,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    {
+      map['product_category'] = Variable<int>(
+        $ProductTypesTableTable.$converterproductCategory.toSql(
+          productCategory,
+        ),
+      );
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['is_custom'] = Variable<bool>(isCustom);
+    if (!nullToAbsent || productType != null) {
+      map['product_type'] = Variable<int>(
+        $ProductTypesTableTable.$converterproductTypen.toSql(productType),
+      );
+    }
+    return map;
+  }
+
+  ProductTypesTableCompanion toCompanion(bool nullToAbsent) {
+    return ProductTypesTableCompanion(
+      id: Value(id),
+      name: Value(name),
+      productCategory: Value(productCategory),
+      createdAt: Value(createdAt),
+      isCustom: Value(isCustom),
+      productType: productType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(productType),
+    );
+  }
+
+  factory ProductTypesTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ProductTypesTableData(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      productCategory: serializer.fromJson<ProductCategory>(
+        json['productCategory'],
+      ),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      isCustom: serializer.fromJson<bool>(json['isCustom']),
+      productType: serializer.fromJson<ProductType?>(json['productType']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'productCategory': serializer.toJson<ProductCategory>(productCategory),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'isCustom': serializer.toJson<bool>(isCustom),
+      'productType': serializer.toJson<ProductType?>(productType),
+    };
+  }
+
+  ProductTypesTableData copyWith({
+    int? id,
+    String? name,
+    ProductCategory? productCategory,
+    DateTime? createdAt,
+    bool? isCustom,
+    Value<ProductType?> productType = const Value.absent(),
+  }) => ProductTypesTableData(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    productCategory: productCategory ?? this.productCategory,
+    createdAt: createdAt ?? this.createdAt,
+    isCustom: isCustom ?? this.isCustom,
+    productType: productType.present ? productType.value : this.productType,
+  );
+  ProductTypesTableData copyWithCompanion(ProductTypesTableCompanion data) {
+    return ProductTypesTableData(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      productCategory: data.productCategory.present
+          ? data.productCategory.value
+          : this.productCategory,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      isCustom: data.isCustom.present ? data.isCustom.value : this.isCustom,
+      productType: data.productType.present
+          ? data.productType.value
+          : this.productType,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProductTypesTableData(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('productCategory: $productCategory, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('isCustom: $isCustom, ')
+          ..write('productType: $productType')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, name, productCategory, createdAt, isCustom, productType);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ProductTypesTableData &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.productCategory == this.productCategory &&
+          other.createdAt == this.createdAt &&
+          other.isCustom == this.isCustom &&
+          other.productType == this.productType);
+}
+
+class ProductTypesTableCompanion
+    extends UpdateCompanion<ProductTypesTableData> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<ProductCategory> productCategory;
+  final Value<DateTime> createdAt;
+  final Value<bool> isCustom;
+  final Value<ProductType?> productType;
+  const ProductTypesTableCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.productCategory = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.isCustom = const Value.absent(),
+    this.productType = const Value.absent(),
+  });
+  ProductTypesTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required ProductCategory productCategory,
+    this.createdAt = const Value.absent(),
+    this.isCustom = const Value.absent(),
+    this.productType = const Value.absent(),
+  }) : name = Value(name),
+       productCategory = Value(productCategory);
+  static Insertable<ProductTypesTableData> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<int>? productCategory,
+    Expression<DateTime>? createdAt,
+    Expression<bool>? isCustom,
+    Expression<int>? productType,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (productCategory != null) 'product_category': productCategory,
+      if (createdAt != null) 'created_at': createdAt,
+      if (isCustom != null) 'is_custom': isCustom,
+      if (productType != null) 'product_type': productType,
+    });
+  }
+
+  ProductTypesTableCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<ProductCategory>? productCategory,
+    Value<DateTime>? createdAt,
+    Value<bool>? isCustom,
+    Value<ProductType?>? productType,
+  }) {
+    return ProductTypesTableCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      productCategory: productCategory ?? this.productCategory,
+      createdAt: createdAt ?? this.createdAt,
+      isCustom: isCustom ?? this.isCustom,
+      productType: productType ?? this.productType,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (productCategory.present) {
+      map['product_category'] = Variable<int>(
+        $ProductTypesTableTable.$converterproductCategory.toSql(
+          productCategory.value,
+        ),
+      );
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (isCustom.present) {
+      map['is_custom'] = Variable<bool>(isCustom.value);
+    }
+    if (productType.present) {
+      map['product_type'] = Variable<int>(
+        $ProductTypesTableTable.$converterproductTypen.toSql(productType.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProductTypesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('productCategory: $productCategory, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('isCustom: $isCustom, ')
+          ..write('productType: $productType')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ProductItemsTableTable extends ProductItemsTable
     with TableInfo<$ProductItemsTableTable, ProductItemsTableData> {
   @override
@@ -43,6 +462,20 @@ class $ProductItemsTableTable extends ProductItemsTable
       ).withConverter<ProductCategory>(
         $ProductItemsTableTable.$converterproductCategoryId,
       );
+  static const VerificationMeta _productTypeMeta = const VerificationMeta(
+    'productType',
+  );
+  @override
+  late final GeneratedColumn<int> productType = GeneratedColumn<int>(
+    'product_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES product_types_table (id)',
+    ),
+  );
   static const VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
   @override
   late final GeneratedColumn<int> itemId = GeneratedColumn<int>(
@@ -70,6 +503,7 @@ class $ProductItemsTableTable extends ProductItemsTable
     id,
     name,
     productCategoryId,
+    productType,
     itemId,
     createdAt,
   ];
@@ -95,6 +529,17 @@ class $ProductItemsTableTable extends ProductItemsTable
       );
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('product_type')) {
+      context.handle(
+        _productTypeMeta,
+        productType.isAcceptableOrUnknown(
+          data['product_type']!,
+          _productTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_productTypeMeta);
     }
     if (data.containsKey('item_id')) {
       context.handle(
@@ -134,6 +579,10 @@ class $ProductItemsTableTable extends ProductItemsTable
               data['${effectivePrefix}product_category_id'],
             )!,
           ),
+      productType: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}product_type'],
+      )!,
       itemId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}item_id'],
@@ -159,12 +608,14 @@ class ProductItemsTableData extends DataClass
   final int id;
   final String name;
   final ProductCategory productCategoryId;
+  final int productType;
   final int itemId;
   final DateTime createdAt;
   const ProductItemsTableData({
     required this.id,
     required this.name,
     required this.productCategoryId,
+    required this.productType,
     required this.itemId,
     required this.createdAt,
   });
@@ -180,6 +631,7 @@ class ProductItemsTableData extends DataClass
         ),
       );
     }
+    map['product_type'] = Variable<int>(productType);
     map['item_id'] = Variable<int>(itemId);
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
@@ -190,6 +642,7 @@ class ProductItemsTableData extends DataClass
       id: Value(id),
       name: Value(name),
       productCategoryId: Value(productCategoryId),
+      productType: Value(productType),
       itemId: Value(itemId),
       createdAt: Value(createdAt),
     );
@@ -206,6 +659,7 @@ class ProductItemsTableData extends DataClass
       productCategoryId: serializer.fromJson<ProductCategory>(
         json['productCategoryId'],
       ),
+      productType: serializer.fromJson<int>(json['productType']),
       itemId: serializer.fromJson<int>(json['itemId']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -219,6 +673,7 @@ class ProductItemsTableData extends DataClass
       'productCategoryId': serializer.toJson<ProductCategory>(
         productCategoryId,
       ),
+      'productType': serializer.toJson<int>(productType),
       'itemId': serializer.toJson<int>(itemId),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -228,12 +683,14 @@ class ProductItemsTableData extends DataClass
     int? id,
     String? name,
     ProductCategory? productCategoryId,
+    int? productType,
     int? itemId,
     DateTime? createdAt,
   }) => ProductItemsTableData(
     id: id ?? this.id,
     name: name ?? this.name,
     productCategoryId: productCategoryId ?? this.productCategoryId,
+    productType: productType ?? this.productType,
     itemId: itemId ?? this.itemId,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -244,6 +701,9 @@ class ProductItemsTableData extends DataClass
       productCategoryId: data.productCategoryId.present
           ? data.productCategoryId.value
           : this.productCategoryId,
+      productType: data.productType.present
+          ? data.productType.value
+          : this.productType,
       itemId: data.itemId.present ? data.itemId.value : this.itemId,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
@@ -255,6 +715,7 @@ class ProductItemsTableData extends DataClass
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('productCategoryId: $productCategoryId, ')
+          ..write('productType: $productType, ')
           ..write('itemId: $itemId, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
@@ -263,7 +724,7 @@ class ProductItemsTableData extends DataClass
 
   @override
   int get hashCode =>
-      Object.hash(id, name, productCategoryId, itemId, createdAt);
+      Object.hash(id, name, productCategoryId, productType, itemId, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -271,6 +732,7 @@ class ProductItemsTableData extends DataClass
           other.id == this.id &&
           other.name == this.name &&
           other.productCategoryId == this.productCategoryId &&
+          other.productType == this.productType &&
           other.itemId == this.itemId &&
           other.createdAt == this.createdAt);
 }
@@ -280,12 +742,14 @@ class ProductItemsTableCompanion
   final Value<int> id;
   final Value<String> name;
   final Value<ProductCategory> productCategoryId;
+  final Value<int> productType;
   final Value<int> itemId;
   final Value<DateTime> createdAt;
   const ProductItemsTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.productCategoryId = const Value.absent(),
+    this.productType = const Value.absent(),
     this.itemId = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
@@ -293,15 +757,18 @@ class ProductItemsTableCompanion
     this.id = const Value.absent(),
     required String name,
     required ProductCategory productCategoryId,
+    required int productType,
     required int itemId,
     this.createdAt = const Value.absent(),
   }) : name = Value(name),
        productCategoryId = Value(productCategoryId),
+       productType = Value(productType),
        itemId = Value(itemId);
   static Insertable<ProductItemsTableData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? productCategoryId,
+    Expression<int>? productType,
     Expression<int>? itemId,
     Expression<DateTime>? createdAt,
   }) {
@@ -309,6 +776,7 @@ class ProductItemsTableCompanion
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (productCategoryId != null) 'product_category_id': productCategoryId,
+      if (productType != null) 'product_type': productType,
       if (itemId != null) 'item_id': itemId,
       if (createdAt != null) 'created_at': createdAt,
     });
@@ -318,6 +786,7 @@ class ProductItemsTableCompanion
     Value<int>? id,
     Value<String>? name,
     Value<ProductCategory>? productCategoryId,
+    Value<int>? productType,
     Value<int>? itemId,
     Value<DateTime>? createdAt,
   }) {
@@ -325,6 +794,7 @@ class ProductItemsTableCompanion
       id: id ?? this.id,
       name: name ?? this.name,
       productCategoryId: productCategoryId ?? this.productCategoryId,
+      productType: productType ?? this.productType,
       itemId: itemId ?? this.itemId,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -346,6 +816,9 @@ class ProductItemsTableCompanion
         ),
       );
     }
+    if (productType.present) {
+      map['product_type'] = Variable<int>(productType.value);
+    }
     if (itemId.present) {
       map['item_id'] = Variable<int>(itemId.value);
     }
@@ -361,6 +834,7 @@ class ProductItemsTableCompanion
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('productCategoryId: $productCategoryId, ')
+          ..write('productType: $productType, ')
           ..write('itemId: $itemId, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
@@ -852,452 +1326,384 @@ class ProductItemTagsTableCompanion
   }
 }
 
-class $ProductTypesTableTable extends ProductTypesTable
-    with TableInfo<$ProductTypesTableTable, ProductTypesTableData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $ProductTypesTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  late final GeneratedColumnWithTypeConverter<ProductCategory, int>
-  productCategory =
-      GeneratedColumn<int>(
-        'product_category',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-      ).withConverter<ProductCategory>(
-        $ProductTypesTableTable.$converterproductCategory,
-      );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
-  static const VerificationMeta _isCustomMeta = const VerificationMeta(
-    'isCustom',
-  );
-  @override
-  late final GeneratedColumn<bool> isCustom = GeneratedColumn<bool>(
-    'is_custom',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_custom" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
-  @override
-  late final GeneratedColumnWithTypeConverter<ProductType?, int> productType =
-      GeneratedColumn<int>(
-        'product_type',
-        aliasedName,
-        true,
-        type: DriftSqlType.int,
-        requiredDuringInsert: false,
-      ).withConverter<ProductType?>(
-        $ProductTypesTableTable.$converterproductTypen,
-      );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    name,
-    productCategory,
-    createdAt,
-    isCustom,
-    productType,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'product_types_table';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<ProductTypesTableData> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    }
-    if (data.containsKey('is_custom')) {
-      context.handle(
-        _isCustomMeta,
-        isCustom.isAcceptableOrUnknown(data['is_custom']!, _isCustomMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  ProductTypesTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ProductTypesTableData(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      productCategory: $ProductTypesTableTable.$converterproductCategory
-          .fromSql(
-            attachedDatabase.typeMapping.read(
-              DriftSqlType.int,
-              data['${effectivePrefix}product_category'],
-            )!,
-          ),
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-      isCustom: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_custom'],
-      )!,
-      productType: $ProductTypesTableTable.$converterproductTypen.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}product_type'],
-        ),
-      ),
-    );
-  }
-
-  @override
-  $ProductTypesTableTable createAlias(String alias) {
-    return $ProductTypesTableTable(attachedDatabase, alias);
-  }
-
-  static TypeConverter<ProductCategory, int> $converterproductCategory =
-      const ProductCategoryConverter();
-  static TypeConverter<ProductType, int> $converterproductType =
-      const ProductTypeConverter();
-  static TypeConverter<ProductType?, int?> $converterproductTypen =
-      NullAwareTypeConverter.wrap($converterproductType);
-}
-
-class ProductTypesTableData extends DataClass
-    implements Insertable<ProductTypesTableData> {
-  final int id;
-  final String name;
-  final ProductCategory productCategory;
-  final DateTime createdAt;
-  final bool isCustom;
-  final ProductType? productType;
-  const ProductTypesTableData({
-    required this.id,
-    required this.name,
-    required this.productCategory,
-    required this.createdAt,
-    required this.isCustom,
-    this.productType,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    {
-      map['product_category'] = Variable<int>(
-        $ProductTypesTableTable.$converterproductCategory.toSql(
-          productCategory,
-        ),
-      );
-    }
-    map['created_at'] = Variable<DateTime>(createdAt);
-    map['is_custom'] = Variable<bool>(isCustom);
-    if (!nullToAbsent || productType != null) {
-      map['product_type'] = Variable<int>(
-        $ProductTypesTableTable.$converterproductTypen.toSql(productType),
-      );
-    }
-    return map;
-  }
-
-  ProductTypesTableCompanion toCompanion(bool nullToAbsent) {
-    return ProductTypesTableCompanion(
-      id: Value(id),
-      name: Value(name),
-      productCategory: Value(productCategory),
-      createdAt: Value(createdAt),
-      isCustom: Value(isCustom),
-      productType: productType == null && nullToAbsent
-          ? const Value.absent()
-          : Value(productType),
-    );
-  }
-
-  factory ProductTypesTableData.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return ProductTypesTableData(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      productCategory: serializer.fromJson<ProductCategory>(
-        json['productCategory'],
-      ),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      isCustom: serializer.fromJson<bool>(json['isCustom']),
-      productType: serializer.fromJson<ProductType?>(json['productType']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'productCategory': serializer.toJson<ProductCategory>(productCategory),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'isCustom': serializer.toJson<bool>(isCustom),
-      'productType': serializer.toJson<ProductType?>(productType),
-    };
-  }
-
-  ProductTypesTableData copyWith({
-    int? id,
-    String? name,
-    ProductCategory? productCategory,
-    DateTime? createdAt,
-    bool? isCustom,
-    Value<ProductType?> productType = const Value.absent(),
-  }) => ProductTypesTableData(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    productCategory: productCategory ?? this.productCategory,
-    createdAt: createdAt ?? this.createdAt,
-    isCustom: isCustom ?? this.isCustom,
-    productType: productType.present ? productType.value : this.productType,
-  );
-  ProductTypesTableData copyWithCompanion(ProductTypesTableCompanion data) {
-    return ProductTypesTableData(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      productCategory: data.productCategory.present
-          ? data.productCategory.value
-          : this.productCategory,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      isCustom: data.isCustom.present ? data.isCustom.value : this.isCustom,
-      productType: data.productType.present
-          ? data.productType.value
-          : this.productType,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('ProductTypesTableData(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('productCategory: $productCategory, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('isCustom: $isCustom, ')
-          ..write('productType: $productType')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, name, productCategory, createdAt, isCustom, productType);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is ProductTypesTableData &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.productCategory == this.productCategory &&
-          other.createdAt == this.createdAt &&
-          other.isCustom == this.isCustom &&
-          other.productType == this.productType);
-}
-
-class ProductTypesTableCompanion
-    extends UpdateCompanion<ProductTypesTableData> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<ProductCategory> productCategory;
-  final Value<DateTime> createdAt;
-  final Value<bool> isCustom;
-  final Value<ProductType?> productType;
-  const ProductTypesTableCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.productCategory = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.isCustom = const Value.absent(),
-    this.productType = const Value.absent(),
-  });
-  ProductTypesTableCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    required ProductCategory productCategory,
-    this.createdAt = const Value.absent(),
-    this.isCustom = const Value.absent(),
-    this.productType = const Value.absent(),
-  }) : name = Value(name),
-       productCategory = Value(productCategory);
-  static Insertable<ProductTypesTableData> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<int>? productCategory,
-    Expression<DateTime>? createdAt,
-    Expression<bool>? isCustom,
-    Expression<int>? productType,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (productCategory != null) 'product_category': productCategory,
-      if (createdAt != null) 'created_at': createdAt,
-      if (isCustom != null) 'is_custom': isCustom,
-      if (productType != null) 'product_type': productType,
-    });
-  }
-
-  ProductTypesTableCompanion copyWith({
-    Value<int>? id,
-    Value<String>? name,
-    Value<ProductCategory>? productCategory,
-    Value<DateTime>? createdAt,
-    Value<bool>? isCustom,
-    Value<ProductType?>? productType,
-  }) {
-    return ProductTypesTableCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      productCategory: productCategory ?? this.productCategory,
-      createdAt: createdAt ?? this.createdAt,
-      isCustom: isCustom ?? this.isCustom,
-      productType: productType ?? this.productType,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (productCategory.present) {
-      map['product_category'] = Variable<int>(
-        $ProductTypesTableTable.$converterproductCategory.toSql(
-          productCategory.value,
-        ),
-      );
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (isCustom.present) {
-      map['is_custom'] = Variable<bool>(isCustom.value);
-    }
-    if (productType.present) {
-      map['product_type'] = Variable<int>(
-        $ProductTypesTableTable.$converterproductTypen.toSql(productType.value),
-      );
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('ProductTypesTableCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('productCategory: $productCategory, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('isCustom: $isCustom, ')
-          ..write('productType: $productType')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $ProductTypesTableTable productTypesTable =
+      $ProductTypesTableTable(this);
   late final $ProductItemsTableTable productItemsTable =
       $ProductItemsTableTable(this);
   late final $TagsTableTable tagsTable = $TagsTableTable(this);
   late final $ProductItemTagsTableTable productItemTagsTable =
       $ProductItemTagsTableTable(this);
-  late final $ProductTypesTableTable productTypesTable =
-      $ProductTypesTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+    productTypesTable,
     productItemsTable,
     tagsTable,
     productItemTagsTable,
-    productTypesTable,
   ];
 }
 
+typedef $$ProductTypesTableTableCreateCompanionBuilder =
+    ProductTypesTableCompanion Function({
+      Value<int> id,
+      required String name,
+      required ProductCategory productCategory,
+      Value<DateTime> createdAt,
+      Value<bool> isCustom,
+      Value<ProductType?> productType,
+    });
+typedef $$ProductTypesTableTableUpdateCompanionBuilder =
+    ProductTypesTableCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<ProductCategory> productCategory,
+      Value<DateTime> createdAt,
+      Value<bool> isCustom,
+      Value<ProductType?> productType,
+    });
+
+final class $$ProductTypesTableTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ProductTypesTableTable,
+          ProductTypesTableData
+        > {
+  $$ProductTypesTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<
+    $ProductItemsTableTable,
+    List<ProductItemsTableData>
+  >
+  _productItemsTableRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.productItemsTable,
+        aliasName: $_aliasNameGenerator(
+          db.productTypesTable.id,
+          db.productItemsTable.productType,
+        ),
+      );
+
+  $$ProductItemsTableTableProcessedTableManager get productItemsTableRefs {
+    final manager = $$ProductItemsTableTableTableManager(
+      $_db,
+      $_db.productItemsTable,
+    ).filter((f) => f.productType.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _productItemsTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ProductTypesTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ProductTypesTableTable> {
+  $$ProductTypesTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<ProductCategory, ProductCategory, int>
+  get productCategory => $composableBuilder(
+    column: $table.productCategory,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCustom => $composableBuilder(
+    column: $table.isCustom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<ProductType?, ProductType, int>
+  get productType => $composableBuilder(
+    column: $table.productType,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  Expression<bool> productItemsTableRefs(
+    Expression<bool> Function($$ProductItemsTableTableFilterComposer f) f,
+  ) {
+    final $$ProductItemsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.productItemsTable,
+      getReferencedColumn: (t) => t.productType,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductItemsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.productItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ProductTypesTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ProductTypesTableTable> {
+  $$ProductTypesTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get productCategory => $composableBuilder(
+    column: $table.productCategory,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCustom => $composableBuilder(
+    column: $table.isCustom,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get productType => $composableBuilder(
+    column: $table.productType,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ProductTypesTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ProductTypesTableTable> {
+  $$ProductTypesTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<ProductCategory, int> get productCategory =>
+      $composableBuilder(
+        column: $table.productCategory,
+        builder: (column) => column,
+      );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCustom =>
+      $composableBuilder(column: $table.isCustom, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<ProductType?, int> get productType =>
+      $composableBuilder(
+        column: $table.productType,
+        builder: (column) => column,
+      );
+
+  Expression<T> productItemsTableRefs<T extends Object>(
+    Expression<T> Function($$ProductItemsTableTableAnnotationComposer a) f,
+  ) {
+    final $$ProductItemsTableTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.productItemsTable,
+          getReferencedColumn: (t) => t.productType,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ProductItemsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.productItemsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$ProductTypesTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ProductTypesTableTable,
+          ProductTypesTableData,
+          $$ProductTypesTableTableFilterComposer,
+          $$ProductTypesTableTableOrderingComposer,
+          $$ProductTypesTableTableAnnotationComposer,
+          $$ProductTypesTableTableCreateCompanionBuilder,
+          $$ProductTypesTableTableUpdateCompanionBuilder,
+          (ProductTypesTableData, $$ProductTypesTableTableReferences),
+          ProductTypesTableData,
+          PrefetchHooks Function({bool productItemsTableRefs})
+        > {
+  $$ProductTypesTableTableTableManager(
+    _$AppDatabase db,
+    $ProductTypesTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ProductTypesTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProductTypesTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProductTypesTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<ProductCategory> productCategory = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<bool> isCustom = const Value.absent(),
+                Value<ProductType?> productType = const Value.absent(),
+              }) => ProductTypesTableCompanion(
+                id: id,
+                name: name,
+                productCategory: productCategory,
+                createdAt: createdAt,
+                isCustom: isCustom,
+                productType: productType,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required ProductCategory productCategory,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<bool> isCustom = const Value.absent(),
+                Value<ProductType?> productType = const Value.absent(),
+              }) => ProductTypesTableCompanion.insert(
+                id: id,
+                name: name,
+                productCategory: productCategory,
+                createdAt: createdAt,
+                isCustom: isCustom,
+                productType: productType,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ProductTypesTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({productItemsTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (productItemsTableRefs) db.productItemsTable,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (productItemsTableRefs)
+                    await $_getPrefetchedData<
+                      ProductTypesTableData,
+                      $ProductTypesTableTable,
+                      ProductItemsTableData
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ProductTypesTableTableReferences
+                          ._productItemsTableRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ProductTypesTableTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).productItemsTableRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.productType == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ProductTypesTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ProductTypesTableTable,
+      ProductTypesTableData,
+      $$ProductTypesTableTableFilterComposer,
+      $$ProductTypesTableTableOrderingComposer,
+      $$ProductTypesTableTableAnnotationComposer,
+      $$ProductTypesTableTableCreateCompanionBuilder,
+      $$ProductTypesTableTableUpdateCompanionBuilder,
+      (ProductTypesTableData, $$ProductTypesTableTableReferences),
+      ProductTypesTableData,
+      PrefetchHooks Function({bool productItemsTableRefs})
+    >;
 typedef $$ProductItemsTableTableCreateCompanionBuilder =
     ProductItemsTableCompanion Function({
       Value<int> id,
       required String name,
       required ProductCategory productCategoryId,
+      required int productType,
       required int itemId,
       Value<DateTime> createdAt,
     });
@@ -1306,6 +1712,7 @@ typedef $$ProductItemsTableTableUpdateCompanionBuilder =
       Value<int> id,
       Value<String> name,
       Value<ProductCategory> productCategoryId,
+      Value<int> productType,
       Value<int> itemId,
       Value<DateTime> createdAt,
     });
@@ -1322,6 +1729,28 @@ final class $$ProductItemsTableTableReferences
     super.$_table,
     super.$_typedResult,
   );
+
+  static $ProductTypesTableTable _productTypeTable(_$AppDatabase db) =>
+      db.productTypesTable.createAlias(
+        $_aliasNameGenerator(
+          db.productItemsTable.productType,
+          db.productTypesTable.id,
+        ),
+      );
+
+  $$ProductTypesTableTableProcessedTableManager get productType {
+    final $_column = $_itemColumn<int>('product_type')!;
+
+    final manager = $$ProductTypesTableTableTableManager(
+      $_db,
+      $_db.productTypesTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_productTypeTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<
     $ProductItemTagsTableTable,
@@ -1387,6 +1816,29 @@ class $$ProductItemsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  $$ProductTypesTableTableFilterComposer get productType {
+    final $$ProductTypesTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.productType,
+      referencedTable: $db.productTypesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductTypesTableTableFilterComposer(
+            $db: $db,
+            $table: $db.productTypesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<bool> productItemTagsTableRefs(
     Expression<bool> Function($$ProductItemTagsTableTableFilterComposer f) f,
   ) {
@@ -1446,6 +1898,29 @@ class $$ProductItemsTableTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$ProductTypesTableTableOrderingComposer get productType {
+    final $$ProductTypesTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.productType,
+      referencedTable: $db.productTypesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductTypesTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.productTypesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ProductItemsTableTableAnnotationComposer
@@ -1474,6 +1949,30 @@ class $$ProductItemsTableTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$ProductTypesTableTableAnnotationComposer get productType {
+    final $$ProductTypesTableTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.productType,
+          referencedTable: $db.productTypesTable,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ProductTypesTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.productTypesTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
 
   Expression<T> productItemTagsTableRefs<T extends Object>(
     Expression<T> Function($$ProductItemTagsTableTableAnnotationComposer a) f,
@@ -1515,7 +2014,10 @@ class $$ProductItemsTableTableTableManager
           $$ProductItemsTableTableUpdateCompanionBuilder,
           (ProductItemsTableData, $$ProductItemsTableTableReferences),
           ProductItemsTableData,
-          PrefetchHooks Function({bool productItemTagsTableRefs})
+          PrefetchHooks Function({
+            bool productType,
+            bool productItemTagsTableRefs,
+          })
         > {
   $$ProductItemsTableTableTableManager(
     _$AppDatabase db,
@@ -1538,12 +2040,14 @@ class $$ProductItemsTableTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<ProductCategory> productCategoryId = const Value.absent(),
+                Value<int> productType = const Value.absent(),
                 Value<int> itemId = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => ProductItemsTableCompanion(
                 id: id,
                 name: name,
                 productCategoryId: productCategoryId,
+                productType: productType,
                 itemId: itemId,
                 createdAt: createdAt,
               ),
@@ -1552,12 +2056,14 @@ class $$ProductItemsTableTableTableManager
                 Value<int> id = const Value.absent(),
                 required String name,
                 required ProductCategory productCategoryId,
+                required int productType,
                 required int itemId,
                 Value<DateTime> createdAt = const Value.absent(),
               }) => ProductItemsTableCompanion.insert(
                 id: id,
                 name: name,
                 productCategoryId: productCategoryId,
+                productType: productType,
                 itemId: itemId,
                 createdAt: createdAt,
               ),
@@ -1569,40 +2075,74 @@ class $$ProductItemsTableTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({productItemTagsTableRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (productItemTagsTableRefs) db.productItemTagsTable,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (productItemTagsTableRefs)
-                    await $_getPrefetchedData<
-                      ProductItemsTableData,
-                      $ProductItemsTableTable,
-                      ProductItemTagsTableData
-                    >(
-                      currentTable: table,
-                      referencedTable: $$ProductItemsTableTableReferences
-                          ._productItemTagsTableRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$ProductItemsTableTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).productItemTagsTableRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.productItemId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({productType = false, productItemTagsTableRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (productItemTagsTableRefs) db.productItemTagsTable,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (productType) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.productType,
+                                    referencedTable:
+                                        $$ProductItemsTableTableReferences
+                                            ._productTypeTable(db),
+                                    referencedColumn:
+                                        $$ProductItemsTableTableReferences
+                                            ._productTypeTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (productItemTagsTableRefs)
+                        await $_getPrefetchedData<
+                          ProductItemsTableData,
+                          $ProductItemsTableTable,
+                          ProductItemTagsTableData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ProductItemsTableTableReferences
+                              ._productItemTagsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ProductItemsTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).productItemTagsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.productItemId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -1619,7 +2159,7 @@ typedef $$ProductItemsTableTableProcessedTableManager =
       $$ProductItemsTableTableUpdateCompanionBuilder,
       (ProductItemsTableData, $$ProductItemsTableTableReferences),
       ProductItemsTableData,
-      PrefetchHooks Function({bool productItemTagsTableRefs})
+      PrefetchHooks Function({bool productType, bool productItemTagsTableRefs})
     >;
 typedef $$TagsTableTableCreateCompanionBuilder =
     TagsTableCompanion Function({
@@ -2263,250 +2803,16 @@ typedef $$ProductItemTagsTableTableProcessedTableManager =
       ProductItemTagsTableData,
       PrefetchHooks Function({bool productItemId, bool tagId})
     >;
-typedef $$ProductTypesTableTableCreateCompanionBuilder =
-    ProductTypesTableCompanion Function({
-      Value<int> id,
-      required String name,
-      required ProductCategory productCategory,
-      Value<DateTime> createdAt,
-      Value<bool> isCustom,
-      Value<ProductType?> productType,
-    });
-typedef $$ProductTypesTableTableUpdateCompanionBuilder =
-    ProductTypesTableCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<ProductCategory> productCategory,
-      Value<DateTime> createdAt,
-      Value<bool> isCustom,
-      Value<ProductType?> productType,
-    });
-
-class $$ProductTypesTableTableFilterComposer
-    extends Composer<_$AppDatabase, $ProductTypesTableTable> {
-  $$ProductTypesTableTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnWithTypeConverterFilters<ProductCategory, ProductCategory, int>
-  get productCategory => $composableBuilder(
-    column: $table.productCategory,
-    builder: (column) => ColumnWithTypeConverterFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get isCustom => $composableBuilder(
-    column: $table.isCustom,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnWithTypeConverterFilters<ProductType?, ProductType, int>
-  get productType => $composableBuilder(
-    column: $table.productType,
-    builder: (column) => ColumnWithTypeConverterFilters(column),
-  );
-}
-
-class $$ProductTypesTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $ProductTypesTableTable> {
-  $$ProductTypesTableTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get productCategory => $composableBuilder(
-    column: $table.productCategory,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get isCustom => $composableBuilder(
-    column: $table.isCustom,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get productType => $composableBuilder(
-    column: $table.productType,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$ProductTypesTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ProductTypesTableTable> {
-  $$ProductTypesTableTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<ProductCategory, int> get productCategory =>
-      $composableBuilder(
-        column: $table.productCategory,
-        builder: (column) => column,
-      );
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  GeneratedColumn<bool> get isCustom =>
-      $composableBuilder(column: $table.isCustom, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<ProductType?, int> get productType =>
-      $composableBuilder(
-        column: $table.productType,
-        builder: (column) => column,
-      );
-}
-
-class $$ProductTypesTableTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $ProductTypesTableTable,
-          ProductTypesTableData,
-          $$ProductTypesTableTableFilterComposer,
-          $$ProductTypesTableTableOrderingComposer,
-          $$ProductTypesTableTableAnnotationComposer,
-          $$ProductTypesTableTableCreateCompanionBuilder,
-          $$ProductTypesTableTableUpdateCompanionBuilder,
-          (
-            ProductTypesTableData,
-            BaseReferences<
-              _$AppDatabase,
-              $ProductTypesTableTable,
-              ProductTypesTableData
-            >,
-          ),
-          ProductTypesTableData,
-          PrefetchHooks Function()
-        > {
-  $$ProductTypesTableTableTableManager(
-    _$AppDatabase db,
-    $ProductTypesTableTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$ProductTypesTableTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$ProductTypesTableTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$ProductTypesTableTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<ProductCategory> productCategory = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-                Value<bool> isCustom = const Value.absent(),
-                Value<ProductType?> productType = const Value.absent(),
-              }) => ProductTypesTableCompanion(
-                id: id,
-                name: name,
-                productCategory: productCategory,
-                createdAt: createdAt,
-                isCustom: isCustom,
-                productType: productType,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String name,
-                required ProductCategory productCategory,
-                Value<DateTime> createdAt = const Value.absent(),
-                Value<bool> isCustom = const Value.absent(),
-                Value<ProductType?> productType = const Value.absent(),
-              }) => ProductTypesTableCompanion.insert(
-                id: id,
-                name: name,
-                productCategory: productCategory,
-                createdAt: createdAt,
-                isCustom: isCustom,
-                productType: productType,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
-}
-
-typedef $$ProductTypesTableTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $ProductTypesTableTable,
-      ProductTypesTableData,
-      $$ProductTypesTableTableFilterComposer,
-      $$ProductTypesTableTableOrderingComposer,
-      $$ProductTypesTableTableAnnotationComposer,
-      $$ProductTypesTableTableCreateCompanionBuilder,
-      $$ProductTypesTableTableUpdateCompanionBuilder,
-      (
-        ProductTypesTableData,
-        BaseReferences<
-          _$AppDatabase,
-          $ProductTypesTableTable,
-          ProductTypesTableData
-        >,
-      ),
-      ProductTypesTableData,
-      PrefetchHooks Function()
-    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$ProductTypesTableTableTableManager get productTypesTable =>
+      $$ProductTypesTableTableTableManager(_db, _db.productTypesTable);
   $$ProductItemsTableTableTableManager get productItemsTable =>
       $$ProductItemsTableTableTableManager(_db, _db.productItemsTable);
   $$TagsTableTableTableManager get tagsTable =>
       $$TagsTableTableTableManager(_db, _db.tagsTable);
   $$ProductItemTagsTableTableTableManager get productItemTagsTable =>
       $$ProductItemTagsTableTableTableManager(_db, _db.productItemTagsTable);
-  $$ProductTypesTableTableTableManager get productTypesTable =>
-      $$ProductTypesTableTableTableManager(_db, _db.productTypesTable);
 }

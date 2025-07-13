@@ -1,10 +1,10 @@
 part of 'product_form_bloc.dart';
 
 class ProductFormState extends Equatable {
-  ProductFormState({required this.category, required this.type, this.selectedUnit});
+  ProductFormState({required this.category, this.type, this.selectedUnit});
 
   final ProductCategory category;
-  final AppProductType type;
+  AppProductType? type;
   Units? selectedUnit;
 
   ProductFormState copyWith({ProductCategory? category, AppProductType? type, Units? selectedUnit}) {

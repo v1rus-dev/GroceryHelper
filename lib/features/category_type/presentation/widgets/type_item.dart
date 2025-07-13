@@ -9,11 +9,6 @@ class CategoryTypeItem extends StatelessWidget {
   final AppProductType type;
   final Function(AppProductType) onTap;
 
-  String get displayName => switch (type) {
-    AppProductTypeDefault() => type.displayName,
-    AppProductTypeUser() => type.displayName,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +22,7 @@ class CategoryTypeItem extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(displayName, style: Theme.of(context).textTheme.bodyMedium),
+                  child: Text(type.displayName, style: Theme.of(context).textTheme.bodyMedium),
                 ),
               ],
             ),

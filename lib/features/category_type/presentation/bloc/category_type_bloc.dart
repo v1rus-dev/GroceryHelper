@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:groceryhelper/domain/entities/app_product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
-import 'package:groceryhelper/domain/enums/product_type.dart';
 import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 
@@ -14,8 +13,8 @@ part 'category_type_state.dart';
 class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
   final ProductTypeRepository productTypeRepository;
 
-  StreamSubscription<List<AppProductTypeUser>>? _userTypesSubscription;
-  List<AppProductTypeUser> _userTypes = [];
+  StreamSubscription<List<AppProductType>>? _userTypesSubscription;
+  List<AppProductType> _userTypes = [];
 
   CategoryTypeBloc(ProductCategory category, this.productTypeRepository)
     : super(CategoryTypeState(category: category, types: [])) {
