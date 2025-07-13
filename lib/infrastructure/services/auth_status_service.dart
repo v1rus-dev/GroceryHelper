@@ -1,31 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class AuthStatusService {
-  /// Проверяет, авторизован ли пользователь
-  Future<bool> isUserAuthenticated();
-
-  /// Получает текущего пользователя
-  User? getCurrentUser();
-
-  /// Слушает изменения статуса авторизации
-  Stream<User?> get authStateChanges;
-}
-
-class FirebaseAuthStatusService implements AuthStatusService {
+class AuthStatusService {
+  static final AuthStatusService _instance = AuthStatusService._internal();
+  factory AuthStatusService() => _instance;
   final FirebaseAuth _auth;
 
-  FirebaseAuthStatusService({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
+  AuthStatusService._internal({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
 
-  @override
+  static AuthStatusService get instance => _instance;
+
   Future<bool> isUserAuthenticated() async {
     return _auth.currentUser != null;
   }
 
-  @override
   User? getCurrentUser() {
     return _auth.currentUser;
   }
 
-  @override
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 }

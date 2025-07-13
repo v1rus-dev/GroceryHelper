@@ -3,14 +3,12 @@ import 'package:drift/drift.dart';
 import '../../../core/errors/errors.dart';
 import '../../../domain/entities/tag.dart';
 import '../../database/app_database.dart';
-import '../interfaces/tag_datasource_interface.dart';
 
-class LocalTagDatasource implements TagDatasourceInterface {
+class LocalTagDatasource {
   final AppDatabase _database;
 
   LocalTagDatasource({required AppDatabase database}) : _database = database;
 
-  @override
   Future<Either<AppError, List<Tag>>> getAllTags() async {
     try {
       final tags = await _database.select(_database.tagsTable).get();
@@ -20,7 +18,6 @@ class LocalTagDatasource implements TagDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, Tag?>> getTagById(int id) async {
     try {
       final tag = await (_database.select(_database.tagsTable)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
@@ -32,7 +29,6 @@ class LocalTagDatasource implements TagDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, Tag>> createTag(Tag tag) async {
     try {
       final companion = TagsTableCompanion.insert(name: tag.name);
@@ -44,7 +40,6 @@ class LocalTagDatasource implements TagDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, void>> updateTag(Tag tag) async {
     try {
       final companion = TagsTableCompanion(id: Value(tag.id), name: Value(tag.name));
@@ -57,7 +52,6 @@ class LocalTagDatasource implements TagDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, void>> deleteTag(int id) async {
     try {
       await (_database.delete(_database.tagsTable)..where((tbl) => tbl.id.equals(id))).go();

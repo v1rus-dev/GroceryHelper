@@ -1,7 +1,4 @@
 import '../database/app_database.dart';
-import 'interfaces/product_datasource_interface.dart';
-import 'interfaces/product_type_datasource_interface.dart';
-import 'interfaces/tag_datasource_interface.dart';
 import 'local/local_product_datasource.dart';
 import 'local/local_product_type_datasource.dart';
 import 'local/local_tag_datasource.dart';
@@ -15,32 +12,32 @@ class DatasourceFactory {
   DatasourceFactory({required AppDatabase database}) : _database = database;
 
   /// Создает local product datasource
-  ProductDatasourceInterface createLocalProductDatasource() {
+  LocalProductDatasource createLocalProductDatasource() {
     return LocalProductDatasource(database: _database);
   }
 
   /// Создает network product datasource
-  ProductDatasourceInterface createNetworkProductDatasource() {
+  NetworkProductDatasource createNetworkProductDatasource() {
     return NetworkProductDatasource();
   }
 
   /// Создает local product type datasource
-  ProductTypeDatasourceInterface createLocalProductTypeDatasource() {
+  LocalProductTypeDatasource createLocalProductTypeDatasource() {
     return LocalProductTypeDatasource(database: _database);
   }
 
   /// Создает network product type datasource
-  ProductTypeDatasourceInterface createNetworkProductTypeDatasource() {
+  NetworkProductTypeDatasource createNetworkProductTypeDatasource() {
     return NetworkProductTypeDatasource();
   }
 
   /// Создает local tag datasource
-  TagDatasourceInterface createLocalTagDatasource() {
+  LocalTagDatasource createLocalTagDatasource() {
     return LocalTagDatasource(database: _database);
   }
 
   /// Создает network tag datasource
-  TagDatasourceInterface createNetworkTagDatasource() {
+  NetworkTagDatasource createNetworkTagDatasource() {
     return NetworkTagDatasource();
   }
 }

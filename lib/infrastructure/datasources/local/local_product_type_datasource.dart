@@ -5,14 +5,12 @@ import '../../../core/errors/errors.dart';
 import '../../../domain/entities/product_type.dart';
 import '../../../domain/enums/product_category.dart';
 import '../../database/app_database.dart';
-import '../interfaces/product_type_datasource_interface.dart';
 
-class LocalProductTypeDatasource implements ProductTypeDatasourceInterface {
+class LocalProductTypeDatasource {
   final AppDatabase _database;
 
   LocalProductTypeDatasource({required AppDatabase database}) : _database = database;
 
-  @override
   Future<Either<AppError, List<ProductType>>> getAllProductTypes() async {
     try {
       final types = await _database.select(_database.productTypesTable).get();
@@ -22,7 +20,6 @@ class LocalProductTypeDatasource implements ProductTypeDatasourceInterface {
     }
   }
 
-  @override
   Stream<List<ProductType>> watchProductTypes() {
     return _database
         .select(_database.productTypesTable)
@@ -30,7 +27,6 @@ class LocalProductTypeDatasource implements ProductTypeDatasourceInterface {
         .map((event) => event.map((type) => _mapToProductType(type)).toList());
   }
 
-  @override
   Future<Either<AppError, ProductType?>> getProductTypeById(int id) async {
     try {
       TalkerService.log('LocalProductTypeDatasource getProductTypeById: $id');
@@ -45,24 +41,22 @@ class LocalProductTypeDatasource implements ProductTypeDatasourceInterface {
     }
   }
 
-  @override
-  Future<Either<AppError, ProductType>> createProductType(ProductType productType) async {
+  Future<Either<AppError, int>> createProductType(String name, ProductCategory category) async {
     try {
       final companion = ProductTypesTableCompanion.insert(
-        name: productType.name,
-        productCategory: productType.category,
-        productType: Value(productType.productType),
-        isCustom: Value(productType.isCustom),
+        name: name,
+        productCategory: category,
+        productType: Value(null),
+        isCustom: Value(true),
       );
 
       final id = await _database.into(_database.productTypesTable).insert(companion);
-      return right(productType.copyWith(id: id));
+      return right(id);
     } catch (e) {
       return left(AppError(message: e.toString(), type: AppErrorType.silent));
     }
   }
 
-  @override
   Future<Either<AppError, void>> updateProductType(ProductType productType) async {
     try {
       final companion = ProductTypesTableCompanion(
@@ -83,7 +77,6 @@ class LocalProductTypeDatasource implements ProductTypeDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, void>> deleteProductType(int id) async {
     try {
       await (_database.delete(_database.productTypesTable)..where((tbl) => tbl.id.equals(id))).go();
@@ -94,7 +87,6 @@ class LocalProductTypeDatasource implements ProductTypeDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, List<ProductType>>> getProductTypesByCategory(ProductCategory category) async {
     try {
       TalkerService.log('LocalProductTypeDatasource getProductTypesByCategory: $category');

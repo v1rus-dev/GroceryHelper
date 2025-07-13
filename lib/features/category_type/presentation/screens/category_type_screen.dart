@@ -9,10 +9,10 @@ import 'package:groceryhelper/common_ui/widgets/utils/drag_handler.dart';
 import 'package:groceryhelper/domain/entities/product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
+import 'package:groceryhelper/domain/repositories/product_types_repository.dart';
 import 'package:groceryhelper/features/category_type/domain/entities/category_type_result.dart';
 import 'package:groceryhelper/features/category_type/presentation/bloc/category_type_bloc.dart';
 import 'package:groceryhelper/features/category_type/presentation/bottom_sheet/add_custom_type.dart';
-import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
 import 'package:groceryhelper/infrastructure/services/locator.dart';
 
 class CategoryTypeScreen extends StatelessWidget {
@@ -24,7 +24,7 @@ class CategoryTypeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          CategoryTypeBloc(selectedCategory, locator<ProductTypeRepository>())..add(CategoryTypeInitialized()),
+          CategoryTypeBloc(selectedCategory, locator<ProductTypesRepository>())..add(CategoryTypeInitialized()),
       child: CategoryTypeScreenView(selectedCategory: selectedCategory),
     );
   }

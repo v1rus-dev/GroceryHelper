@@ -62,7 +62,7 @@ void main() {
       expect(productTypes.isNotEmpty, true);
 
       // Проверяем, что все предопределенные типы продуктов добавлены
-      final predefinedTypes = ProductTypeUtils.allTypes;
+      final predefinedTypes = ProductType.values;
       expect(productTypes.length, greaterThan(predefinedTypes.length));
 
       // Проверяем наличие некоторых конкретных типов

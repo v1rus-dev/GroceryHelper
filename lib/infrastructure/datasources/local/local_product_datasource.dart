@@ -4,14 +4,12 @@ import '../../../core/errors/errors.dart';
 import '../../../domain/entities/product_item.dart';
 import '../../../domain/enums/product_category.dart';
 import '../../database/app_database.dart';
-import '../interfaces/product_datasource_interface.dart';
 
-class LocalProductDatasource implements ProductDatasourceInterface {
+class LocalProductDatasource {
   final AppDatabase _database;
 
   LocalProductDatasource({required AppDatabase database}) : _database = database;
 
-  @override
   Future<Either<AppError, List<ProductItem>>> getAllProducts() async {
     try {
       final products = await _database.select(_database.productItemsTable).get();
@@ -21,7 +19,6 @@ class LocalProductDatasource implements ProductDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, ProductItem?>> getProductById(int id) async {
     try {
       final product = await (_database.select(
@@ -35,7 +32,6 @@ class LocalProductDatasource implements ProductDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, ProductItem>> createProduct(ProductItem product) async {
     try {
       final companion = ProductItemsTableCompanion.insert(
@@ -52,7 +48,6 @@ class LocalProductDatasource implements ProductDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, void>> updateProduct(ProductItem product) async {
     try {
       final companion = ProductItemsTableCompanion(
@@ -71,7 +66,6 @@ class LocalProductDatasource implements ProductDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, void>> deleteProduct(int id) async {
     try {
       await (_database.delete(_database.productItemsTable)..where((tbl) => tbl.id.equals(id))).go();
@@ -82,7 +76,6 @@ class LocalProductDatasource implements ProductDatasourceInterface {
     }
   }
 
-  @override
   Future<Either<AppError, List<ProductItem>>> getProductsByCategory(ProductCategory category) async {
     try {
       final products = await (_database.select(
@@ -102,7 +95,7 @@ class LocalProductDatasource implements ProductDatasourceInterface {
       category: product.productCategoryId,
       productTypeId: product.productType,
       createdAt: product.createdAt,
-      itemId: product.itemId?.toString(),
+      itemId: product.itemId.toString(),
     );
   }
 }

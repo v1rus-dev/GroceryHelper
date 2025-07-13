@@ -4,19 +4,19 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:groceryhelper/domain/entities/product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
-import 'package:groceryhelper/features/category_type/domain/repository/product_type_repository.dart';
+import 'package:groceryhelper/domain/repositories/product_types_repository.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 
 part 'category_type_event.dart';
 part 'category_type_state.dart';
 
 class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
-  final ProductTypeRepository productTypeRepository;
+  final ProductTypesRepository productTypesRepository;
 
   StreamSubscription<List<ProductType>>? _userTypesSubscription;
   List<ProductType> _userTypes = [];
 
-  CategoryTypeBloc(ProductCategory category, this.productTypeRepository)
+  CategoryTypeBloc(ProductCategory category, this.productTypesRepository)
     : super(CategoryTypeState(category: category, types: [])) {
     on<CategoryTypeSelected>(_onCategorySelected);
     on<CategoryTypeInitialized>(_onCategoryTypeInitialized);
@@ -25,7 +25,7 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
   }
 
   _onCategoryTypeInitialized(CategoryTypeInitialized event, Emitter<CategoryTypeState> emit) {
-    _userTypesSubscription = productTypeRepository.watchProductTypes().listen((userTypes) {
+    _userTypesSubscription = productTypesRepository.watchProductTypes().listen((userTypes) {
       TalkerService.log('Types: $userTypes');
       _userTypes.clear();
       _userTypes.addAll(userTypes);
@@ -39,7 +39,7 @@ class CategoryTypeBloc extends Bloc<CategoryTypeEvent, CategoryTypeState> {
   }
 
   _onCategoryTypeAddCustomType(CategoryTypeAddCustomType event, Emitter<CategoryTypeState> emit) {
-    productTypeRepository.addProductType(event.category, event.name).then((value) {
+    productTypesRepository.createProductType(event.name, event.category).then((value) {
       event.completer.complete(value);
     });
   }

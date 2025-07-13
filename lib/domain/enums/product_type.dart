@@ -33,7 +33,7 @@ enum ProductType {
   babyToys,
 
   // Generic
-  uncategorized,
+  other,
 }
 
 extension ProductTypeExtension on ProductType {
@@ -59,7 +59,7 @@ extension ProductTypeExtension on ProductType {
     ProductType.babyFood => 'Для детей',
     ProductType.babyCare => 'Уход за детьми',
     ProductType.babyToys => 'Игрушки для детей',
-    ProductType.uncategorized => 'Без категории',
+    ProductType.other => 'Другое',
   };
 
   int get id => switch (this) {
@@ -84,7 +84,7 @@ extension ProductTypeExtension on ProductType {
     ProductType.babyFood => 19,
     ProductType.babyCare => 20,
     ProductType.babyToys => 21,
-    ProductType.uncategorized => 99,
+    ProductType.other => 99,
   };
 
   ProductCategory get category => switch (this) {
@@ -120,7 +120,7 @@ extension ProductTypeExtension on ProductType {
     ProductType.babyToys => ProductCategory.baby,
 
     // Other
-    ProductType.uncategorized => ProductCategory.other,
+    ProductType.other => ProductCategory.other,
   };
 }
 
@@ -150,18 +150,13 @@ extension ProductTypeUtils on ProductType {
       ],
       ProductCategory.pets: [ProductType.petFood, ProductType.petCare, ProductType.petToys],
       ProductCategory.baby: [ProductType.diapers, ProductType.babyFood, ProductType.babyCare, ProductType.babyToys],
-      ProductCategory.other: [ProductType.uncategorized],
+      ProductCategory.other: [ProductType.other],
     };
   }
 
   /// Возвращает список всех типов продуктов для указанной категории
   static List<ProductType> getTypesForCategory(ProductCategory category) {
     return groupedByCategory[category] ?? [];
-  }
-
-  /// Возвращает все типы продуктов в виде плоского списка
-  static List<ProductType> get allTypes {
-    return ProductType.values.where((type) => type != ProductType.uncategorized).toList();
   }
 }
 

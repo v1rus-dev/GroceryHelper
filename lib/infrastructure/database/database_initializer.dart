@@ -35,7 +35,7 @@ class DatabaseInitializer {
     final productTypesCompanion = <ProductTypesTableCompanion>[];
 
     // Добавляем все предопределенные типы продуктов
-    for (final productType in ProductTypeUtils.allTypes) {
+    for (final productType in ProductType.values) {
       productTypesCompanion.add(
         ProductTypesTableCompanion.insert(
           name: productType.displayName,

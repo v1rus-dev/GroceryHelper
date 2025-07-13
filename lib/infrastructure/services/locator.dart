@@ -1,13 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groceryhelper/domain/repositories/auth_repository.dart';
-import 'package:groceryhelper/features/category_type/domain/usecases/add_product_type_usecase.dart';
-import 'package:groceryhelper/features/product_form/domain/usecase/create_product_use_case.dart';
-import 'package:groceryhelper/features/product_form/domain/usecase/get_product_types_use_case.dart';
+import 'package:groceryhelper/domain/repositories/product_types_repository.dart';
+import 'package:groceryhelper/domain/repositories/products_repository.dart';
+import 'package:groceryhelper/domain/repositories/tags_repository.dart';
 import 'package:groceryhelper/features/product_form/presentation/bloc/product_form_bloc.dart';
 import 'package:groceryhelper/features/register/register.dart';
 import 'package:groceryhelper/infrastructure/database/app_database.dart';
+import 'package:groceryhelper/infrastructure/database/repositories/product_types_repository_impl.dart';
+import 'package:groceryhelper/infrastructure/database/repositories/products_repository_impl.dart';
+import 'package:groceryhelper/infrastructure/database/repositories/tags_repository_impl.dart';
+import 'package:groceryhelper/infrastructure/datasources/local/local_product_datasource.dart';
+import 'package:groceryhelper/infrastructure/datasources/local/local_product_type_datasource.dart';
+import 'package:groceryhelper/infrastructure/datasources/local/local_tag_datasource.dart';
+import 'package:groceryhelper/infrastructure/datasources/network/network_product_datasource.dart';
+import 'package:groceryhelper/infrastructure/datasources/network/network_tag_datasource.dart';
+import 'package:groceryhelper/infrastructure/datasources/network/network_product_type_datasource.dart';
 import 'package:groceryhelper/infrastructure/di/database_di.dart';
 import 'package:groceryhelper/infrastructure/firebase/auth_repository_impl.dart';
+import 'package:groceryhelper/infrastructure/services/auth_status_service.dart';
 import 'package:groceryhelper/infrastructure/services/error_display_service.dart';
 import 'package:groceryhelper/infrastructure/services/navigation_state_service.dart';
 import 'package:groceryhelper/core/constants/app_constant_values.dart';
@@ -27,14 +37,15 @@ final locator = GetIt.instance;
 Future<void> initServiceLocator(AppDatabase appDatabase) async {
   await initFirebase();
   await initDatabase(appDatabase);
-  await initServices();
   await initRepositories();
+  await initServices();
   await initUsecases();
   await initFeatures();
 }
 
 Future<void> initFirebase() async {
   locator.registerSingleton(FirebaseAuth.instance);
+  locator.registerSingleton(AuthStatusService.instance);
 }
 
 Future<void> initDatabase(AppDatabase appDatabase) async {
@@ -49,6 +60,28 @@ Future<void> initServices() async {
 Future<void> initRepositories() async {
   locator.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(firebaseAuth: locator(), googleClientId: getGoogleClientId()),
+  );
+  locator.registerSingleton<ProductsRepository>(
+    ProductsRepositoryImpl(
+      localProductDatasource: locator<LocalProductDatasource>(),
+      networkProductDatasource: locator<NetworkProductDatasource>(),
+      authStatusService: locator<AuthStatusService>(),
+    ),
+  );
+
+  locator.registerSingleton<TagsRepository>(
+    TagsRepositoryImpl(
+      localTagDatasource: locator<LocalTagDatasource>(),
+      networkTagDatasource: locator<NetworkTagDatasource>(),
+      authStatusService: locator<AuthStatusService>(),
+    ),
+  );
+
+  locator.registerSingleton<ProductTypesRepository>(
+    ProductTypesRepositoryImpl(
+      localDatasource: locator<LocalProductTypeDatasource>(),
+      networkDatasource: locator<NetworkProductTypeDatasource>(),
+    ),
   );
 }
 
@@ -94,16 +127,12 @@ Future<void> initRegisterFeature() async {
 }
 
 /// Инициализация CategoryType feature
-Future<void> initCategoryTypeFeature() async {
-  locator.registerSingleton<AddProductTypeUseCase>(AddProductTypeUseCase(repository: locator()));
-}
+Future<void> initCategoryTypeFeature() async {}
 
 /// Инициализация ProductForm feature
 Future<void> initProductFormFeature() async {
-  locator.registerLazySingleton<CreateProductUseCase>(() => CreateProductUseCase(productsRepository: locator()));
-  locator.registerLazySingleton<GetProductTypesUseCase>(() => GetProductTypesUseCase(productsRepository: locator()));
   locator.registerLazySingleton<ProductFormBloc>(
-    () => ProductFormBloc(createProductUseCase: locator(), getProductTypesUseCase: locator()),
+    () => ProductFormBloc(productTypesRepository: locator(), productsRepository: locator()),
   );
 }
 
