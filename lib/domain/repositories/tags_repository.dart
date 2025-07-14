@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../../core/errors/errors.dart';
+import '../../shared/errors/errors.dart';
 import '../entities/tag.dart';
 
 abstract class TagsRepository {

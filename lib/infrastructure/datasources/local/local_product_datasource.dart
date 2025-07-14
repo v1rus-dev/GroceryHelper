@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
-import '../../../core/errors/errors.dart';
+import '../../../shared/errors/errors.dart';
 import '../../../domain/entities/product_item.dart';
 import '../../../domain/enums/product_category.dart';
 import '../../database/app_database.dart';

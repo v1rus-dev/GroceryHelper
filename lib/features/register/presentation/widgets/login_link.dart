@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:groceryhelper/common_ui/theme/app_text_styles.dart';
-import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
-import 'package:go_router/go_router.dart';
+part of '../../register.dart';
 
 class LoginLink extends StatelessWidget {
   const LoginLink({super.key});

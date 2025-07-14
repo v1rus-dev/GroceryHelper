@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/common_ui/theme/app_colors.dart';
+import 'package:groceryhelper/shared_ui/theme/app_colors.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_headers_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_text_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_buttons_section.dart';

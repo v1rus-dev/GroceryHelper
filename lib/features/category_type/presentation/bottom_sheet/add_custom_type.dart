@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:groceryhelper/common_ui/widgets/buttons/app_chip.dart';
-import 'package:groceryhelper/common_ui/widgets/textFields/app_text_field.dart';
-import 'package:groceryhelper/common_ui/widgets/buttons/app_primary_button.dart';
+import 'package:groceryhelper/shared_ui/widgets/buttons/app_chip.dart';
+import 'package:groceryhelper/shared_ui/widgets/textFields/app_text_field.dart';
+import 'package:groceryhelper/shared_ui/widgets/buttons/app_primary_button.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
-import 'package:groceryhelper/common_ui/widgets/utils/drag_handler.dart';
+import 'package:groceryhelper/shared_ui/widgets/utils/drag_handler.dart';
 
 class AddCustomTypeBottomSheet extends StatefulWidget {
   const AddCustomTypeBottomSheet({super.key, required this.selectedCategory});

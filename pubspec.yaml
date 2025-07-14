@@ -61,6 +61,8 @@ dependencies:
   # web: ^1.1.1
   flutter_svg: ^2.2.0
   shared_preferences: ^2.5.3
+  bloc: ^9.0.0
+  meta: ^1.16.0
 
 dev_dependencies:
   flutter_test:

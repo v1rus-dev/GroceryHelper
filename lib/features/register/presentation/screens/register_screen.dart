@@ -1,22 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
-import 'package:groceryhelper/infrastructure/services/locator.dart';
-import 'package:groceryhelper/domain/validators/universal_validator.dart';
-import 'package:groceryhelper/domain/validators/rules/validation_rules.dart';
-import 'package:groceryhelper/domain/validators/utils/rule_validation_result.dart';
-import 'package:groceryhelper/common_ui/widgets/layouts/app_scaffold.dart';
-import 'package:groceryhelper/common_ui/widgets/buttons/app_primary_button.dart';
-import 'package:groceryhelper/common_ui/widgets/textFields/app_text_field.dart';
-import 'package:groceryhelper/common_ui/widgets/utils/rule_validation_requirements_list.dart';
-import 'package:groceryhelper/features/register/domain/repositories/register_repository.dart';
-import 'package:groceryhelper/features/register/presentation/bloc/register_bloc.dart';
-import 'package:groceryhelper/features/register/presentation/widgets/login_link.dart';
-import 'package:gap/gap.dart';
-import 'package:groceryhelper/core/constants/app_assets.dart';
-import 'package:groceryhelper/common_ui/widgets/toolbars/app_toolbar.dart';
-import 'package:go_router/go_router.dart';
-import 'package:groceryhelper/core/constants/app_constant_values.dart';
+part of '../../register.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -226,7 +208,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                       ],
                     ),
                   ),
-                if (AppConstantValues.isRegisterTestMode) Gap(20),
+                if (AppConstantValues.isRegisterTestMode) const Gap(20),
                 AppTextField(
                   labelText: 'Имя пользователя',
                   leadingIcon: AppAssets.icUser,

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../../../core/errors/errors.dart';
+import '../../../shared/errors/errors.dart';
 import '../../../domain/entities/tag.dart';
 import '../../../domain/repositories/tags_repository.dart';
 import '../../datasources/local/local_tag_datasource.dart';

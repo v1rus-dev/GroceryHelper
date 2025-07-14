@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of '../../register.dart';
 
 class RegisterRequest extends Equatable {
   final String username;

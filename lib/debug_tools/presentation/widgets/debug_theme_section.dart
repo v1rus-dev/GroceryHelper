@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide ThemeMode;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:groceryhelper/common_ui/theme/app_text_styles.dart';
-import 'package:groceryhelper/common_ui/theme/bloc/theme_bloc.dart';
+import 'package:groceryhelper/shared_ui/theme/app_text_styles.dart';
+import 'package:groceryhelper/shared_ui/theme/bloc/theme_bloc.dart';
 
 class DebugThemeSection extends StatelessWidget {
   const DebugThemeSection({super.key});

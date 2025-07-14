@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/errors/errors.dart';
+import 'package:groceryhelper/shared/errors/errors.dart';
 import 'package:groceryhelper/infrastructure/services/global_context_service.dart';
-import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
+import 'package:groceryhelper/shared_ui/dialogs/state_dialog_manager.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 
 class ErrorDisplayService {

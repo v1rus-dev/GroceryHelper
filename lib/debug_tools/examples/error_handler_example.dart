@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/core/errors/errors.dart';
-import 'package:groceryhelper/core/errors/error_handler.dart';
+import 'package:groceryhelper/shared/errors/errors.dart';
+import 'package:groceryhelper/shared/errors/error_handler.dart';
 
 /// Примеры использования интегрированной системы обработки ошибок
 class ErrorHandlerExample {

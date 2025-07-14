@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/common_ui/theme/app_text_styles.dart';
-import 'package:groceryhelper/common_ui/widgets/textFields/app_text_field.dart';
+import 'package:groceryhelper/shared_ui/theme/app_text_styles.dart';
+import 'package:groceryhelper/shared_ui/widgets/textFields/app_text_field.dart';
 
 class DebugInputFieldsSection extends StatelessWidget {
   const DebugInputFieldsSection({super.key});

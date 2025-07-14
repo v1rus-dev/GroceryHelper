@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groceryhelper/features/register/data/repositories/register_repository_mock.dart';
-import 'package:groceryhelper/features/register/domain/entities/register_request.dart';
+import 'package:groceryhelper/features/register/register.dart';
 
 void main() {
   group('RegisterRepositoryMock Tests', () {

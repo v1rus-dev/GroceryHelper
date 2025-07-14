@@ -1,5 +1,5 @@
-import 'package:groceryhelper/infrastructure/navigation/app_router.dart';
-import 'package:groceryhelper/infrastructure/navigation/router_paths.dart';
+import 'package:groceryhelper/app/router/app_router.dart';
+import 'package:groceryhelper/app/router/router_paths.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

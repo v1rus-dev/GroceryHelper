@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:groceryhelper/common_ui/theme/app_theme_extension.dart';
+import 'package:groceryhelper/shared_ui/theme/app_theme_extension.dart';
 import 'package:groceryhelper/domain/entities/product_type.dart';
 
 class CategoryTypeItem extends StatelessWidget {

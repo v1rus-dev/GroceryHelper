@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/common_ui/dialogs/state_dialog_manager.dart';
-import 'package:groceryhelper/infrastructure/services/locator.dart';
+import 'package:groceryhelper/shared_ui/dialogs/state_dialog_manager.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 
 /// Пример использования новой системы диалогов

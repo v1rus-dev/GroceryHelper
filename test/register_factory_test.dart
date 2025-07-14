@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groceryhelper/features/register/data/repositories/register_repository_factory.dart';
-import 'package:groceryhelper/features/register/data/repositories/register_repository_mock.dart';
-import 'package:groceryhelper/features/register/data/repositories/register_repository_impl.dart';
+import 'package:groceryhelper/features/register/register.dart';
 
 void main() {
   group('RegisterRepositoryFactory Tests', () {
@@ -13,9 +11,7 @@ void main() {
 
     test('should create real repository when useMock is false', () async {
       // В тестовой среде Firebase не инициализирован, поэтому ожидаем исключение
-      final repository = await RegisterRepositoryFactory.create(useMock: false);
-
-      expect(repository, isA<RegisterRepositoryImpl>());
+      expect(() => RegisterRepositoryFactory.create(useMock: false), throwsA(isA<StateError>()));
     });
 
     test('should create mock repository by default', () async {

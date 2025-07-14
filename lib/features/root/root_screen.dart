@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:groceryhelper/core/constants/app_assets.dart';
-import 'package:groceryhelper/infrastructure/navigation/router_paths.dart';
+import 'package:groceryhelper/shared/constants/app_assets.dart';
+import 'package:groceryhelper/app/router/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:groceryhelper/infrastructure/web/web_helpers.dart';
-import 'package:groceryhelper/common_ui/widgets/bottom_navigation/app_bottom_navigation.dart';
-import 'package:groceryhelper/common_ui/widgets/bottom_navigation/app_bottom_navigation_item.dart';
+import 'package:groceryhelper/shared_ui/widgets/bottom_navigation/app_bottom_navigation.dart';
+import 'package:groceryhelper/shared_ui/widgets/bottom_navigation/app_bottom_navigation_item.dart';
 import 'package:groceryhelper/infrastructure/services/navigation_state_service.dart';
 
 class RootScreen extends StatefulWidget {
