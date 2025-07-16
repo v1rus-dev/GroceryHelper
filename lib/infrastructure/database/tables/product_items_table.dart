@@ -7,7 +7,6 @@ class ProductItemsTable extends Table {
   TextColumn get name => text()();
   IntColumn get productCategoryId => integer().map(const ProductCategoryConverter())();
   IntColumn get productType => integer().references(ProductTypesTable, #id)();
-  IntColumn get itemId => integer().unique()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
   @override

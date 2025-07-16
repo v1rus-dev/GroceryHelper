@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:groceryhelper/domain/entities/product_item_with_type.dart';
 import '../../../shared/errors/errors.dart';
 import '../../../domain/entities/product_item.dart';
 import '../../../domain/entities/product_type.dart';
@@ -39,33 +40,39 @@ class ProductsRepositoryImpl implements ProductsRepository {
     }
   }
 
-  /// Получить все продукты
   @override
   Future<Either<AppError, List<ProductItem>>> getAllProducts() async {
     return await _localProductDatasource.getAllProducts();
   }
 
-  /// Получить продукт по ID
   @override
-  Future<Either<AppError, ProductItem?>> getProductById(int id) async {
-    return await _localProductDatasource.getProductById(id);
+  Stream<List<ProductItemWithType>> observeProducts() {
+    return _localProductDatasource.observeProducts().map(
+      (products) => products
+          .map(
+            (product) => ProductItemWithType(
+              productItem: ProductItem(
+                id: product.productItem.id,
+                name: product.productItem.name,
+                category: ProductCategoryHelper.fromId(product.productItem.productCategoryId),
+                productTypeId: product.productItem.productTypeId,
+                createdAt: product.productItem.createdAt,
+              ),
+              productType: ProductType(
+                id: product.productType.id,
+                name: product.productType.name,
+                category: ProductCategoryHelper.fromId(product.productType.productCategoryId),
+                createdAt: product.productType.createdAt,
+                isCustom: product.productType.isCustom,
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 
-  /// Обновить продукт
   @override
-  Future<Either<AppError, void>> updateProduct(ProductItem product) async {
-    return await _localProductDatasource.updateProduct(product);
-  }
-
-  /// Удалить продукт
-  @override
-  Future<Either<AppError, void>> deleteProduct(int id) async {
-    return await _localProductDatasource.deleteProduct(id);
-  }
-
-  /// Получить продукты по категории
-  @override
-  Future<Either<AppError, List<ProductItem>>> getProductsByCategory(ProductCategory category) async {
-    return await _localProductDatasource.getProductsByCategory(category);
+  Future<Either<AppError, List<ProductItem>>> searchProducts(String query) async {
+    return await _localProductDatasource.searchProducts(query);
   }
 }

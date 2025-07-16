@@ -1,32 +1,24 @@
 import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
+import 'package:groceryhelper/infrastructure/database/dao/product_types_dao.dart';
+import 'package:groceryhelper/infrastructure/database/entities/product_item_with_type_entity.dart';
 import '../../../shared/errors/errors.dart';
 import '../../../domain/entities/product_item.dart';
-import '../../../domain/enums/product_category.dart';
 import '../../database/app_database.dart';
 
 class LocalProductDatasource {
   final AppDatabase _database;
 
-  LocalProductDatasource({required AppDatabase database}) : _database = database;
+  final ProductTypesDao _productTypesDao;
+  // Оставлен только конструктор, так как других методов в выделении нет и удалять нечего
+  LocalProductDatasource({required AppDatabase database})
+    : _database = database,
+      _productTypesDao = database.productTypesDao;
 
   Future<Either<AppError, List<ProductItem>>> getAllProducts() async {
     try {
       final products = await _database.select(_database.productItemsTable).get();
       return right(products.map((product) => _mapToProductItem(product)).toList());
-    } catch (e) {
-      return left(AppError(message: e.toString(), type: AppErrorType.silent));
-    }
-  }
-
-  Future<Either<AppError, ProductItem?>> getProductById(int id) async {
-    try {
-      final product = await (_database.select(
-        _database.productItemsTable,
-      )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
-
-      if (product == null) return right(null);
-      return right(_mapToProductItem(product));
     } catch (e) {
       return left(AppError(message: e.toString(), type: AppErrorType.silent));
     }
@@ -38,7 +30,6 @@ class LocalProductDatasource {
         name: product.name,
         productCategoryId: product.category,
         productType: product.productTypeId,
-        itemId: int.tryParse(product.itemId ?? '0') ?? 0,
       );
 
       final id = await _database.into(_database.productItemsTable).insert(companion);
@@ -48,40 +39,15 @@ class LocalProductDatasource {
     }
   }
 
-  Future<Either<AppError, void>> updateProduct(ProductItem product) async {
-    try {
-      final companion = ProductItemsTableCompanion(
-        id: Value(product.id),
-        name: Value(product.name),
-        productCategoryId: Value(product.category),
-        productType: Value(product.productTypeId),
-        itemId: Value(int.tryParse(product.itemId ?? '0') ?? 0),
-      );
-
-      await (_database.update(_database.productItemsTable)..where((tbl) => tbl.id.equals(product.id))).write(companion);
-
-      return right(null);
-    } catch (e) {
-      return left(AppError(message: e.toString(), type: AppErrorType.silent));
-    }
+  Stream<List<ProductItemWithTypeEntity>> observeProducts() {
+    return _productTypesDao.watchProductTypes();
   }
 
-  Future<Either<AppError, void>> deleteProduct(int id) async {
-    try {
-      await (_database.delete(_database.productItemsTable)..where((tbl) => tbl.id.equals(id))).go();
-
-      return right(null);
-    } catch (e) {
-      return left(AppError(message: e.toString(), type: AppErrorType.silent));
-    }
-  }
-
-  Future<Either<AppError, List<ProductItem>>> getProductsByCategory(ProductCategory category) async {
+  Future<Either<AppError, List<ProductItem>>> searchProducts(String query) async {
     try {
       final products = await (_database.select(
         _database.productItemsTable,
-      )..where((tbl) => tbl.productCategoryId.equals(category.index))).get();
-
+      )..where((tbl) => tbl.name.like('%$query%'))).get();
       return right(products.map((product) => _mapToProductItem(product)).toList());
     } catch (e) {
       return left(AppError(message: e.toString(), type: AppErrorType.silent));
@@ -95,7 +61,6 @@ class LocalProductDatasource {
       category: product.productCategoryId,
       productTypeId: product.productType,
       createdAt: product.createdAt,
-      itemId: product.itemId.toString(),
     );
   }
 }

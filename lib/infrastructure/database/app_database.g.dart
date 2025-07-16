@@ -476,16 +476,6 @@ class $ProductItemsTableTable extends ProductItemsTable
       'REFERENCES product_types_table (id)',
     ),
   );
-  static const VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  @override
-  late final GeneratedColumn<int> itemId = GeneratedColumn<int>(
-    'item_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
-  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -504,7 +494,6 @@ class $ProductItemsTableTable extends ProductItemsTable
     name,
     productCategoryId,
     productType,
-    itemId,
     createdAt,
   ];
   @override
@@ -541,14 +530,6 @@ class $ProductItemsTableTable extends ProductItemsTable
     } else if (isInserting) {
       context.missing(_productTypeMeta);
     }
-    if (data.containsKey('item_id')) {
-      context.handle(
-        _itemIdMeta,
-        itemId.isAcceptableOrUnknown(data['item_id']!, _itemIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
-    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -583,10 +564,6 @@ class $ProductItemsTableTable extends ProductItemsTable
         DriftSqlType.int,
         data['${effectivePrefix}product_type'],
       )!,
-      itemId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}item_id'],
-      )!,
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -609,14 +586,12 @@ class ProductItemsTableData extends DataClass
   final String name;
   final ProductCategory productCategoryId;
   final int productType;
-  final int itemId;
   final DateTime createdAt;
   const ProductItemsTableData({
     required this.id,
     required this.name,
     required this.productCategoryId,
     required this.productType,
-    required this.itemId,
     required this.createdAt,
   });
   @override
@@ -632,7 +607,6 @@ class ProductItemsTableData extends DataClass
       );
     }
     map['product_type'] = Variable<int>(productType);
-    map['item_id'] = Variable<int>(itemId);
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
@@ -643,7 +617,6 @@ class ProductItemsTableData extends DataClass
       name: Value(name),
       productCategoryId: Value(productCategoryId),
       productType: Value(productType),
-      itemId: Value(itemId),
       createdAt: Value(createdAt),
     );
   }
@@ -660,7 +633,6 @@ class ProductItemsTableData extends DataClass
         json['productCategoryId'],
       ),
       productType: serializer.fromJson<int>(json['productType']),
-      itemId: serializer.fromJson<int>(json['itemId']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -674,7 +646,6 @@ class ProductItemsTableData extends DataClass
         productCategoryId,
       ),
       'productType': serializer.toJson<int>(productType),
-      'itemId': serializer.toJson<int>(itemId),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -684,14 +655,12 @@ class ProductItemsTableData extends DataClass
     String? name,
     ProductCategory? productCategoryId,
     int? productType,
-    int? itemId,
     DateTime? createdAt,
   }) => ProductItemsTableData(
     id: id ?? this.id,
     name: name ?? this.name,
     productCategoryId: productCategoryId ?? this.productCategoryId,
     productType: productType ?? this.productType,
-    itemId: itemId ?? this.itemId,
     createdAt: createdAt ?? this.createdAt,
   );
   ProductItemsTableData copyWithCompanion(ProductItemsTableCompanion data) {
@@ -704,7 +673,6 @@ class ProductItemsTableData extends DataClass
       productType: data.productType.present
           ? data.productType.value
           : this.productType,
-      itemId: data.itemId.present ? data.itemId.value : this.itemId,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -716,7 +684,6 @@ class ProductItemsTableData extends DataClass
           ..write('name: $name, ')
           ..write('productCategoryId: $productCategoryId, ')
           ..write('productType: $productType, ')
-          ..write('itemId: $itemId, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -724,7 +691,7 @@ class ProductItemsTableData extends DataClass
 
   @override
   int get hashCode =>
-      Object.hash(id, name, productCategoryId, productType, itemId, createdAt);
+      Object.hash(id, name, productCategoryId, productType, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -733,7 +700,6 @@ class ProductItemsTableData extends DataClass
           other.name == this.name &&
           other.productCategoryId == this.productCategoryId &&
           other.productType == this.productType &&
-          other.itemId == this.itemId &&
           other.createdAt == this.createdAt);
 }
 
@@ -743,14 +709,12 @@ class ProductItemsTableCompanion
   final Value<String> name;
   final Value<ProductCategory> productCategoryId;
   final Value<int> productType;
-  final Value<int> itemId;
   final Value<DateTime> createdAt;
   const ProductItemsTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.productCategoryId = const Value.absent(),
     this.productType = const Value.absent(),
-    this.itemId = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   ProductItemsTableCompanion.insert({
@@ -758,18 +722,15 @@ class ProductItemsTableCompanion
     required String name,
     required ProductCategory productCategoryId,
     required int productType,
-    required int itemId,
     this.createdAt = const Value.absent(),
   }) : name = Value(name),
        productCategoryId = Value(productCategoryId),
-       productType = Value(productType),
-       itemId = Value(itemId);
+       productType = Value(productType);
   static Insertable<ProductItemsTableData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? productCategoryId,
     Expression<int>? productType,
-    Expression<int>? itemId,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -777,7 +738,6 @@ class ProductItemsTableCompanion
       if (name != null) 'name': name,
       if (productCategoryId != null) 'product_category_id': productCategoryId,
       if (productType != null) 'product_type': productType,
-      if (itemId != null) 'item_id': itemId,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -787,7 +747,6 @@ class ProductItemsTableCompanion
     Value<String>? name,
     Value<ProductCategory>? productCategoryId,
     Value<int>? productType,
-    Value<int>? itemId,
     Value<DateTime>? createdAt,
   }) {
     return ProductItemsTableCompanion(
@@ -795,7 +754,6 @@ class ProductItemsTableCompanion
       name: name ?? this.name,
       productCategoryId: productCategoryId ?? this.productCategoryId,
       productType: productType ?? this.productType,
-      itemId: itemId ?? this.itemId,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -819,9 +777,6 @@ class ProductItemsTableCompanion
     if (productType.present) {
       map['product_type'] = Variable<int>(productType.value);
     }
-    if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
-    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -835,7 +790,6 @@ class ProductItemsTableCompanion
           ..write('name: $name, ')
           ..write('productCategoryId: $productCategoryId, ')
           ..write('productType: $productType, ')
-          ..write('itemId: $itemId, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -1336,6 +1290,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TagsTableTable tagsTable = $TagsTableTable(this);
   late final $ProductItemTagsTableTable productItemTagsTable =
       $ProductItemTagsTableTable(this);
+  late final ProductTypesDao productTypesDao = ProductTypesDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1704,7 +1661,6 @@ typedef $$ProductItemsTableTableCreateCompanionBuilder =
       required String name,
       required ProductCategory productCategoryId,
       required int productType,
-      required int itemId,
       Value<DateTime> createdAt,
     });
 typedef $$ProductItemsTableTableUpdateCompanionBuilder =
@@ -1713,7 +1669,6 @@ typedef $$ProductItemsTableTableUpdateCompanionBuilder =
       Value<String> name,
       Value<ProductCategory> productCategoryId,
       Value<int> productType,
-      Value<int> itemId,
       Value<DateTime> createdAt,
     });
 
@@ -1806,11 +1761,6 @@ class $$ProductItemsTableTableFilterComposer
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
-  ColumnFilters<int> get itemId => $composableBuilder(
-    column: $table.itemId,
-    builder: (column) => ColumnFilters(column),
-  );
-
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
@@ -1889,11 +1839,6 @@ class $$ProductItemsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get itemId => $composableBuilder(
-    column: $table.itemId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -1943,9 +1888,6 @@ class $$ProductItemsTableTableAnnotationComposer
     column: $table.productCategoryId,
     builder: (column) => column,
   );
-
-  GeneratedColumn<int> get itemId =>
-      $composableBuilder(column: $table.itemId, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2041,14 +1983,12 @@ class $$ProductItemsTableTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<ProductCategory> productCategoryId = const Value.absent(),
                 Value<int> productType = const Value.absent(),
-                Value<int> itemId = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => ProductItemsTableCompanion(
                 id: id,
                 name: name,
                 productCategoryId: productCategoryId,
                 productType: productType,
-                itemId: itemId,
                 createdAt: createdAt,
               ),
           createCompanionCallback:
@@ -2057,14 +1997,12 @@ class $$ProductItemsTableTableTableManager
                 required String name,
                 required ProductCategory productCategoryId,
                 required int productType,
-                required int itemId,
                 Value<DateTime> createdAt = const Value.absent(),
               }) => ProductItemsTableCompanion.insert(
                 id: id,
                 name: name,
                 productCategoryId: productCategoryId,
                 productType: productType,
-                itemId: itemId,
                 createdAt: createdAt,
               ),
           withReferenceMapper: (p0) => p0

@@ -7,7 +7,6 @@ class ProductItem extends Equatable {
   final ProductCategory category;
   final int productTypeId;
   final DateTime createdAt;
-  final String? itemId;
   final List<String> tags;
 
   const ProductItem({
@@ -16,7 +15,6 @@ class ProductItem extends Equatable {
     required this.category,
     required this.productTypeId,
     required this.createdAt,
-    this.itemId,
     this.tags = const [],
   });
 
@@ -35,11 +33,10 @@ class ProductItem extends Equatable {
       category: category ?? this.category,
       productTypeId: productTypeId ?? this.productTypeId,
       createdAt: createdAt ?? this.createdAt,
-      itemId: itemId ?? this.itemId,
       tags: tags ?? this.tags,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, category, productTypeId, createdAt, itemId, tags];
+  List<Object?> get props => [id, name, category, productTypeId, createdAt, tags];
 }

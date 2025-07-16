@@ -18,7 +18,7 @@ void main() async {
       providers: [
         BlocProvider.value(value: locator<HomeBloc>()),
         BlocProvider.value(value: locator<BusketsBloc>()),
-        BlocProvider.value(value: locator<ProductsListBloc>()),
+        BlocProvider.value(value: locator<ProductsListBloc>()..add(ProductsListInitial())),
         BlocProvider.value(value: locator<UserBloc>()..add(UserInitEvent())),
         BlocProvider.value(value: locator<AuthBloc>()..add(AuthInitEvent())),
         BlocProvider.value(value: locator<theme_bloc.ThemeBloc>()..add(theme_bloc.ThemeInitEvent())),
