@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/shared_ui/extensions/color_extensions.dart';
+import 'package:design/design.dart';
 import 'package:web/web.dart' as html;
 
 class WebHelpers {

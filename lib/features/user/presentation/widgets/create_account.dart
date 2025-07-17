@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:groceryhelper/app/router/app_router.dart';
 import 'package:groceryhelper/app/router/router_paths.dart';
-import 'package:groceryhelper/shared_ui/theme/app_theme_extension.dart';
+import 'package:design/design.dart';
 
 class CreateAccount extends StatelessWidget {
   const CreateAccount({super.key});

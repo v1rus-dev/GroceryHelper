@@ -1,6 +1,5 @@
+import 'package:design/design.dart';
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/shared_ui/theme/app_text_styles.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/app_primary_button.dart';
 
 class DebugButtonsSection extends StatelessWidget {
   const DebugButtonsSection({super.key});

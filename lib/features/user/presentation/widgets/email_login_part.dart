@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/shared/constants/app_assets.dart';
-import 'package:groceryhelper/shared_ui/theme/app_text_styles.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/app_primary_button.dart';
-import 'package:groceryhelper/shared_ui/widgets/textFields/app_text_field.dart';
+import 'package:design/design.dart';
 
 class EmailLoginPart extends StatelessWidget {
   const EmailLoginPart({

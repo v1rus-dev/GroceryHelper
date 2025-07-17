@@ -1,7 +1,7 @@
 import 'package:groceryhelper/app/router/router_paths.dart';
 import 'package:groceryhelper/features/baskets/baskets.dart';
 import 'package:groceryhelper/features/register/register.dart';
-import 'package:groceryhelper/infrastructure/services/global_context_service.dart';
+import 'package:design/services/global_context_service.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'package:groceryhelper/features/product_item/presentation/screens/product_item_screen.dart';
 import 'package:groceryhelper/features/create_basket/presentation/screens/create_busket_screen.dart';

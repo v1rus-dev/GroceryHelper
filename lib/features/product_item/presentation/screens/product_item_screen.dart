@@ -3,10 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/app_primary_button.dart';
-import 'package:groceryhelper/shared_ui/layout/app_scaffold.dart';
-import 'package:groceryhelper/shared_ui/widgets/textFields/app_text_field.dart';
-import 'package:groceryhelper/shared_ui/widgets/toolbars/app_toolbar.dart';
+import 'package:design/design.dart';
 import 'package:groceryhelper/features/product_item/presentation/bloc/product_form_bloc.dart';
 import 'package:groceryhelper/features/product_item/presentation/widgets/category_part.dart';
 import 'package:groceryhelper/features/product_item/presentation/widgets/units_part.dart';
@@ -64,7 +61,7 @@ class _ProductItemScreenViewState extends State<ProductItemScreenView> {
     return BlocBuilder<ProductItemBloc, ProductItemState>(
       builder: (context, state) {
         return AppScaffold(
-          appBar: AppToolbar(title: _getTitle(), withBackButton: true),
+          appBar: AppToolbar(title: _getTitle(), withBackButton: true, onBackPressed: () => appRouter.pop()),
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

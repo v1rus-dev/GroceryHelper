@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/domain/entities/product_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
-import 'package:groceryhelper/shared_ui/theme/app_theme_extension.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/app_chip.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/drop_down_button.dart';
+import 'package:design/design.dart';
 import 'package:groceryhelper/features/category_type/domain/entities/category_type_result.dart';
 import 'package:groceryhelper/features/category_type/presentation/screens/category_type_screen.dart';
 

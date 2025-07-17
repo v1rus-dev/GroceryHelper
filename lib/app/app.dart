@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/utils/debug_drawer.dart';
 import 'package:groceryhelper/shared_ui/theme/bloc/theme_bloc.dart' as theme_bloc;
-import 'package:groceryhelper/shared_ui/theme/app_theme.dart';
+import 'package:design/design.dart';
 import 'package:groceryhelper/app/router/app_router.dart';
 
 class GroceryHelperApp extends StatefulWidget {
@@ -40,13 +40,13 @@ class _GroceryHelperAppState extends State<GroceryHelperApp> with WidgetsBinding
         // Конвертируем наш ThemeMode в системный ThemeMode
         ThemeMode flutterThemeMode;
         switch (themeState.themeMode) {
-          case theme_bloc.ThemeMode.light:
+          case AppThemeMode.light:
             flutterThemeMode = ThemeMode.light;
             break;
-          case theme_bloc.ThemeMode.dark:
+          case AppThemeMode.dark:
             flutterThemeMode = ThemeMode.dark;
             break;
-          case theme_bloc.ThemeMode.system:
+          case AppThemeMode.system:
             flutterThemeMode = ThemeMode.system;
             break;
         }

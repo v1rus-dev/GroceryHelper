@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:groceryhelper/shared/validators/rule_validation_requirements_list.dart';
 import 'package:groceryhelper/shared/validators/validators.dart';
-import 'package:groceryhelper/shared_ui/widgets/utils/rule_validation_requirements_list.dart';
 
 /// Пример виджета, демонстрирующий работу универсальной системы валидации
 class UniversalValidationExample extends StatefulWidget {

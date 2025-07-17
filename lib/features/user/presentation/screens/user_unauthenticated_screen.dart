@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/sign_in_with_google.dart';
+import 'package:design/design.dart';
 import 'package:groceryhelper/features/user/presentation/widgets/create_account.dart';
 import 'package:groceryhelper/features/user/presentation/widgets/email_login_part.dart';
 import 'package:groceryhelper/features/user/presentation/widgets/or_part.dart';

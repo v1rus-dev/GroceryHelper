@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groceryhelper/shared_ui/theme/app_colors.dart';
+import 'package:design/design.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_headers_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_text_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_buttons_section.dart';
@@ -11,7 +11,6 @@ import 'package:groceryhelper/debug_tools/presentation/widgets/debug_chips_secti
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_progress_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_switches_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_icons_section.dart';
-import 'package:groceryhelper/debug_tools/presentation/widgets/debug_theme_section.dart';
 import 'package:groceryhelper/debug_tools/presentation/widgets/debug_dialogs_section.dart';
 
 class DebugScreen extends StatelessWidget {
@@ -41,7 +40,6 @@ class DebugScreen extends StatelessWidget {
             const DebugProgressSection(),
             const DebugSwitchesSection(),
             const DebugIconsSection(),
-            const DebugThemeSection(),
             const DebugDialogsSection(),
           ],
         ),

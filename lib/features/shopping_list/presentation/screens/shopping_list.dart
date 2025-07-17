@@ -1,8 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:groceryhelper/shared/constants/app_assets.dart';
-import 'package:groceryhelper/shared_ui/theme/app_theme_extension.dart';
-import 'package:groceryhelper/shared_ui/widgets/buttons/app_fub_button.dart';
-import 'package:groceryhelper/shared_ui/widgets/toolbars/app_main_toolbar.dart';
+import 'package:design/design.dart';
 import 'package:groceryhelper/features/products_list/presentation/bloc/products_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

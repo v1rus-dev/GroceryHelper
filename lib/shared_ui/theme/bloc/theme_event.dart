@@ -12,7 +12,7 @@ final class ThemeInitEvent extends ThemeEvent {}
 final class ThemeToggleEvent extends ThemeEvent {}
 
 final class ThemeSetEvent extends ThemeEvent {
-  final ThemeMode themeMode;
+  final AppThemeMode themeMode;
 
   const ThemeSetEvent(this.themeMode);
 
