@@ -1,9 +1,9 @@
-import 'package:design/widgets/buttons/app_fub_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:groceryhelper/domain/entities/product_item_with_type.dart';
 import 'package:groceryhelper/features/products_list/presentation/widgets/product_category_filter.dart';
-import 'package:groceryhelper/features/products_list/presentation/widgets/product_item.dart';
+import 'package:groceryhelper/features/products_list/presentation/widgets/dismissible_product_item.dart';
+import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'package:groceryhelper/shared/constants/app_assets.dart';
 import 'package:groceryhelper/app/router/app_router.dart';
 import 'package:groceryhelper/app/router/router_paths.dart';
@@ -20,8 +20,38 @@ class ProductsList extends StatefulWidget {
   State<ProductsList> createState() => _ProductsListState();
 }
 
-class _ProductsListState extends State<ProductsList> {
+class _ProductsListState extends State<ProductsList> with TickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  late AnimationController _scrollToTopAnimationController;
+  late Animation<double> _scrollToTopAnimation;
+  bool _showScrollToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollToTopAnimationController = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
+    _scrollToTopAnimation = CurvedAnimation(parent: _scrollToTopAnimationController, curve: Curves.easeInOut);
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final showButton = _scrollController.offset > 200;
+    if (showButton != _showScrollToTopButton) {
+      setState(() {
+        _showScrollToTopButton = showButton;
+      });
+      if (showButton) {
+        _scrollToTopAnimationController.forward();
+      } else {
+        _scrollToTopAnimationController.reverse();
+      }
+    }
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+  }
 
   _onAddItem(BuildContext context) {
     appRouter.push(RouterPaths.productForm, extra: false);
@@ -31,21 +61,50 @@ class _ProductsListState extends State<ProductsList> {
     appRouter.push(RouterPaths.productForm, extra: true);
   }
 
+  _onTapDelete(ProductItemWithType product) {
+    context.read<ProductsListBloc>().add(DeleteProduct(product: product));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SafeArea(
       child: BlocBuilder<ProductsListBloc, ProductsListState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppMainToolbar(title: 'Товары'),
-            floatingActionButton: AppFubButton(
-              onTap: () {
-                _onAddItem(context);
-              },
-              color: context.theme.primary,
-              child: SvgPicture.asset(AppAssets.icAdd),
+            floatingActionButton: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_showScrollToTopButton)
+                  AnimatedBuilder(
+                    animation: _scrollToTopAnimation,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _scrollToTopAnimation.value,
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 16),
+                          child: FloatingActionButton(
+                            onPressed: _scrollToTop,
+                            backgroundColor: context.theme.busket,
+                            elevation: 4,
+                            child: Icon(Icons.keyboard_arrow_up, color: Colors.white, size: 28),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                AppFubButton(
+                  onTap: () {
+                    _onAddItem(context);
+                  },
+                  color: context.theme.primary,
+                  child: SvgPicture.asset(AppAssets.icAdd),
+                ),
+              ],
             ),
             body: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 const SliverGap(8),
                 SliverPadding(
@@ -70,10 +129,15 @@ class _ProductsListState extends State<ProductsList> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ProductItem(product: state.products[index], onTap: _onProductTap),
+                      child: DismissibleProductItem(
+                        product: state.products[index],
+                        onTap: _onProductTap,
+                        onDelete: _onTapDelete,
+                      ),
                     );
                   },
                 ),
+                const SliverGap(80),
               ],
             ),
           );
@@ -85,6 +149,8 @@ class _ProductsListState extends State<ProductsList> {
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
+    _scrollToTopAnimationController.dispose();
     super.dispose();
   }
 }

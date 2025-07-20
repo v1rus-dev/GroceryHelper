@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:groceryhelper/domain/entities/product_item_with_type.dart';
 import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/domain/enums/product_type.dart';
-import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key, required this.product, required this.onTap});

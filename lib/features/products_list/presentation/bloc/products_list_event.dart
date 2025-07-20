@@ -24,3 +24,9 @@ class UpdateSelectedCategory extends ProductsListEvent {
 
   const UpdateSelectedCategory({this.category});
 }
+
+class DeleteProduct extends ProductsListEvent {
+  final ProductItemWithType product;
+
+  const DeleteProduct({required this.product});
+}

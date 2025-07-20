@@ -30,10 +30,10 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
     on<UpdateSearchQuery>(_onUpdateSearchQuery);
     on<UpdateProductsList>(_onUpdateProductsList);
     on<UpdateSelectedCategory>(_onUpdateSelectedCategory);
+    on<DeleteProduct>(_onDeleteProduct);
   }
 
   _onProductsListInitial(ProductsListInitial event, Emitter<ProductsListState> emit) async {
-    TalkerService.log('ProductsListInitial');
     final result = await getProductsListUsecase.call();
     result.fold((error) => add(UpdateProductsList(products: [])), (products) {
       _products = products;
@@ -73,11 +73,16 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
   }
 
   List<ProductItemWithType> _filterProducts(List<ProductItemWithType> products, ProductCategory? category) {
-    TalkerService.log('filterProducts: $products, $category');
     if (category == null) {
       return products;
     }
     return products.where((product) => product.productItem.category == category).toList();
+  }
+
+  _onDeleteProduct(DeleteProduct event, Emitter<ProductsListState> emit) {
+    _products.removeWhere((product) => product.productItem.id == event.product.productItem.id);
+    final filteredProducts = _filterProducts(_products, state.selectedCategory);
+    add(UpdateProductsList(products: filteredProducts));
   }
 
   @override
