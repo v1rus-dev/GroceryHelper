@@ -14,7 +14,13 @@ class UpdateSearchQuery extends ProductsListEvent {
 }
 
 class UpdateProductsList extends ProductsListEvent {
-  final List<ProductItem>? products;
+  final List<ProductItemWithType>? products;
 
   const UpdateProductsList({this.products});
+}
+
+class UpdateSelectedCategory extends ProductsListEvent {
+  final ProductCategory? category;
+
+  const UpdateSelectedCategory({this.category});
 }

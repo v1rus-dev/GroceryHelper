@@ -6,6 +6,8 @@ class AppTextStyles {
 
   static const TextStyle _headline2Base = TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Nunito');
 
+  static const TextStyle _bodyLargeBase = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, fontFamily: 'Nunito');
+
   static const TextStyle _bodyBase = TextStyle(fontSize: 16, fontFamily: 'Nunito', fontWeight: FontWeight.normal);
 
   static const TextStyle _bodySmallBase = TextStyle(fontSize: 14, fontFamily: 'Nunito', fontWeight: FontWeight.normal);
@@ -28,6 +30,7 @@ class AppTextStyles {
   static const TextTheme textTheme = TextTheme(
     displayLarge: _headline1Base,
     displayMedium: _headline2Base,
+    bodyLarge: _bodyLargeBase,
     bodyMedium: _bodyBase,
     bodySmall: _bodySmallBase,
     labelLarge: _buttonBase,

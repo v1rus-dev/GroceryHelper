@@ -41,8 +41,33 @@ class ProductsRepositoryImpl implements ProductsRepository {
   }
 
   @override
-  Future<Either<AppError, List<ProductItem>>> getAllProducts() async {
-    return await _localProductDatasource.getAllProducts();
+  Future<Either<AppError, List<ProductItemWithType>>> getAllProducts() async {
+    final result = await _localProductDatasource.getAllProducts();
+    return result.fold(
+      (error) => left(error),
+      (products) => right(
+        products
+            .map(
+              (product) => ProductItemWithType(
+                productItem: ProductItem(
+                  id: product.productItem.id,
+                  name: product.productItem.name,
+                  category: ProductCategoryHelper.fromId(product.productItem.productCategoryId),
+                  productTypeId: product.productItem.productTypeId,
+                  createdAt: product.productItem.createdAt,
+                ),
+                productType: ProductType(
+                  id: product.productType.id,
+                  name: product.productType.name,
+                  category: ProductCategoryHelper.fromId(product.productType.productCategoryId),
+                  createdAt: product.productType.createdAt,
+                  isCustom: product.productType.isCustom,
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 
   @override
@@ -72,7 +97,32 @@ class ProductsRepositoryImpl implements ProductsRepository {
   }
 
   @override
-  Future<Either<AppError, List<ProductItem>>> searchProducts(String query) async {
-    return await _localProductDatasource.searchProducts(query);
+  Future<Either<AppError, List<ProductItemWithType>>> searchProducts(String query) async {
+    final result = await _localProductDatasource.searchProducts(query);
+    return result.fold(
+      (error) => left(error),
+      (products) => right(
+        products
+            .map(
+              (product) => ProductItemWithType(
+                productItem: ProductItem(
+                  id: product.productItem.id,
+                  name: product.productItem.name,
+                  category: ProductCategoryHelper.fromId(product.productItem.productCategoryId),
+                  productTypeId: product.productItem.productTypeId,
+                  createdAt: product.productItem.createdAt,
+                ),
+                productType: ProductType(
+                  id: product.productType.id,
+                  name: product.productType.name,
+                  category: ProductCategoryHelper.fromId(product.productType.productCategoryId),
+                  createdAt: product.productType.createdAt,
+                  isCustom: product.productType.isCustom,
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 }

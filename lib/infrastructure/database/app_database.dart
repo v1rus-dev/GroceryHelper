@@ -6,7 +6,7 @@ import '../../domain/enums/product_type.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dao/product_types_dao.dart';
+import 'dao/product_items_dao.dart';
 import 'tables/product_item_tags_table.dart';
 import 'tables/product_items_table.dart';
 import 'tables/product_types_table.dart';
@@ -17,7 +17,7 @@ import 'database_initializer.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [ProductItemsTable, ProductItemTagsTable, TagsTable, ProductTypesTable], daos: [ProductTypesDao])
+@DriftDatabase(tables: [ProductItemsTable, ProductItemTagsTable, TagsTable, ProductTypesTable], daos: [ProductItemsDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

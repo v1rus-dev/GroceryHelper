@@ -1,5 +1,9 @@
 import 'package:design/widgets/buttons/app_fub_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
+import 'package:groceryhelper/domain/entities/product_item_with_type.dart';
+import 'package:groceryhelper/features/products_list/presentation/widgets/product_category_filter.dart';
+import 'package:groceryhelper/features/products_list/presentation/widgets/product_item.dart';
 import 'package:groceryhelper/shared/constants/app_assets.dart';
 import 'package:groceryhelper/app/router/app_router.dart';
 import 'package:groceryhelper/app/router/router_paths.dart';
@@ -23,6 +27,10 @@ class _ProductsListState extends State<ProductsList> {
     appRouter.push(RouterPaths.productForm, extra: false);
   }
 
+  _onProductTap(ProductItemWithType product) {
+    appRouter.push(RouterPaths.productForm, extra: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,10 +45,36 @@ class _ProductsListState extends State<ProductsList> {
               color: context.theme.primary,
               child: SvgPicture.asset(AppAssets.icAdd),
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [AppTextField(controller: _searchController, labelText: 'Поиск')],
-              ),
+            body: CustomScrollView(
+              slivers: [
+                const SliverGap(8),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverToBoxAdapter(
+                    child: AppTextField(controller: _searchController, labelText: 'Поиск'),
+                  ),
+                ),
+                const SliverGap(16),
+                SliverToBoxAdapter(
+                  child: ProductCategoryFilter(
+                    selectedCategory: state.selectedCategory,
+                    onCategorySelected: (category) {
+                      context.read<ProductsListBloc>().add(UpdateSelectedCategory(category: category));
+                    },
+                  ),
+                ),
+                const SliverGap(16),
+                SliverList.separated(
+                  separatorBuilder: (context, index) => const Gap(8),
+                  itemCount: state.products.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: ProductItem(product: state.products[index], onTap: _onProductTap),
+                    );
+                  },
+                ),
+              ],
             ),
           );
         },

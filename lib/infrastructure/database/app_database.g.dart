@@ -1290,7 +1290,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TagsTableTable tagsTable = $TagsTableTable(this);
   late final $ProductItemTagsTableTable productItemTagsTable =
       $ProductItemTagsTableTable(this);
-  late final ProductTypesDao productTypesDao = ProductTypesDao(
+  late final ProductItemsDao productItemsDao = ProductItemsDao(
     this as AppDatabase,
   );
   @override

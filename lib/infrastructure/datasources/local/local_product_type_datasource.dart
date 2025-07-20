@@ -107,7 +107,6 @@ class LocalProductTypeDatasource {
       category: type.productCategory,
       createdAt: type.createdAt,
       isCustom: type.isCustom,
-      productType: type.productType,
     );
   }
 }

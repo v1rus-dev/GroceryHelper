@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:groceryhelper/domain/entities/product_item.dart';
 import 'package:groceryhelper/domain/entities/product_item_with_type.dart';
+import 'package:groceryhelper/domain/enums/product_category.dart';
 import 'package:groceryhelper/infrastructure/services/talker_service.dart';
 import 'package:meta/meta.dart';
 import 'package:groceryhelper/features/products_list/domain/usecases/get_products_list_usecase.dart';
@@ -17,6 +17,7 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
   final GetProductsListUsecase getProductsListUsecase;
   final ObserveProductsUsecase observeProductsUsecase;
   final SearchProductsUsecase searchProductsUsecase;
+  List<ProductItemWithType> _products = [];
 
   StreamSubscription<List<ProductItemWithType>>? _productsSubscription;
 
@@ -28,18 +29,22 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
     on<ProductsListInitial>(_onProductsListInitial);
     on<UpdateSearchQuery>(_onUpdateSearchQuery);
     on<UpdateProductsList>(_onUpdateProductsList);
+    on<UpdateSelectedCategory>(_onUpdateSelectedCategory);
   }
 
   _onProductsListInitial(ProductsListInitial event, Emitter<ProductsListState> emit) async {
     TalkerService.log('ProductsListInitial');
     final result = await getProductsListUsecase.call();
-    result.fold(
-      (error) => add(UpdateProductsList(products: [])),
-      (products) => add(UpdateProductsList(products: products)),
-    );
+    result.fold((error) => add(UpdateProductsList(products: [])), (products) {
+      _products = products;
+      add(UpdateProductsList(products: _products));
+    });
     _productsSubscription = observeProductsUsecase.call().listen((products) {
-      TalkerService.log(products.toString());
-      add(UpdateProductsList(products: products.map((product) => product.productItem).toList()));
+      TalkerService.log('products: ${products.length}');
+      _products = products
+          .map((product) => ProductItemWithType(productItem: product.productItem, productType: product.productType))
+          .toList();
+      add(UpdateProductsList(products: products));
     });
   }
 
@@ -53,6 +58,26 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
 
   _onUpdateProductsList(UpdateProductsList event, Emitter<ProductsListState> emit) {
     emit(state.copyWith(products: event.products ?? state.products));
+  }
+
+  _onUpdateSelectedCategory(UpdateSelectedCategory event, Emitter<ProductsListState> emit) {
+    if (event.category == null) {
+      emit(state.clearSelectedCategory());
+    } else {
+      emit(state.copyWith(selectedCategory: event.category));
+    }
+
+    final filteredProducts = _filterProducts(_products, event.category);
+    TalkerService.log(filteredProducts.toString());
+    add(UpdateProductsList(products: filteredProducts));
+  }
+
+  List<ProductItemWithType> _filterProducts(List<ProductItemWithType> products, ProductCategory? category) {
+    TalkerService.log('filterProducts: $products, $category');
+    if (category == null) {
+      return products;
+    }
+    return products.where((product) => product.productItem.category == category).toList();
   }
 
   @override

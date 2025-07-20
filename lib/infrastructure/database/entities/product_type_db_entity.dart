@@ -1,4 +1,4 @@
-class ProductTypeEntity {
+class ProductTypeDbEntity {
   final int id;
   final String name;
   final int productCategoryId;
@@ -6,7 +6,7 @@ class ProductTypeEntity {
   final bool isCustom;
   final int productType;
 
-  ProductTypeEntity({
+  ProductTypeDbEntity({
     required this.id,
     required this.name,
     required this.productCategoryId,

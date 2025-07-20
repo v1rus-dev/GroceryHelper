@@ -8,7 +8,6 @@ class ProductType extends Equatable {
   final ProductCategory category;
   final DateTime createdAt;
   final bool isCustom;
-  final domain_product_type.ProductType? productType;
 
   const ProductType({
     required this.id,
@@ -16,27 +15,20 @@ class ProductType extends Equatable {
     required this.category,
     required this.createdAt,
     required this.isCustom,
-    this.productType,
   });
 
-  ProductType copyWith({
-    int? id,
-    String? name,
-    ProductCategory? category,
-    DateTime? createdAt,
-    bool? isCustom,
-    domain_product_type.ProductType? productType,
-  }) {
+  domain_product_type.ProductType get productType => domain_product_type.ProductTypeHelper.fromId(id);
+
+  ProductType copyWith({int? id, String? name, ProductCategory? category, DateTime? createdAt, bool? isCustom}) {
     return ProductType(
       id: id ?? this.id,
       name: name ?? this.name,
       category: category ?? this.category,
       createdAt: createdAt ?? this.createdAt,
       isCustom: isCustom ?? this.isCustom,
-      productType: productType ?? this.productType,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, category, createdAt, isCustom, productType];
+  List<Object?> get props => [id, name, category, createdAt, isCustom];
 }

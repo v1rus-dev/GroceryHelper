@@ -13,7 +13,7 @@ class DatasourceFactory {
 
   /// Создает local product datasource
   LocalProductDatasource createLocalProductDatasource() {
-    return LocalProductDatasource(database: _database);
+    return LocalProductDatasource(productItemsDao: _database.productItemsDao);
   }
 
   /// Создает network product datasource
