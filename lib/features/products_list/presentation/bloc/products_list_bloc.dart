@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:groceryhelper/features/products_list/domain/usecases/get_products_list_usecase.dart';
 import 'package:groceryhelper/features/products_list/domain/usecases/observe_products_usecase.dart';
 import 'package:groceryhelper/features/products_list/domain/usecases/seartch_products_usecase.dart';
+import 'package:groceryhelper/features/products_list/domain/usecases/remove_product_usecase.dart';
 
 part 'products_list_event.dart';
 part 'products_list_state.dart';
@@ -17,6 +18,7 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
   final GetProductsListUsecase getProductsListUsecase;
   final ObserveProductsUsecase observeProductsUsecase;
   final SearchProductsUsecase searchProductsUsecase;
+  final RemoveProductUsecase removeProductUsecase;
   List<ProductItemWithType> _products = [];
 
   StreamSubscription<List<ProductItemWithType>>? _productsSubscription;
@@ -25,6 +27,7 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
     required this.getProductsListUsecase,
     required this.observeProductsUsecase,
     required this.searchProductsUsecase,
+    required this.removeProductUsecase,
   }) : super(ProductsListState(products: [])) {
     on<ProductsListInitial>(_onProductsListInitial);
     on<UpdateSearchQuery>(_onUpdateSearchQuery);
@@ -79,10 +82,10 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
     return products.where((product) => product.productItem.category == category).toList();
   }
 
-  _onDeleteProduct(DeleteProduct event, Emitter<ProductsListState> emit) {
-    _products.removeWhere((product) => product.productItem.id == event.product.productItem.id);
-    final filteredProducts = _filterProducts(_products, state.selectedCategory);
-    add(UpdateProductsList(products: filteredProducts));
+  _onDeleteProduct(DeleteProduct event, Emitter<ProductsListState> emit) async {
+    TalkerService.log('Deleting product: ${event.product.productItem.id}');
+    final result = await removeProductUsecase.call(event.product.productItem.id);
+    result.fold((error) => TalkerService.log(error.message), (_) => TalkerService.log('Product deleted'));
   }
 
   @override

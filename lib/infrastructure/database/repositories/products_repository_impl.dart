@@ -125,4 +125,10 @@ class ProductsRepositoryImpl implements ProductsRepository {
       ),
     );
   }
+
+  @override
+  Future<Either<AppError, void>> removeProduct(int productId) async {
+    final result = await _localProductDatasource.removeProduct(productId);
+    return result.fold((error) => left(error), (_) => right(null));
+  }
 }

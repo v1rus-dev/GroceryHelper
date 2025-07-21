@@ -10,4 +10,5 @@ abstract class ProductsRepository {
   Future<Either<AppError, List<ProductItemWithType>>> getAllProducts();
   Future<Either<AppError, List<ProductItemWithType>>> searchProducts(String query);
   Stream<List<ProductItemWithType>> observeProducts();
+  Future<Either<AppError, void>> removeProduct(int productId);
 }

@@ -145,4 +145,8 @@ class ProductItemsDao extends DatabaseAccessor<AppDatabase> with _$ProductItemsD
 
     return products;
   }
+
+  Future<void> deleteProduct(int productId) async {
+    await (delete(productItemsTable)..where((row) => row.id.equals(productId))).go();
+  }
 }

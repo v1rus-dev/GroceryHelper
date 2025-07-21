@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:groceryhelper/domain/entities/product_item_with_type.dart';
 import 'package:groceryhelper/features/products_list/presentation/widgets/product_category_filter.dart';
 import 'package:groceryhelper/features/products_list/presentation/widgets/dismissible_product_item.dart';
-import 'package:groceryhelper/infrastructure/services/talker_service.dart';
+import 'package:groceryhelper/infrastructure/services/locator.dart';
 import 'package:groceryhelper/shared/constants/app_assets.dart';
 import 'package:groceryhelper/app/router/app_router.dart';
 import 'package:groceryhelper/app/router/router_paths.dart';
@@ -62,7 +62,7 @@ class _ProductsListState extends State<ProductsList> with TickerProviderStateMix
   }
 
   _onTapDelete(ProductItemWithType product) {
-    context.read<ProductsListBloc>().add(DeleteProduct(product: product));
+    locator<ProductsListBloc>().add(DeleteProduct(product: product));
   }
 
   @override

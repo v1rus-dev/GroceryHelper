@@ -39,4 +39,13 @@ class LocalProductDatasource {
       return left(AppError(message: e.toString(), type: AppErrorType.silent));
     }
   }
+
+  Future<Either<AppError, void>> removeProduct(int productId) async {
+    try {
+      await _productItemsDao.deleteProduct(productId);
+      return right(null);
+    } catch (e) {
+      return left(AppError(message: e.toString(), type: AppErrorType.silent));
+    }
+  }
 }
