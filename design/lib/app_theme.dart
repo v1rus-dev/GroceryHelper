@@ -116,7 +116,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     required this.divider,
     required this.border,
     required this.navigation,
-    required this.busket,
+    required this.basket,
     required this.primary,
     required this.textFieldBackground,
   });
@@ -128,7 +128,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   final Color divider;
   final Color border;
   final Color navigation;
-  final Color busket;
+  final Color basket;
   final Color primary;
   final Color textFieldBackground;
   // Светлая тема
@@ -140,7 +140,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     divider: AppColors.divider,
     border: AppColors.border,
     navigation: AppColors.navigation,
-    busket: AppColors.primaryBusketLight,
+    basket: AppColors.primaryBusketLight,
     primary: AppColors.primaryLight,
     textFieldBackground: AppColors.textFieldBackground,
   );
@@ -154,7 +154,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     divider: AppColors.darkDivider,
     border: AppColors.darkBorder,
     navigation: AppColors.navigationDark,
-    busket: AppColors.primaryBusketDark,
+    basket: AppColors.primaryBusketDark,
     primary: AppColors.primaryDark,
     textFieldBackground: AppColors.darkTextFieldBackground,
   );
@@ -180,7 +180,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       divider: divider ?? this.divider,
       border: border ?? this.border,
       navigation: navigation ?? this.navigation,
-      busket: busket ?? this.busket,
+      basket: busket ?? this.basket,
       primary: primary ?? this.primary,
       textFieldBackground: textFieldBackground ?? this.textFieldBackground,
     );
@@ -199,7 +199,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       divider: Color.lerp(divider, other.divider, t)!,
       border: Color.lerp(border, other.border, t)!,
       navigation: Color.lerp(navigation, other.navigation, t)!,
-      busket: Color.lerp(busket, other.busket, t)!,
+      basket: Color.lerp(basket, other.basket, t)!,
       primary: Color.lerp(primary, other.primary, t)!,
       textFieldBackground: Color.lerp(textFieldBackground, other.textFieldBackground, t)!,
     );

@@ -86,7 +86,7 @@ class _ProductsListState extends State<ProductsList> with TickerProviderStateMix
                           margin: const EdgeInsets.only(right: 16),
                           child: FloatingActionButton(
                             onPressed: _scrollToTop,
-                            backgroundColor: context.theme.busket,
+                            backgroundColor: context.theme.basket,
                             elevation: 4,
                             child: Icon(Icons.keyboard_arrow_up, color: Colors.white, size: 28),
                           ),

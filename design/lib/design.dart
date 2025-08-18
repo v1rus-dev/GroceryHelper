@@ -16,3 +16,4 @@ export 'widgets/utils/drag_handler.dart';
 export 'widgets/buttons/buttons.dart';
 export 'dialogs/dialogs.dart';
 export 'services/global_context_service.dart';
+export 'basket_color.dart';

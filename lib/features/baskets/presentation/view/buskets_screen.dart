@@ -19,7 +19,7 @@ class BusketsScreen extends StatelessWidget {
               onTap: () {
                 _onCreateBusket(context);
               },
-              color: context.theme.busket,
+              color: context.theme.basket,
               child: SvgPicture.asset(AppAssets.icAdd),
             ),
             body: Column(children: []),
