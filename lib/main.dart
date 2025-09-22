@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:groceryhelper/app/app.dart';
 import 'package:groceryhelper/app/setup/setup_app.dart';
 import 'package:groceryhelper/features/baskets/baskets.dart';
@@ -12,6 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   await setupApp();
+
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white, systemNavigationBarDividerColor: Colors.white),
+  // );
 
   runApp(
     MultiBlocProvider(
